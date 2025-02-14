@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 5px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        address {
+            font-style: normal;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+        }
+    </style>
+
+    <div class="hero">
+        <a href="javascript:history.back()" class="back-button">
+            ← Retour
+        </a>
+        <h1>Mentions Légales</h1>
+    </div>
+
+    <div class="container">
+        <h2>1. Présentation du site</h2>
+        <p>Le site internet **Nom du Site** est édité par **Nom de l'Entreprise**, dont le siège social est situé à :</p>
+        <address>
+            123 Rue Exemple, 75000 Paris, France<br>
+            Numéro SIRET : 123 456 789 00012<br>
+            Numéro de TVA intracommunautaire : FR12345678901<br>
+            Email : contact@exemple.com<br>
+            Tél : 01 23 45 67 89
+        </address>
+        <p>Le directeur de la publication est **Jean Dupont**, en qualité de **CEO**.</p>
+
+        <h2>2. Hébergement</h2>
+        <p>Le site est hébergé par **Hébergeur Web**, dont le siège social est situé à :</p>
+        <address>
+            456 Rue Hébergeur, 75000 Paris, France<br>
+            Numéro de téléphone : 01 23 45 67 89
+        </address>
+
+        <h2>3. Propriété intellectuelle</h2>
+        <p>Le contenu du site, incluant textes, images, logos, vidéos, graphiques, etc., est la propriété exclusive de **Nom de l'Entreprise** ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle. Toute reproduction, représentation, modification, adaptation ou exploitation, totale ou partielle, du contenu de ce site est interdite sans autorisation préalable.</p>
+
+        <h2>4. Données personnelles</h2>
+        <p>Conformément à la loi "Informatique et Libertés" du 6 janvier 1978, et au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression, et d'opposition à l'utilisation de vos données personnelles. Pour exercer ce droit, vous pouvez nous contacter à l'adresse suivante : contact@exemple.com.</p>
+
+        <h2>5. Cookies</h2>
+        <p>Le site **Nom du Site** utilise des cookies pour améliorer l'expérience utilisateur et collecter des données statistiques. Vous pouvez configurer votre navigateur pour refuser les cookies, cependant, cela peut affecter certaines fonctionnalités du site.</p>
+
+        <h2>6. Responsabilité</h2>
+        <p>**Nom de l'Entreprise** ne saurait être tenu responsable des dommages directs ou indirects causés par l'utilisation du site, des informations et des services fournis.</p>
+
+        <h2>7. Liens hypertextes</h2>
+        <p>Le site peut contenir des liens vers d’autres sites. **Nom de l'Entreprise** n’est pas responsable du contenu de ces sites externes et ne saurait être tenu responsable des dommages directs ou indirects pouvant en découler.</p>
+
+        <h2>8. Loi applicable</h2>
+        <p>Les présentes mentions légales sont régies par la loi française. En cas de litige, les tribunaux compétents seront ceux de Paris.</p>
+    </div>
+{% endblock %}

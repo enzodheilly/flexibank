@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vue d'ensemble{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .overview-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #003366; /* Bleu foncé */
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    section {
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        color: #003366; /* Bleu foncé */
+        font-size: 24px;
+        border-bottom: 2px solid #003366;
+        padding-bottom: 5px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    ul li {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background-color: #fafafa;
+        transition: background-color 0.3s ease;
+    }
+
+    ul li:hover {
+        background-color: #f0f0f0;
+    }
+
+    ul li span {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .budget-chart {
+        display: flex;
+        background: #f9f9f9;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+
+    .budget-bar {
+        text-align: center;
+        color: white;
+        padding: 15px;
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: bold;
+    }
+
+    .budget-bar:nth-child(1) {
+        background-color: #003366; /* Bleu foncé */
+    }
+
+    .budget-bar:nth-child(2) {
+        background-color: #1a73e8; /* Bleu clair */
+    }
+
+    .budget-bar:nth-child(3) {
+        background-color: #0d47a1; /* Bleu très foncé */
+    }
+
+    .budget-bar:nth-child(4) {
+        background-color: #1976d2; /* Bleu intermédiaire */
+    }
+
+    .crypto ul {
+        padding: 0;
+    }
+
+    .crypto li {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        background-color: #fafafa;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .crypto li span {
+        font-weight: 500;
+    }
+
+    .crypto li:hover {
+        background-color: #f0f0f0;
+    }
+
+</style>
+
+<div class="overview-container">
+    <h1>Vue d'ensemble</h1>
+
+    <section class="accounts">
+        <h2>Résumé des comptes</h2>
+        <ul>
+            {% for account in accounts %}
+                <li>
+                    <span>{{ account.name }}</span>
+                    <span>{{ account.balance | number_format(2, ',', ' ') }} €</span>
+                    <span>{{ account.number }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="transactions">
+        <h2>Dernières transactions</h2>
+        <ul>
+            {% for transaction in transactions %}
+                <li>
+                    <span>{{ transaction.date }}</span>
+                    <span>{{ transaction.description }}</span>
+                    <span>{{ transaction.amount | number_format(2, ',', ' ') }} €</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="budget">
+        <h2>Budget mensuel</h2>
+        <div class="budget-chart">
+            {% for category, percentage in budget %}
+                <div class="budget-bar" style="width: {{ percentage }}%;">
+                    {{ category }} ({{ percentage }}%)
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="crypto">
+        <h2>Cryptomonnaies</h2>
+        <ul>
+            {% for currency in crypto %}
+                <li>
+                    <span>{{ currency.name }}</span>
+                    <span>{{ currency.amount }}</span>
+                    <span>{{ currency.value | number_format(2, ',', ' ') }} €</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}

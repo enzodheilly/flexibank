@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlexiBank Accueil</title>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.6.8/build/spline-viewer.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+    <style>
+      .hero {
+        height: 134.5vh; /* Utilise 100% de la hauteur de la fenêtre */
+        position: relative;
+        overflow: hidden; /* Empêche la vidéo de déborder */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        font-size: 1.52em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        animation: animateText 3s linear infinite, luminousEffect 2s linear infinite;
+        padding-top: 30px;
+      }
+      
+      .hero video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Prend toute la largeur */
+        height: 100%; /* Prend toute la hauteur */
+        object-fit: cover; /* Couvre tout l'espace sans déformation */
+        z-index: -1; /* Placer la vidéo en arrière-plan */
+      }
+      
+      .hero::before {
+        content: ''; /* Crée un élément vide */
+        position: absolute; /* Positionne l'élément avant le contenu */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: inherit; /* Hérite de l'image de fond */
+        filter: blur(10px); /* Applique un flou de 10px */
+        z-index: -1; /* Place cet élément sous le texte */
+        background-size: cover; /* Assure que l'image est bien redimensionnée */
+      }
+      
+      .hero p {
+        font-size: 0.85em; /* Adjust font size for the subtitle */
+        margin-top: 10px; /* Space between the title and subtitle */
+        margin-right: 648px;
+      }
+      
+      .hero h1 {
+        margin-right: 750px;
+        color: white;
+      }
+      
+      .content-section {
+        padding: 55px;
+        background-color: black;
+      }
+      
+.content-section2 {
+    padding: 50px;
+    background-color: blue;
+    color: white;
+    margin: 0 auto; /* Centrage horizontal */
+    text-align: center; /* Centrage du texte */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrage des enfants */
+}
+
+      
+      .content-section2 h1 {
+        margin-top: 0px;
+        text-align: center;
+      }
+      
+      .content-section2 p {
+        margin-top: 30px;
+        text-align: center;
+      }
+      
+      .button-container {
+        position: absolute;
+        bottom: 190px; /* Position en bas */
+        left: 50%; /* Centre horizontalement */
+        transform: translateX(-146%); /* Ajuste pour centrer parfaitement */
+        display: flex;
+        gap: 17px;
+      }
+      
+      /* Style pour le bouton "Ouvrir mon compte" */
+      
+      .start-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 15px 35px;
+        background-color: #0059ff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.9em;
+        font-family: 'Arial', sans-serif;
+      }
+      
+      .start-button::after {
+        content: ' →'; /* Flèche indiquant l'action */
+        font-size: 1.1em;
+        margin-left: 8px;
+      }
+      
+      .start-button:hover {
+        background-color: #007bff;
+        color: white;
+      }
+      
+    .start-button2 {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 35px;
+    background-color: white;
+    color: blue;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-family: 'Arial', sans-serif;
+    margin: 40px auto 0 auto; /* Centrage automatique */
+    text-align: center;
+    }
+
+      
+      .start-button2::after {
+        font-size: 1.1em;
+        margin-left: 8px;
+      }
+      
+      .start-button2:hover {
+        background-color: #007bff;
+        color: white;
+      }
+      
+      /* Style pour le bouton "En savoir plus" */
+      
+      .info-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 35px;
+        background-color: white;
+        color: #343434;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.9em;
+        font-family: 'Arial', sans-serif;
+      }
+      
+      .info-button::after {
+        content: ' ▼'; /* Flèche vers le bas */
+        font-size: 1.2em;
+        margin-left: 8px;
+      }
+      
+      .info-button:hover {
+        background-color: #b6b6b6;
+      }
+      
+      .new-line {
+        display: block; /* Forcer un retour à la ligne */
+        margin-right: 63px;
+        color: blue;
+      }
+      
+      .new-line2 {
+        display: block; /* Forcer un retour à la ligne */
+        margin-left: -55px;
+      }
+      
+      .hero-image img {
+        max-width: 595px; /* Taille maximale de l'image */
+        border-radius: 10px; /* Coins arrondis */
+        margin-left: -700px;
+        margin-top: 120px;
+      }
+      
+      .hero-image {
+        position: absolute; /* Positionnement absolu par rapport à .hero */
+        top: 50%; /* Place l'image à peu près au centre vertical */
+        right: 20px; /* Distance par rapport au bord droit */
+        transform: translateY(-50%); /* Centre verticalement l'image */
+      }
+      
+      .hero-text {
+        margin-top: -250px;
+      }
+      
+      .lien {
+    display: flex;
+    justify-content: left; /* Garde les liens alignés à gauche dans le bloc */
+    margin-left: auto; /* Permet au conteneur de se déplacer vers la droite */
+    margin-right: 100px; /* Ajuste le décalage vers la droite */
+    width: fit-content; /* Adapte la largeur au contenu */
+}
+
+      
+      .lien a {
+        text-decoration: none;
+        color: black;
+        margin-right: 70px; /* Espace entre les liens */
+      }
+      
+      .lien a:last-child {
+        margin-right: 0; /* Pas d'espace après le dernier lien */
+      }
+      
+      .container {
+        display: flex; /* Active Flexbox */
+        justify-content: space-between; /* Espace égal entre les boîtes */
+        gap: 20px; /* Espacement entre chaque boîte */
+        flex-wrap: nowrap; /* Désactive le retour à la ligne */
+        margin-top: 100px;
+        font-size: 10px;
+      }
+      
+      .text {
+        margin-top: 50px;
+        font-size: 1.2em;
+      }
+      
+      .section {
+        padding: 2px 40px; /* Augmentation du padding pour plus d'espace à l'intérieur de la section */
+        background-color: #f7fbff;
+        text-align: center;
+        margin-top: 40px;
+      }
+      
+      /* Conteneur du texte (h2 et p) */
+      
+      .section > div {
+        margin-bottom: 80px; /* Réduction de l’espace entre le texte et les box */
+      }
+      
+      .section h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1a202c;
+      }
+      
+      .section p {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #4a5568;
+      } /* Conteneur des box */
+      
+      .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    background-color: #f7fbff;
+    text-align: left; /* Alignement global à gauche */
+    max-width: 1300px; /* Pour éviter que la grille ne prenne toute la largeur */
+    margin-left: auto; 
+    margin-right: auto; /* Centre la grille */
+}
+      
+      .feature-card {
+        position: relative;
+        background-color: #ffffff;
+        padding: 15px; /* Réduction du padding pour un card plus compact */
+        border-radius: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+      }
+      
+      .feature-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      
+      .feature-icon {
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        background-color: #2563eb;
+        color: #ffffff;
+        padding: 8px; /* Réduction du padding de l'icône */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+      }
+      
+      .feature-title {
+        margin-top: 20px; /* Réduction de l'espace entre l'icône et le titre */
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #1a202c;
+      }
+      
+      .feature-description {
+        margin-top: 10px;
+        font-size: 1rem;
+        color: #4a5568;
+      }
+      
+      /* Ajoute un espace au bas du conteneur sans agrandir la page */
+      
+      .features-grid::after {
+        content: '';
+        display: block;
+        height: 30px; /* Réduction de l'espace sous les box */
+      }
+      
+      .profile {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        border: 1px solid blue;
+        display: flex; /* Active Flexbox */
+        align-items: center; /* Centre verticalement le contenu */
+      }
+      
+      .button-icon {
+        width: auto;
+        height: 20px;
+        object-fit: cover;
+        margin-top: 0; /* Aucun impact sur la hauteur du bouton */
+      }
+      
+      @media (max-width: 768px) {
+        .box {
+          flex: 1 1 calc(100% - 20px); /* Une boîte par ligne sur petits écrans */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cookie-banner" style="display: flex; align-items: center; justify-content: center; background-color: white; color: black; padding: 20px; text-align: center; position: fixed; bottom: 0; width: 100%; z-index: 1001; font-weight: bold;">
+      Nous utilisons des cookies pour améliorer votre expérience.
+      <button id="accept-cookies" style="margin-left: 20px; background-color: white; color: black; border: 1px solid black; padding: 10px; cursor: pointer;">J'accepte</button>
+      <button id="refuse-cookies" style="margin-left: 20px; background-color: white; color: black; border: 1px solid black; padding: 10px; cursor: pointer;">Je refuse</button>
+      <button id="manage-cookies" style="margin-left: 20px; background-color: white; color: black; border: 1px solid black; padding: 10px; cursor: pointer;">Gérer les cookies</button>
+    </div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar">
+      <div class="navbar-logo" style="display: flex; align-items: center;">
+        <img src="{{ asset('images/logo-flexibank.png') }}" alt="Logo FlexiBank" style="width: 70px; height: auto; margin-right: -1px;" />
+        <div class="FlexiBankAnimation">
+          <h1>FlexiBank</h1>
+        </div>
+      </div>
+
+      {% if app.user and 'ROLE_CLIENT' in app.user.roles %}
+        <div class="lien">
+          <a href="{{ path('account_profile') }}" style="text-decoration: none; color:#595959;">Comptes</a>
+          <a href="{{ path('app_services') }}" style="text-decoration: none; color:#595959;">Services</a>
+          <a href="{{ path('card_dashboard') }}" style="text-decoration: none; color:#595959;">Cartes</a>
+          <a href="{{ path('app_investissements') }}" style="text-decoration: none; color:#595959;">Investissements</a>
+        </div>
+      {% endif %}
+
+      <div class="navbar-icons">
+        {% if app.user %}
+          <!-- Si l'utilisateur est connecté -->
+          {% if 'ROLE_CLIENT' in app.user.roles %}
+            <!-- Si l'utilisateur est un client, afficher le bouton cliquable -->
+            <a href="{{ path('app_profile') }}">
+              <button class="profile" style="margin-right:25px;">
+                <img src="{{ asset('images/iconprofile.jpg') }}" alt="Icône profil" class="button-icon" />
+                <span class="ms-2">Mon Espace</span>
+              </button>
+            </a>
+          {% else %}
+            <!-- Si l'utilisateur n'est pas un client, afficher un bouton désactivé -->
+            <button class="profile" style="margin-right:25px; background-color: #d3d3d3; cursor: not-allowed;border:1px solid #d3d3d3;" disabled>
+              <img src="{{ asset('images/iconprofile.jpg') }}" alt="Icône profil" class="button-icon" />
+              <span class="ms-2">Mon Espace</span>
+            </button>
+          {% endif %}
+        {% else %}
+          <!-- Si l'utilisateur n'est pas connecté, afficher les liens Login et Sign Up -->
+          <a href="{{ path('app_login') }}">Login</a>
+          <a href="{{ path('app_register') }}" style="padding: 15px; background-color: #0059ff; color: white; border-radius: 35px;">Sign up</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <!-- Section d'accueil -->
+    <div class="hero">
+      <video autoplay loop muted class="hero-video">
+        <source src="{{ asset('images/background.mp4') }}" type="video/mp4" />
+      </video>
+      <div class="hero-text">
+        <h1>Votre banque en ligne,<span class="new-line">simple et sécurisée</span></h1>
+        <p>
+          Gérez votre argent en toute simplicité avec nos services bancaires<span class="new-line2">innovants. Profitez d'une expérience bancaire 100% digitale.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Conteneur des boutons alignés -->
+    {% if not isClient %}
+      <div class="button-container">
+        <button class="start-button" onclick="window.location.href='{{ path('client_step1') }}'">Ouvrir mon compte</button>
+        <button class="info-button" onclick="window.location.href='{{ path('app_info') }}'">En savoir plus</button>
+      </div>
+    {% else %}
+
+    {% endif %}
+
+    <!-- Sections de contenu -->
+    <div class="content-section" style="background-color:#f7fbff;margin-top:-200px;text-align: center;font-family:arial;">
+      <!-- Texte principal -->
+      <div>
+        <div class="text">
+          <h2 style="color:blue;">Nos Services Premium</h2>
+          <p>Des solutions bancaires adaptées à vos besoins</p>
+        </div>
+      </div>
+      <section class="section">
+        <!-- Grille des fonctionnalités -->
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <h3 class="feature-title">Cartes Premium</h3>
+            <p class="feature-description">Profitez de nos cartes bancaires premium avec des avantages exclusifs</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3 class="feature-title">Banking Mobile</h3>
+            <p class="feature-description">Gérez vos comptes 24/7 depuis notre application mobile</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="feature-title">Sécurité Maximale</h3>
+            <p class="feature-description">Protection avancée de vos données et transactions</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-piggy-bank"></i>
+            </div>
+            <h3 class="feature-title">Épargne Intelligente</h3>
+            <p class="feature-description">Solutions d'épargne personnalisées pour vos projets</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    {% if not isClient %}
+      <div class="content-section2">
+        <h1>Prêt à nous rejoindre ?</h1>
+        <p>Ouvrez un compte en quelques minutes et découvrez une nouvelle façon de gérer votre argent.</p>
+        <button class="start-button2" onclick="window.location.href='{{ path('client_step1') }}'">Commencer maintenant</button>
+      </div>
+    {% else %}
+      <div class="content-section2">
+        <h1>Merci de faire partie de nos clients les plus fidèles !</h1>
+        <p>Nous sommes ravis de vous avoir parmi nos clients et vous remercions pour votre confiance.</p>
+      </div>
+    {% endif %}
+
+    <!-- Pied de page -->
+    <footer class="footer">
+      <div class="container" style="margin-top:25px;">
+        <div class="footer-column">
+          <h3 class="footer-logo" style="font-size:2.8em;margin-bottom: 15px;margin-top:-12px;">Flexibank</h3>
+          <p style="font-size:1.4em;">
+            Votre partenaire bancaire de confiance pour <span class="new-line" style="color:white;">tous vos besoins financiers</span>
+          </p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4 style="font-size:1.4em;">Informations Légales</h4>
+          <ul>
+            <li>
+              <a href="{{ path('conditionsgénérales') }}">Conditions Générales</a>
+            </li>
+            <li>
+              <a href="{{ path('politique') }}">Politique de Confidentialité</a>
+            </li>
+            <li>
+              <a href="{{ path('mentions') }}">Mentions Légales</a>
+            </li>
+            <li>
+              <a href="{{ path('cookie') }}">Cookies</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 style="font-size:1.4em;">Liens Rapides</h4>
+          <ul>
+            <li>
+              <a href="{{ path('propos') }}">À Propos</a>
+            </li>
+            <li>
+              <a href="{{ path('nosservices') }}">Nos Services</a>
+            </li>
+            <li>
+              <a href="{{ path('faq') }}">FAQ</a>
+            </li>
+            <li>
+              <a href="{{ path('contact') }}">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 style="font-size:1.4em;">Newsletter</h4>
+          <p style="font-size:1.4em;">
+            Restez informé de nos dernières actualités et <span class="new-line" style="color:white;">offres</span>
+          </p>
+          <form action="#" class="newsletter-form" id="newsletter-form">
+            <input type="email" placeholder="Votre email" required />
+            <button type="submit"><i class="fas fa-arrow-right"></i></button>
+          </form>
+
+          <!-- Message de confirmation caché -->
+          <p id="confirmation-message" style="display: none; color: green;">Inscription réussie !</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p style="text-align: center;padding: 10px 0;background-color: #232427;color: white;width: 100%;display: flex;justify-content: center;align-items: center;margin-top:2px;font-size:0.7em;">© 2025 FlexiBank. Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    {# | CODE JAVASCRIPT | #}
+
+    <script>
+      document.getElementById('accept-cookies').addEventListener('click', function () {
+        setCookie('cookies_accepted', 'true', 365)
+        document.getElementById('cookie-banner').style.display = 'none'
+      })
+      
+      document.getElementById('refuse-cookies').addEventListener('click', function () {
+        setCookie('cookies_accepted', 'false', 365)
+        document.getElementById('cookie-banner').style.display = 'none'
+      })
+      
+      document.getElementById('manage-cookies').addEventListener('click', function () {
+        const gestionPage = document.createElement('div')
+        gestionPage.className = 'gestion-cookies'
+        gestionPage.innerHTML = `
+          <div>
+      <div class="gestion-cookies">
+          <h2>Gestion de vos cookies</h2>
+          <p>Options pour gérer les cookies :</p>
+          <ul>
+              <li>
+                  Cookie à des fins de fonctionnement du site (Obligatoire)
+                  <div class="cookie-options">
+                      <button class="accept-btn" data-cookie="fonctionnement" onclick="acceptCookie(this, 'fonctionnement')" disabled>Accepter</button>
+                      <span>(Obligatoire)</span>
+                  </div>
+              </li>
+              <li>
+                  Cookie à des fins d'analyses statistiques
+                  <div class="cookie-options">
+                      <button class="accept-btn" data-cookie="statistiques" onclick="acceptCookie(this, 'statistiques')">Accepter</button>
+                      <button class="refuse-btn" data-cookie="statistiques" onclick="refuseCookie(this, 'statistiques')">Refuser</button>
+                  </div>
+              </li>
+              <li>
+                  Cookies à des fins de personnalisation de l'expérience FlexiBank
+                  <div class="cookie-options">
+                      <button class="accept-btn" data-cookie="personnalisation" onclick="acceptCookie(this, 'personnalisation')">Accepter</button>
+                      <button class="refuse-btn" data-cookie="personnalisation" onclick="refuseCookie(this, 'personnalisation')">Refuser</button>
+                  </div>
+              </li>
+              <li>
+                  Cookies publicitaires et réseaux sociaux
+                  <div class="cookie-options">
+                      <button class="accept-btn" data-cookie="reseaux_sociaux" onclick="acceptCookie(this, 'reseaux_sociaux')">Accepter</button>
+                      <button class="refuse-btn" data-cookie="reseaux_sociaux" onclick="refuseCookie(this, 'reseaux_sociaux')">Refuser</button>
+                  </div>
+              </li>
+              <li>
+                  Cookies nécessaires à l'assistance à distance par "chat"
+                  <div class="cookie-options">
+                      <button class="accept-btn" data-cookie="assistance_a_distance" onclick="acceptCookie(this, 'assistance_a_distance')">Accepter</button>
+                      <button class="refuse-btn" data-cookie="assistance_a_distance" onclick="refuseCookie(this, 'assistance_a_distance')">Refuser</button>
+                  </div>
+              </li>
+          </ul>
+          <button class="close-btn" id="close-gestion">Fermer</button>
+          <button class="validate-btn" id="validate-cookies">Valider</button>
+      </div>
+      
+          `
+        document.body.appendChild(gestionPage)
+      
+        document.getElementById('close-gestion').addEventListener('click', function () {
+          document.body.removeChild(gestionPage)
+        })
+      
+        document.getElementById('validate-cookies').addEventListener('click', function () {
+          document.getElementById('cookie-banner').style.display = 'none'
+          saveCookiePreferences()
+          document.body.removeChild(gestionPage)
+        })
+      })
+      
+      function acceptCookie(button, cookieType) {
+        button.classList.add('clicked')
+        button.nextElementSibling.classList.remove('clicked')
+        setCookie(cookieType, 'accepted', 365)
+      }
+      
+      function refuseCookie(button, cookieType) {
+        button.classList.add('clicked')
+        button.previousElementSibling.classList.remove('clicked')
+        setCookie(cookieType, 'refused', 365)
+      }
+      
+      function saveCookiePreferences() {
+        const cookies = ['fonctionnement', 'statistiques', 'personnalisation', 'reseaux_sociaux', 'assistance_a_distance']
+      
+        cookies.forEach((cookie) => {
+          const accepted = document.querySelector(`button.accept-btn[data-cookie="${cookie}"]`).classList.contains('clicked')
+          const value = accepted ? 'accepted' : 'refused'
+          setCookie(cookie, value, 365)
+        })
+      }
+      
+      function setCookie(name, value, days) {
+        const d = new Date()
+        d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000)
+        const expires = 'expires=' + d.toUTCString()
+        document.cookie = name + '=' + value + ';' + expires + ';path=/'
+      }
+      
+      function getCookie(name) {
+        const cname = name + '='
+        const decodedCookie = decodeURIComponent(document.cookie)
+        const ca = decodedCookie.split(';')
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i]
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1)
+          }
+          if (c.indexOf(cname) == 0) {
+            return c.substring(cname.length, c.length)
+          }
+        }
+        return ''
+      }
+      
+      function checkCookie() {
+        const cookiesAccepted = getCookie('cookies_accepted')
+        const localStorageVisited = localStorage.getItem('cookie_preferences_visited')
+        if (cookiesAccepted === 'true' || localStorageVisited === 'true') {
+          document.getElementById('cookie-banner').style.display = 'none'
+        } else {
+          // Vérifier les préférences individuelles de cookies
+          const cookies = ['fonctionnement', 'statistiques', 'personnalisation', 'reseaux_sociaux', 'assistance_a_distance']
+          let allAccepted = true // Vérifier si tous les types de cookies sont acceptés
+      
+          cookies.forEach((cookie) => {
+            const cookieValue = getCookie(cookie)
+            if (cookieValue !== 'accepted') {
+              allAccepted = false
+            }
+          })
+      
+          if (allAccepted) {
+            document.getElementById('cookie-banner').style.display = 'none'
+          } else {
+            document.getElementById('cookie-banner').style.display = 'block'
+          }
+        }
+        localStorage.setItem('cookie_preferences_visited', 'true')
+      }
+      
+      document.addEventListener('DOMContentLoaded', (event) => {
+        checkCookie()
+      
+        document.getElementById('newsletter-form').addEventListener('submit', function (event) {
+          event.preventDefault() // Prevent the form from submitting normally
+      
+          // Display confirmation message
+          document.getElementById('confirmation-message').style.display = 'block'
+      
+          // Automatically hide the confirmation message after 3 seconds
+          setTimeout(function () {
+            document.getElementById('confirmation-message').style.display = 'none'
+          }, 3000)
+      
+          // Optionally, reset the form
+          // this.reset();
+        })
+      })
+      
+      document.querySelector('.FlexiBankAnimation').addEventListener('click', function () {
+        if (document.querySelector('.navbar img')) return // Check if the animation already running
+        const bonhomme = document.createElement('img')
+        bonhomme.src = 'images/run.gif ' // Assurez-vous que l'image "bonhomme.png" existe dans votre répertoire d'images
+        bonhomme.style.position = 'fixed'
+        bonhomme.style.left = '-70px' // Changed to make the bonhomme appear more to the left
+        bonhomme.style.top = '30' // Ajustez si nécessaire pour la position verticale dans la barre de navigation
+        bonhomme.style.width = '100px' // Ajustez la taille du bonhomme selon vos besoins
+        bonhomme.style.zIndex = '-1' // Modification pour passer derrière le logo FlexiBank et les boutons Login puis Sign up
+        document.querySelector('.navbar').appendChild(bonhomme) // Append bonhomme to the navigation bar instead of body element
+      
+        let position = -70 // Initialized position to -50 to match the initial left style
+        const id = setInterval(frame, 7)
+        function frame() {
+          if (position >= window.innerWidth) {
+            clearInterval(id)
+            document.querySelector('.navbar').removeChild(bonhomme) // Remove bonhomme from the navigation bar
+          } else {
+            position += 2.5
+            bonhomme.style.left = position + 'px'
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

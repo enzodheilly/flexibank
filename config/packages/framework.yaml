@@ -1,0 +1,23 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Configuration des sessions
+    session:
+        handler_id: null  # Utilise le gestionnaire de session par défaut (stockage de session dans des fichiers)
+        cookie_secure: auto  # Si votre site fonctionne en HTTPS, active la sécurisation des cookies de session
+        cookie_samesite: lax  # Définit SameSite pour les cookies de session
+        cookie_lifetime: 3600  # Durée de vie des cookies (en secondes, ici 1 heure)
+        enabled: true  # Assure que les sessions sont activées
+        save_path: '%kernel.project_dir%/var/sessions'  # Répertoire où les sessions seront stockées (modifiable si nécessaire)
+        gc_probability: 1  # Probabilité que le garbage collector de session soit exécuté
+        gc_divisor: 100  # Diviseur pour le garbage collection des sessions
+        gc_maxlifetime: 3600  # Durée de vie maximale des sessions (en secondes, ici 1 heure)
+        sid_length: 32  # Longueur de l'ID de session
+        sid_bits_per_character: 6  # Nombre de bits par caractère de l'ID de session
+
+# Configuration spécifique pour l'environnement de test
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file  # Simule un stockage de session pour les tests

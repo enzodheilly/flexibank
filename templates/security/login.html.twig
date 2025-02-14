@@ -1,0 +1,159 @@
+
+<style>
+    body {
+        background-color: #1e1e1e;
+        color: #f2f2f2;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+        background-color: #1e1e1e;
+        border-radius: 20px;
+        overflow: hidden;
+        padding: 40px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 20px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background-color: #2b2b2b;
+        color: #ddd;
+        font-size: 1.1em;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: #6699ff;
+        background-color: #333;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        background-color: #0059ff;
+        color: #fff;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #3a6fdb;
+        transform: translateY(-3px);
+    }
+
+    button:active {
+        background-color: #2a5cc2;
+        transform: translateY(1px);
+    }
+
+    .checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .checkbox label {
+        margin: 0;
+        color: #ddd;
+        font-size: 1em;
+    }
+
+    .alert {
+        color: #e74c3c;
+        background-color: rgba(231, 76, 60, 0.1);
+        border: 1px solid #e74c3c;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+
+    .form-title {
+        color: #007bff;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .header {
+        position: absolute;
+        top: 25px;
+        left: 35px;
+    }
+
+    .logo {
+        color: #007bff;
+        font-size: 1.8em;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        margin: 0;
+    }
+</style>
+
+<div class="header">
+    <h1 class="logo">Flexibank</h1>
+</div>
+
+<div class="wrapper">
+    <!-- Texte ajusté selon le cas -->
+    <h1 class="form-title">
+        {% if confirmation %}
+            Connectez-vous pour finaliser l'inscription
+        {% else %}
+            Connectez-vous
+        {% endif %}
+    </h1>
+    <div class="container">
+        <form method="post">
+            {% if error %}
+                <div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                </div>
+            {% endif %}
+
+            <input type="email" value="{{ last_username }}" name="_username" id="username" placeholder="Email" autocomplete="email" required autofocus>
+
+            <input type="password" name="_password" id="password" placeholder="Password" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit">
+                Se connecter
+            </button>
+
+            <div class="checkbox">
+                <input type="checkbox" name="_remember_me" id="_remember_me">
+                <label for="_remember_me">Se souvenir de moi</label>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+parameters:
+    profile_pictures_directory: '%kernel.project_dir%/public/uploads/profile_pictures'
+    binance_api_key: '%env(BINANCE_API_KEY)%'
+    binance_api_secret: '%env(BINANCE_API_SECRET)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Ajout du Listener pour générer automatiquement le code client
+    App\EventListener\UserListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    # Service Binance API
+    App\Service\BinanceService:
+        arguments:
+            $httpClient: '@http_client'
+            $apiKey: '%binance_api_key%'
+            $apiSecret: '%binance_api_secret%'

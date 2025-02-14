@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Modifier mes informations personnelles
+{% endblock %}
+
+{% block body %}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f4f7fa;
+      color: #333;
+      overflow: hidden;
+    }
+    
+    nav {
+      background-color: #002d72; /* Fond blanc pour contraster avec le fond général */
+      padding: 40px 30px;
+      color: #333333; /* Gris foncé pour une meilleure lisibilité */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre pour séparation */
+      display: flex;
+      align-items: center;
+      position: relative;
+      justify-content: space-between;
+    }
+    
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #002d72;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+    .back-button:hover {
+      background-color: #0056b3;
+    }
+    
+    nav h1 {
+      position: absolute;
+      right: 80px; /* Distance du bord droit */
+      top: 20%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      font-weight: bold;
+      color: #007bff;
+    }
+    
+    .container {
+      background-color: #f4f7fa;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      margin: 25px auto; /* Centre horizontalement et garde un espace en haut */
+      position: relative;
+    }
+    
+    /* Texte FlexiBank en haut à gauche */
+    .brand-title {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #007bff;
+    }
+    
+    h1 {
+      text-align: center;
+      color: black;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      text-align: center;
+      color: gray;
+      margin-bottom: 20px;
+    }
+    
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .full-width {
+      grid-column: span 2;
+    }
+    
+    label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    label i {
+      margin-right: 8px;
+      color: #007bff;
+    }
+    
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    
+    .btn-submit,
+    .btn-cancel {
+      padding: 12px;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      margin-left: 240px;
+      justify-content: center;
+      width: 30%;
+      border: none;
+      margin-top: 14px;
+    }
+    
+    .btn-submit {
+      background-color: #007bff;
+      color: white;
+    }
+    
+    .btn-submit i {
+      margin-right: 8px;
+    }
+    
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+  <nav>
+    <a href="javascript:history.back()" class="back-button">← Retour</a>
+    <h1>Flexibank</h1>
+  </nav>
+
+  <div class="container">
+    <h1>Modifier mes informations personnelles</h1>
+    <p>Mettez à jour vos informations de compte FlexiBank</p>
+
+    <form method="post">
+      {% for field in [{ id: 'nom', label: 'Nom', icon: 'fas fa-user', value: user.nom }, { id: 'prenom', label: 'Prénom', icon: 'fas fa-user', value: user.prenom }, { id: 'email', label: 'Adresse email', icon: 'fas fa-envelope', value: user.email }, { id: 'ville', label: 'Ville', icon: 'fas fa-city', value: user.ville }, { id: 'adressePostale', label: 'Adresse postale', icon: 'fas fa-map-marker-alt', value: user.adressePostale, class: 'full-width' }, { id: 'codePostal', label: 'Code postal', icon: 'fas fa-map-pin', value: user.codePostal }, { id: 'numeroTelephone', label: 'Numéro de téléphone', icon: 'fas fa-phone', value: user.numeroTelephone }, { id: 'profession', label: 'Profession', icon: 'fas fa-briefcase', value: user.profession, class: 'full-width' }] %}
+        <div class="{{ field.class|default('') }}">
+          <label for="{{ field.id }}"><i class="{{ field.icon }}"></i> {{ field.label }}</label>
+          <input type="text" id="{{ field.id }}" name="{{ field.id }}" value="{{ field.value }}" required />
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn-submit full-width"><i class="fas fa-save"></i> Enregistrer les modifications</button>
+    </form>
+  </div>
+{% endblock %}

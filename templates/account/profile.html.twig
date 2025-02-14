@@ -1,0 +1,366 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+/* Profil - Page Utilisateur */
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    overflow: hidden;
+}
+
+nav {
+    background-color: #002d72; /* Fond blanc pour contraster avec le fond général */
+    padding: 40px 30px;
+    color: #333333; /* Gris foncé pour une meilleure lisibilité */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre pour séparation */
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #002d72;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    width: 100%; /* Prend toute la largeur */
+    max-width: 100%; /* Évite une limite sur les grands écrans */
+    min-height: 100vh;
+    padding: 20px; /* Pour éviter que le contenu colle aux bords */
+    box-sizing: border-box; /* Inclut le padding dans la largeur */
+}
+
+.profile-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    justify-content: space-between;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.profile-image-container input[type="file"] {
+    display: none;
+}
+
+.profile-image-label {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #ddd;
+    text-align: center;
+}
+
+.profile-image-label:hover {
+    background-color: #e0e0e0;
+}
+
+.profile-image-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.profile-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ajouter la forme circulaire à l'image importée */
+.profile-image-preview img {
+    border-radius: 50%;
+}
+
+/* Infos personnelles et séparation */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.profile-info h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.profile-info .since {
+    font-size: 14px;
+    color: #007BFF;
+}
+
+/* Ligne de séparation */
+.profile-separator {
+    margin-top: 20px;
+    border-top: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+
+/* Informations Personnelles et Professionnelles */
+.info-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.info-section h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.info-section .info-item {
+    margin-bottom: 15px;
+}
+
+.info-section .info-item strong {
+    display: block;
+    font-weight: bold;
+    color: #555;
+}
+
+.info-section .info-item p {
+    margin: 5px 0;
+    color: #777;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.info-item i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #b3b3b3;
+}
+
+/* Nouveau style pour les boutons */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-left: 30px;
+}
+
+.profile-actions a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 12px; /* Boutons plus petits */
+    background-color: #007BFF;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.profile-actions a:hover {
+    background-color: #0056b3;
+}
+
+.profile-actions-right {
+    display: flex;
+    justify-content: flex-end; /* Aligne les boutons à droite */
+    gap: 15px; /* Espacement entre les boutons */
+    margin-bottom: 20px; /* Ajoute un espacement avec le reste de la section */
+}
+
+.btn-professional {
+    padding: 6px 14px; /* Boutons plus petits */
+    font-size: 14px; /* Taille de police réduite */
+    margin-top:-8px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-professional-danger {
+    background-color: #e74c3c; /* Rouge clair */
+    color: white;
+    border: 1px solid #e74c3c;
+}
+
+.btn-professional-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.btn-professional-dark {
+    background-color: #333;
+    color: white;
+    border: 1px solid #333;
+}
+
+.btn-professional-dark:hover {
+    background-color: #555;
+    border-color: #555;
+}
+
+.text-left {
+    display: flex;
+    justify-content: flex-start; /* Aligne les boutons à gauche */
+    gap: 15px; /* Espacement entre les boutons */
+    margin-top: 20px;
+}
+
+nav h1 {
+    position: absolute;
+    right: 80px; /* Distance du bord droit */
+    top: 20%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    font-weight: bold;
+    color: #007BFF;
+}
+</style>
+
+<nav>
+<a href="{{ path('app_home') }}" class="back-button">
+    ← Retour
+</a>
+
+<h1>Flexibank</h1>
+</nav>
+
+<div class="container">
+    <div class="profile-container">
+    <!-- Photo de profil et Infos -->
+    <div class="profile-header">
+        <div class="profile-image-container">
+            <label for="profilePictureInput" class="profile-image-label">
+                {% if user.profilePicture %}
+                    <img src="{{ asset(user.getProfilePictureUrl()) }}" alt="Photo de profil" class="profile-image">
+                {% else %}
+                    Importer une photo
+                {% endif %}
+            </label>
+            <input type="file" id="profilePictureInput" accept="image/*" onchange="previewProfilePicture(event)">
+        </div>
+
+        <div class="profile-info">
+            <h3>{{ app.user.nom|upper }} {{ user.prenom|capitalize }}</h3>
+            <p class="since" style="color:#3a3a3a;">Client depuis {{ user.createdAt|date('d F Y') }}</p>
+        </div>
+    </div>
+
+    <!-- Ligne de séparation -->
+    <div class="profile-separator"></div>
+
+    <!-- Informations Personnelles -->
+    <div class="info-section">
+        <div class="profile-actions-right">
+            <a href="{{ path('account_edit') }}" class="btn btn-primary" style="text-decoration:none;color:#0059ff;">Modifier mes informations</a>
+            <a href="{{ path('account_change_password') }}" class="btn btn-secondary" style="text-decoration:none;color:#0059ff;">Changer mon mot de passe</a>
+        </div>
+        <h2>Informations Personnelles</h2>
+        <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <p style="color : #3a3a3a;">{{ user.email }}</p>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-phone-alt"></i>
+            <p style="color : #3a3a3a;">+ 33 {{ user.numeroTelephone }}</p>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <p style="color : #3a3a3a;">{{ user.adressePostale }} , {{ user.codePostal }} {{ user.ville }}</p>
+        </div>
+
+        <!-- Informations Professionnelles -->
+        <h2>Informations Professionnelles</h2>
+        <div class="info-item">
+            <i class="fas fa-briefcase"></i>
+            <p style="color : #3a3a3a;">{{ user.profession }}</p>
+        </div>
+    </div>
+    
+    <div class="text-center">
+        <!-- Bouton Supprimer le compte -->
+        <a href="{{ path('app_account_delete') }}" class="btn-professional btn-professional-danger">
+            <i class="fas fa-trash-alt"></i> Supprimer le compte
+        </a>
+        
+        <!-- Bouton Se déconnecter -->
+        <a href="{{ path('app_logout') }}" class="btn-professional btn-professional-dark">
+            <i class="fas fa-sign-out-alt"></i> Se déconnecter
+        </a>
+    </div>
+</div>
+
+<script>
+    function previewProfilePicture(event) {
+        const file = event.target.files[0];
+        const previewContainer = document.querySelector('.profile-image-label');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgElement = document.createElement('img');
+                imgElement.src = e.target.result;
+                imgElement.style.width = '100%';
+                imgElement.style.height = '100%';
+                imgElement.style.objectFit = 'cover';
+                imgElement.style.borderRadius = '50%';  /* Ajouter la bordure circulaire */
+                previewContainer.innerHTML = '';
+                previewContainer.appendChild(imgElement);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+{% endblock %}

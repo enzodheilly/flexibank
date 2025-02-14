@@ -1,0 +1,444 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Tableau de bord
+{% endblock %}
+
+{% block body %}
+
+<style>
+    /* Styles généraux */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f7fa;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    nav {
+        background-color: #002d72;
+        padding: 40px 30px;
+        color: #333333;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        position: relative;
+        justify-content: space-between;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+    nav h1 {
+        position: absolute;
+        right: 80px;
+        top: 20%;
+        transform: translateY(-50%);
+        font-size: 28px;
+        font-weight: bold;
+        color: #007BFF;
+    }
+
+    .dashboard-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 30px 0;
+    }
+
+    .nav-button {
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        background: #002d72;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-button:hover {
+        background: white;
+        color: #002d72;
+        border: 2px solid #002d72;
+        transform: scale(1.05);
+    }
+
+    /* Section de formulaire */
+    .form-container {
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        margin: 30px auto;
+        display: none;
+    }
+
+    .form-container.active {
+        display: block;
+    }
+    
+    form div {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus {
+        border-color: #002d72;
+        outline: none;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background: #002d72;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .submit-button:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    form button[type="submit"]:not(.submit-button) {
+        display: none;
+    }
+
+    /* Suivi de demande de carte */
+
+.card-tracking-container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .card-tracking h2 {
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        color: #333;
+    }
+    
+    .card-tracking .card-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        font-size: 1.1em;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .card-tracking .card-info:last-child {
+        border-bottom: none;
+    }
+    
+    .card-tracking .status strong {
+        color: #ff9800;
+    }.card-tracking-container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .card-tracking h2 {
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        color: #333;
+    }
+    
+    .card-tracking .card-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        font-size: 1.1em;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .card-tracking .card-info:last-child {
+        border-bottom: none;
+    }
+    
+    .card-tracking .status strong {
+        color: #ff9800;
+    }
+
+
+    /* Carte virtuelle */
+    .virtual-card {
+        background: linear-gradient(90deg, #2261ff, #6933ff);
+        border-radius: 12px;
+        padding: 50px;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        max-width: 300px;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .card-number {
+        font-size: 22px;
+        letter-spacing: 3px;
+        font-weight: bold;
+    }
+
+    .card-details {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .card-details div {
+        text-align: center;
+        flex: 1;
+    }
+
+    .toggle-details {
+        margin-top: 10px;
+        padding: 8px 12px;
+        border: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .toggle-details:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+    }
+
+    .order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #3d3d3d;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.order-info {
+    flex: 1;
+    display: flex;
+    flex-direction: row; /* Alignement horizontal */
+    align-items: center; /* Alignement vertical centré */
+    gap: 20px; /* Espacement entre les éléments */
+    padding-right: 20px;
+}
+
+
+.order-number {
+    font-size: 16px;
+    font-weight: bold;
+    color: #3c58b2;
+    margin: 0;
+    margin-right:50px;
+}
+
+.order-date {
+    font-size: 14px;
+    color: #c0c0c0;
+    margin: 5px 0 0 0;
+}
+
+.order-status {
+    background-color: #ffc107;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 20px;
+    width: auto;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centrage du texte */
+}
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<nav>
+    <a href="{{ path('app_home') }}" class="back-button">
+        ← Retour
+    </a>
+    <h1>Flexibank</h1>
+</nav>
+
+<div class="dashboard-buttons">
+    <button class="nav-button" data-target="commande-section">
+        <i class="fas fa-credit-card"></i> Commander ma carte
+    </button>
+    <button class="nav-button" data-target="suivi-section">
+        <i class="fas fa-list"></i> Suivre ma demande
+    </button>
+    <button class="nav-button" data-target="affichage-section">
+        <i class="fas fa-wallet"></i> Afficher ma carte
+    </button>
+</div>
+
+<div class="form-container" id="commande-section">
+    <h1></h1>
+    {{ form_start(form) }}
+    {{ form_row(form.userEmail) }}
+    {{ form_row(form.cardType) }}
+    {{ form_row(form.submit) }}
+    <button class="submit-button" type="submit">Envoyer la commande</button>
+    {{ form_end(form) }}
+</div>
+
+<div class="form-container" id="suivi-section">
+    <h1></h1>
+    {% if cardOrder %}
+<div class="card-tracking-container">
+    <h2>Suivi de votre demande de carte</h2>
+    <div class="card-tracking">
+        <div class="card-info">
+            <span>Type de carte :</span> <strong>Gold</strong>
+        </div>
+        <div class="card-info">
+            <span>Date de commande :</span> <strong>12 février 2025</strong>
+        </div>
+        <div class="card-info">
+            <span>Numéro de commande :</span> <strong>#123456789</strong>
+        </div>
+        <div class="card-info status">
+            <span>Statut :</span> <strong>En cours de traitement</strong>
+        </div>
+    </div>
+</div>
+    {% else %}
+    <p>Vous n'avez aucune commande de carte en cours</p>
+    {% endif %}
+</div>
+
+<div class="form-container" id="affichage-section">
+    <h1></h1>
+    {% if cardOrder %}
+        <div class="virtual-card" 
+            {% if cardOrder.cardType == 'gold' %}
+                style="background: linear-gradient(90deg, #FFD700, #FFBF00);"  <!-- Gold color -->
+            {% elseif cardOrder.cardType == 'premium' %}
+                style="background: linear-gradient(90deg, #B0B0B0, #808080);"  <!-- Grey color -->
+            {% else %}
+                style="background: linear-gradient(90deg, #2261ff, #6933ff);"  <!-- Default (basic) color -->
+            {% endif %}
+        
+            <div class="card-header">
+                <i class="fas fa-credit-card"></i> 
+                <span class="card-type">Flexibank {{ cardOrder.cardType }}</span>
+            </div>
+            <div class="card-number">
+                <span>**** **** ****</span> {{ cardOrder.cardNumber|slice(-4) }}
+            </div>
+            <div class="card-details">
+                <div>
+                    <span class="label">TITULAIRE</span>
+                    <span class="value">{{ app.user.nom|upper }} {{ app.user.prenom|capitalize }}</span>
+                </div>
+                <div>
+                    <span class="label">EXPIRE</span>
+                    <span class="value">{{ cardOrder.expirationDate|date('m/Y') }}</span>
+                </div>
+                <div>
+                    <span class="label">CVV</span>
+                    <span class="value">{{ cardOrder.ccv }}</span>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Vous n'avez pas encore de carte</p>
+    {% endif %}
+</div>
+
+<script>
+    document.querySelectorAll('.nav-button').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelectorAll('.form-container').forEach(section => {
+                section.style.display = 'none';
+            });
+            const targetId = button.getAttribute('data-target');
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

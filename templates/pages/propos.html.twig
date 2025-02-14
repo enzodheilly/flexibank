@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 20px 20px;
+            margin-bottom: 30px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .team-member img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .team-member h3 {
+            color: #004085;
+            margin: 0;
+        }
+
+        .team-member p {
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+    </style>
+
+    <div class="hero">
+        <a href="javascript:history.back()" class="back-button">
+            ← Retour
+        </a>
+        <h1>À propos de nous</h1>
+    </div>
+
+    <div class="container">
+
+        <p>Bienvenue sur notre site ! Nous sommes une équipe passionnée par l'innovation, l'excellence, et l'engagement à fournir des solutions de qualité à nos clients. Notre mission est de [insérer votre mission ici], et nous nous engageons à [insérer vos valeurs ou engagement ici].</p>
+
+        <h2>Notre histoire</h2>
+        <p>Notre entreprise a été fondée en [année de fondation] par [nom du fondateur], dans le but de [expliquez pourquoi vous avez créé l'entreprise]. Depuis lors, nous avons évolué pour devenir un acteur clé dans [secteur d'activité], en offrant des services adaptés aux besoins de nos clients.</p>
+
+        <h2>Notre équipe</h2>
+        <p>Notre équipe est composée de professionnels dévoués et expérimentés qui travaillent ensemble pour offrir les meilleurs résultats. Découvrez quelques membres de notre équipe ci-dessous :</p>
+
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Membre de l'équipe 1">
+            <div>
+                <h3>Jean Dupont</h3>
+                <p>Fondateur & CEO</p>
+                <p>Jean est passionné par l'innovation technologique et guide l'entreprise vers de nouvelles opportunités de croissance.</p>
+            </div>
+        </div>
+
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Membre de l'équipe 2">
+            <div>
+                <h3>Marie Lemoine</h3>
+                <p>Directrice Marketing</p>
+                <p>Marie dirige notre département marketing et veille à ce que notre message atteigne le bon public.</p>
+            </div>
+        </div>
+
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Membre de l'équipe 3">
+            <div>
+                <h3>Paul Martin</h3>
+                <p>Chef de Produit</p>
+                <p>Paul gère le développement de nos produits, s'assurant qu'ils répondent aux attentes et besoins de nos clients.</p>
+            </div>
+        </div>
+
+        <h2>Nos valeurs</h2>
+        <p>Nous croyons fermement en [insérer vos valeurs comme "l'intégrité", "l'innovation", "la transparence", etc.]. Ces principes guident toutes nos actions, qu'il s'agisse de notre relation avec nos clients ou de notre environnement de travail interne.</p>
+
+        <h2>Pourquoi nous choisir ?</h2>
+        <p>Nous nous démarquons par notre engagement à offrir des produits de qualité supérieure et un service client exceptionnel. Notre approche personnalisée garantit que chaque client est satisfait de nos solutions.</p>
+    </div>
+{% endblock %}

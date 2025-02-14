@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Investir avec FlexiBank{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Roboto', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+    .hero {
+        background-color: #002d72;
+        color: white;
+        text-align: center;
+        padding: 60px 20px;
+    }
+    .hero h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+    .hero p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+    .cta-button {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+    }
+    .cta-button:hover {
+        background-color: #0056b3;
+    }
+    .solutions {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px 20px;
+        background-color: white;
+    }
+    .solution-card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+    }
+    .solution-card h3 {
+        color: #002d72;
+    }
+    .performance {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 50px 20px;
+        background-color: #f8f9fa;
+    }
+    .performance img {
+        max-width: 500px;
+        border-radius: 8px;
+    }
+    .footer-cta {
+        background-color: #002d72;
+        color: white;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .footer-cta a {
+        display: inline-block;
+        background-color: white;
+        color: #002d72;
+        padding: 12px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="hero">
+
+<a href="javascript:history.back()" class="back-button">
+    ← Retour
+</a>
+    <h1>Investissez dans votre avenir avec <span style="color: #007bff;">FlexiBank</span></h1>
+
+    <p>Des solutions d'investissement personnalisées pour faire fructifier votre patrimoine en toute sécurité</p>
+    <a href="#" class="cta-button">Commencer maintenant →</a>
+</div>
+
+<div class="solutions">
+    <div class="solution-card">
+        <i class="fas fa-wallet"></i> <!-- Icône pour "Portefeuilles Gérés" -->
+        <h3>Portefeuilles Gérés</h3>
+        <p>Des portefeuilles diversifiés gérés par nos experts selon votre profil de risque.</p>
+    </div>
+    <div class="solution-card">
+        <i class="fas fa-chart-line"></i> <!-- Icône pour "Trading Actions" -->
+        <h3>Trading Actions</h3>
+        <p>Accédez aux marchés boursiers mondiaux avec nos outils de trading avancés.</p>
+    </div>
+    <div class="solution-card">
+        <i class="fas fa-piggy-bank"></i> <!-- Icône pour "Plans Retraite" -->
+        <h3>Plans Retraite</h3>
+        <p>Préparez votre retraite avec nos solutions d'épargne à long terme.</p>
+    </div>
+</div>
+
+<div class="performance">
+    <div>
+    <h2>Performance et Sécurité</h2>
+    <p><strong>Performance Optimisée</strong></p>
+    <p>Nos stratégies d'investissement sont constamment optimisées pour maximiser vos rendements.</p>
+    <p><strong>Sécurité Maximale</strong></p>
+    <p>Vos investissements sont protégés par les meilleurs systèmes de sécurité du marché.</p>
+</div>
+
+    <img src="{{ asset('images/finance-dashboard.jpg') }}" alt="Tableau de bord finance">
+</div>
+
+<div class="footer-cta">
+    <h2>Prêt à commencer votre voyage d'investissement ?</h2>
+    <p>Nos conseillers sont là pour vous accompagner dans la réalisation de vos objectifs financiers.</p>
+    <a href="#">Prendre rendez-vous</a>
+</div>
+
+{% endblock %}

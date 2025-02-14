@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portefeuille Crypto{% endblock %}
+
+{% block body %}
+    <h2>Solde de votre portefeuille crypto</h2>
+    <ul>
+        {% for asset in cryptoBalance.balances %}
+            <li>{{ asset.asset }} : {{ asset.free }} disponibles</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

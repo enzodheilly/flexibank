@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Services{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 5px 20px;
+            border-bottom: 3px solid #0056b3;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #555;
+        }
+
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .service {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            width: 30%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .service h3 {
+            color: #004085;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .service p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .service-icon {
+            font-size: 50px;
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        @media screen and (max-width: 1024px) {
+            .service {
+                width: 45%;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .service {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+
+    <div class="hero">
+        <a href="javascript:history.back()" class="back-button">
+            ← Retour
+        </a>
+        <h1>Nos Services</h1>
+    </div>
+
+    <div class="container">
+        <p>Nous offrons une gamme de services de qualité pour répondre aux besoins de nos clients. Que vous soyez une entreprise ou un particulier, nous avons des solutions adaptées à vos attentes. Découvrez ci-dessous nos principaux services :</p>
+
+        <div class="services-list">
+            <div class="service">
+                <div class="service-icon">🖥️</div>
+                <h3>Développement Web</h3>
+                <p>Nous créons des sites web personnalisés et des applications web performantes, adaptées aux besoins spécifiques de chaque client. Nos solutions sont modernes, sécurisées et optimisées pour offrir une expérience utilisateur exceptionnelle.</p>
+            </div>
+
+            <div class="service">
+                <div class="service-icon">📱</div>
+                <h3>Applications Mobiles</h3>
+                <p>Nous développons des applications mobiles intuitives et performantes, pour iOS et Android. Notre objectif est de vous fournir une expérience fluide et réactive, tout en répondant aux exigences de votre secteur d'activité.</p>
+            </div>
+
+            <div class="service">
+                <div class="service-icon">💼</div>
+                <h3>Consultation Stratégique</h3>
+                <p>Nos experts en stratégie d'entreprise vous aident à optimiser vos processus, à définir vos objectifs à long terme et à élaborer des plans d'action pour améliorer vos performances et atteindre vos objectifs.</p>
+            </div>
+
+            <div class="service">
+                <div class="service-icon">⚙️</div>
+                <h3>Maintenance et Support</h3>
+                <p>Nous offrons des services de maintenance pour assurer le bon fonctionnement de vos sites web et applications. Nous proposons également un support technique réactif pour résoudre rapidement tous vos problèmes.</p>
+            </div>
+
+            <div class="service">
+                <div class="service-icon">💻</div>
+                <h3>SEO et Marketing Digital</h3>
+                <p>Nous vous aidons à améliorer votre visibilité sur internet grâce à des stratégies SEO efficaces et des campagnes de marketing digital. Nous mettons en place des solutions pour attirer plus de visiteurs sur votre site et convertir ces visites en clients.</p>
+            </div>
+
+            <div class="service">
+                <div class="service-icon">🔒</div>
+                <h3>Cybersécurité</h3>
+                <p>Nous mettons en place des solutions de cybersécurité pour protéger vos données et prévenir les risques de cyberattaques. Nous offrons des services de sécurité réseau, audits et conseils pour garantir la sécurité de votre entreprise.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

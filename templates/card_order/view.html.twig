@@ -1,0 +1,92 @@
+{% if cardOrder %}
+<style>
+.virtual-card {
+    background: linear-gradient(90deg, #2261ff, #6933ff);
+    border-radius: 12px;
+    padding: 30px;
+    color: white;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    max-width: 300px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.card-number {
+    font-size: 22px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.card-details div {
+    text-align: center;
+    flex: 1;
+}
+
+.toggle-details {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.toggle-details:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+</style>
+
+  <div class="container2">
+        <h3 style="text-align: center;">Votre carte virtuelle</h3>
+        <div class="virtual-card">
+            <div class="card-header">
+                <i class="icon">💳</i>
+                <span class="card-type">MaBanque Premium</span>
+            </div>
+            <div class="card-number">
+                <span>**** **** ****</span> {{ cardOrder.cardNumber|slice(-4) }}
+            </div>
+            <div class="card-details">
+                <div>
+                    <span class="label">TITULAIRE</span>
+                    <span class="value">{{ app.user.nom|upper }} {{ app.user.prenom|capitalize }}</span>
+                </div>
+                <div>
+                    <span class="label">EXPIRE</span>
+                    <span class="value">{{ cardOrder.expirationDate|date('m/Y') }}</span>
+                </div>
+                <div>
+                    <span class="label">CVV</span>
+                    <span class="value">{{ cardOrder.ccv }}</span>
+                </div>
+            </div>
+        </div>
+        <button class="toggle-details">Masquer les détails</button>
+    </div>
+{% else %}
+  <p>Aucune commande de carte trouvée.</p>
+{% endif %}

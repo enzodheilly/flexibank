@@ -1,0 +1,250 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - FlexiBank{% endblock %}
+
+{% block body %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8fbff;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.hero {
+    background: #002d72;
+    padding: 50px 0;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    color:white;
+}
+
+.hero p{
+    color:white;
+}
+
+.brand {
+    color: #007bff;
+}
+
+/* SECTION ABOUT */
+.about {
+    background: #eef5fb;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #222;
+}
+
+.about p {
+    max-width: 800px;
+    margin: 10px auto;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 30px;
+    text-align: left;
+    max-width: 900px;
+    margin: auto;
+}
+
+.about-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.about-box i {
+    font-size: 35px;
+    color: #007bff;
+}
+
+/* FEATURES */
+.features {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 0;
+}
+
+.features .container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+}
+
+.icon {
+    font-size: 40px;
+}
+
+/* CTA */
+.cta {
+    background: blue;
+    padding: 40px 0;
+    color: white;
+}
+
+.cta h2 {
+    font-size: 1.8em;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 35px;
+    background-color: white;
+    text-decoration: none;
+    color: blue;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+.cta-button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    background-color:#002d72;
+    padding: 15px;
+    font-size: 14px;
+    color: white;
+}
+
+.back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<section class="hero">
+    <div class="container">
+        <h1>Ouvrir un compte chez <span class="brand">FlexiBank</span></h1>
+        <p>Découvrez nos services bancaires innovants et personnalisés</p>
+    </div>
+            <a href="javascript:history.back()" class="back-button">
+    ← Retour
+</a>
+</section>
+
+<!-- NOUVELLE SECTION "À PROPOS" -->
+<section class="about">
+    <div class="container">
+        <h2>Découvrez FlexiBank</h2>
+        <p>Depuis plus de 25 ans, nous innovons dans le secteur bancaire pour offrir des services financiers accessibles et personnalisés à tous nos clients.</p>
+        
+        <div class="about-container">
+            <div class="about-box">
+                <div>
+                    <h3>Notre Histoire</h3>
+                    <p>Fondée en 1998, FlexiBank est née d’une vision audacieuse : rendre les services bancaires plus accessibles et plus humains.</p>
+                    <p>Ce qui a commencé comme une petite banque régionale s'est transformé en une institution financière majeure.</p>
+                </div>
+            </div>
+
+            <div class="about-box">
+                <div>
+                    <h3>Nos Valeurs</h3>
+                    <ul>
+                        <li>Transparence absolue dans nos services et tarifs</li>
+                        <li>Innovation responsable au service de nos clients</li>
+                        <li>Engagement social et environnemental</li>
+                        <li>Proximité et écoute de nos clients</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about-box">
+                <div>
+                    <h3>Notre Présence</h3>
+                    <ul>
+                        <li>+ de 200 agences à travers la France</li>
+                        <li>2,5 millions de clients satisfaits</li>
+                        <li>Une plateforme en ligne disponible 24/7</li>
+                        <li>Une application mobile notée 4,8/5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="feature-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Sécurité Maximale</h3>
+            <p>Protection avancée de vos données et transactions avec nos systèmes de sécurité dernière génération.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fa-solid fa-credit-card"></i>
+            <h3>Carte Gratuite</h3>
+            <p>Carte bancaire sans frais avec des avantages exclusifs et une gestion simplifiée.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Ouverture Rapide</h3>
+            <p>Processus d’ouverture de compte en ligne simple et rapide en quelques minutes.</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="cta">
+    <div class="container">
+        <h2>Prêt à nous rejoindre ?</h2>
+        <a href="{{ path('app_register') }}" class="cta-button">Ouvrir un compte</a>
+    </div>
+</section>
+
+<footer>
+    <p style="font-size:0.8em;">© 2025 FlexiBank. Tous droits réservés.</p>
+</footer>
+
+{% endblock %}

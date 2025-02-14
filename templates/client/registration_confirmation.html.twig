@@ -1,0 +1,11 @@
+{# templates/client/registration_confirmation.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement terminé{% endblock %}
+
+{% block body %}
+    <h1>Félicitations ! Votre enregistrement a été complété avec succès.</h1>
+    <p>Vous pouvez maintenant vous connecter et accéder à votre tableau de bord.</p>
+    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+{% endblock %}

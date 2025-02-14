@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de Confidentialité - Flexibank{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 5px 20px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #004085;
+        }
+    </style>
+
+    <div class="hero">
+        <a href="javascript:history.back()" class="back-button">
+            ← Retour
+        </a>
+        <h1>Politique de Confidentialité</h1>
+        <p>Chez Flexibank, la confidentialité de vos données est une priorité. Cette politique explique comment nous collectons, utilisons et protégeons vos informations personnelles.</p>
+    </div>
+
+    <div class="container">
+        <h2>1. Collecte d'informations</h2>
+        <p>Nous collectons des informations personnelles lorsque vous vous inscrivez sur notre plateforme, effectuez des transactions, ou interagissez avec nos services. Ces informations peuvent inclure votre nom, adresse e-mail, informations bancaires et autres données nécessaires à la fourniture de nos services.</p>
+
+        <h2>2. Utilisation des informations</h2>
+        <p>Les informations que nous collectons sont utilisées pour gérer votre compte, fournir des services personnalisés, améliorer nos fonctionnalités, et vous informer des mises à jour ou offres spéciales. Nous ne partageons vos informations qu'avec des partenaires de confiance dans le but de mieux servir vos besoins.</p>
+
+        <h2>3. Sécurité des données</h2>
+        <p>Nous mettons en œuvre des mesures de sécurité avancées pour protéger vos données personnelles contre tout accès non autorisé. Cependant, nous vous encourageons également à prendre les mesures nécessaires pour protéger vos informations de connexion.</p>
+
+        <h2>4. Partage des informations</h2>
+        <p>Nous ne vendons, ne louons, ni ne partageons vos informations personnelles à des fins commerciales sans votre consentement explicite, sauf si la loi l'exige. Dans certains cas, nous pouvons être amenés à partager vos données avec des prestataires de services qui nous aident à gérer nos opérations.</p>
+
+        <h2>5. Vos droits</h2>
+        <p>Conformément à la législation sur la protection des données, vous avez le droit d'accéder à vos informations personnelles, de les corriger ou de demander leur suppression. Vous pouvez exercer vos droits en nous contactant directement.</p>
+
+        <h2>6. Modifications de la politique</h2>
+        <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Toute mise à jour sera publiée sur cette page, et la date de la dernière révision sera indiquée au bas du document.</p>
+
+        <h2>7. Cookies</h2>
+        <p>Nous utilisons des cookies pour améliorer votre expérience en ligne, personnaliser les services, et analyser l'utilisation de notre site. Vous pouvez ajuster vos préférences de cookies dans les paramètres de votre navigateur.</p>
+
+        <h2>8. Contact</h2>
+        <p>Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter <a href="{{ path('contact') }}">ici</a>.</p>
+    </div>
+{% endblock %}

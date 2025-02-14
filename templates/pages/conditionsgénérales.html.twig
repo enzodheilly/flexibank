@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions d'utilisation - Flexibank{% endblock %}
+
+{% block body %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hero {
+        background-color: #002d72;
+        color: white;
+        text-align: center;
+        padding: 20px 20px;
+        margin-bottom: 30px;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #007bff;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        color: #007bff;
+        font-size: 1.4em;
+        margin-top: 20px;
+    }
+
+    p {
+        font-size: 1em;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+
+    .section-title {
+        margin-top: 30px;
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #004085;
+    }
+</style>
+
+<div class="hero">
+    <a href="javascript:history.back()" class="back-button">
+        ← Retour
+    </a>
+    <h1>Conditions d'utilisation</h1>
+    <p>Bienvenue sur Flexibank, votre banque en ligne sécurisée. En utilisant nos services, vous acceptez les termes et conditions suivants.</p>
+</div>
+
+<div class="container">
+    <h2>1. Acceptation des conditions</h2>
+    <p>En accédant et en utilisant les services de Flexibank, vous acceptez de respecter et d'être lié par ces conditions d'utilisation. Si vous n'acceptez pas ces termes, veuillez ne pas utiliser nos services.</p>
+
+    <h2>2. Services offerts</h2>
+    <p>Flexibank offre des services bancaires en ligne, y compris mais sans s'y limiter, la gestion de comptes, les virements bancaires, la création de comptes d'utilisateur et de client, ainsi que d'autres services financiers. Ces services peuvent évoluer au fil du temps.</p>
+
+    <h2>3. Responsabilité de l'utilisateur</h2>
+    <p>Vous êtes responsable de la sécurité de votre compte et de vos informations de connexion. Vous devez immédiatement informer Flexibank de toute utilisation non autorisée de votre compte.</p>
+
+    <h2>4. Sécurité</h2>
+    <p>Flexibank met en œuvre des mesures de sécurité avancées pour protéger vos données personnelles et financières. Toutefois, vous êtes également responsable de la sécurité de votre mot de passe et des informations sensibles associées à votre compte.</p>
+
+    <h2>5. Utilisation interdite</h2>
+    <p>Il est interdit d'utiliser les services de Flexibank pour des activités illégales ou frauduleuses, telles que le blanchiment d'argent ou la fraude financière. Toute violation de cette règle entraînera la suspension immédiate de votre compte.</p>
+
+    <h2>6. Modifications des conditions</h2>
+    <p>Flexibank se réserve le droit de modifier ces conditions d'utilisation à tout moment. Nous vous informerons de toute modification importante via notre site web ou par e-mail.</p>
+
+    <h2>7. Propriété intellectuelle</h2>
+    <p>Les contenus du site Flexibank, y compris le texte, les images, les logos et les éléments de conception, sont protégés par des droits de propriété intellectuelle. Vous n'êtes pas autorisé à les utiliser sans l'autorisation explicite de Flexibank.</p>
+
+    <h2>8. Limitation de responsabilité</h2>
+    <p>Flexibank ne pourra être tenu responsable des dommages indirects, spéciaux ou consécutifs découlant de l'utilisation de nos services, y compris mais sans s'y limiter, les pertes de données ou les interruptions de service.</p>
+
+    <h2>9. Loi applicable</h2>
+    <p>Les présentes conditions sont régies par les lois du pays où Flexibank est enregistré. En cas de litige, les tribunaux de ce pays seront compétents.</p>
+
+    <h2>10. Contact</h2>
+    <p>Si vous avez des questions concernant ces conditions d'utilisation, veuillez nous contacter <a href="{{ path('contact') }}">ici</a></p>
+</div>
+
+{% endblock %}

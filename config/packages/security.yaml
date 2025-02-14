@@ -1,0 +1,39 @@
+security:
+    # Utilisation de l'encodage automatique des mots de passe
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Fournisseur de l'utilisateur dans la base de données
+    providers:
+        users_in_database:
+            entity:
+                class: App\Entity\User
+                property: email  # Utilisation de "email" ici comme identifiant
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: users_in_database
+
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+
+            logout:
+                path: app_logout
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800  # 1 semaine
+                path: /
+
+    access_control:
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/order-card, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/track-card, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/view-card, roles: IS_AUTHENTICATED_FULLY }

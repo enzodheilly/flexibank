@@ -1,0 +1,112 @@
+{# templates/account/delete.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Supprimer votre compte
+{% endblock %}
+
+{% block body %}
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: black;
+    }
+    /* Style général pour la page de suppression */
+    
+    .delete-account-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    .delete-account-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #007bff;
+    }
+    
+    .delete-account-text {
+      font-size: 16px;
+      margin-bottom: 25px;
+      color: #bebebe;
+      line-height: 1.5;
+    }
+    
+    .delete-account-form {
+      margin-bottom: 15px;
+    }
+    
+    .delete-account-button {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff0000;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .delete-account-button:hover {
+      background-color: #c82333;
+    }
+    
+    .delete-account-cancel {
+      display: inline-block;
+      margin-top: 10px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    .delete-account-cancel:hover {
+      color: #495057;
+    }
+    
+    nav {
+      background-color: black; /* Fond blanc pour contraster avec le fond général */
+      padding: 20px 30px;
+      color: #333333; /* Gris foncé pour une meilleure lisibilité */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre pour séparation */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    nav h1 {
+      margin: 0;
+      font-size: 28px;
+      margin-left: 40px;
+      font-weight: bold;
+      color: #007bff; /* Bleu pour mettre en avant le titre */
+    }
+  </style>
+  <nav>
+    <h1>Flexibank</h1>
+  </nav>
+  <div class="delete-account-card">
+    <h1 class="delete-account-title">Supprimer votre compte</h1>
+    <p class="delete-account-text">
+      Êtes-vous sûr de vouloir supprimer votre compte ? <br />
+      <strong>Cette action est irréversible.</strong> Toutes vos informations seront supprimées.
+    </p>
+
+    <form method="post" class="delete-account-form">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_account') }}" />
+      <button type="submit" class="btn btn-danger delete-account-button">Supprimer mon compte</button>
+    </form>
+    <a href="{{ path('account_profile') }}" class="btn btn-secondary delete-account-cancel">Annuler</a>
+  </div>
+{% endblock %}

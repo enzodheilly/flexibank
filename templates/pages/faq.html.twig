@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Foire Aux Questions (FAQ){% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: #002d72;
+            color: white;
+            text-align: center;
+            padding: 5px 20px;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #002d72;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #004085;
+        }
+
+        h2 {
+            color: #0056b3;
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        .faq-item {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .faq-item h3 {
+            color: #004085;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .faq-item p {
+            font-size: 1em;
+            margin-top: 10px;
+            display: none;
+            color: #555;
+        }
+
+        .faq-item.active p {
+            display: block;
+        }
+
+        .faq-item h3:after {
+            content: ' ▼';
+        }
+
+        .faq-item.active h3:after {
+            content: ' ▲';
+        }
+    </style>
+
+    <div class="hero">
+        <a href="javascript:history.back()" class="back-button">
+            ← Retour
+        </a>
+        <h1 style="color: #007bff;">Foire Aux Questions (FAQ)</h1>
+        <p>Vous avez des questions ? Voici une liste des questions fréquemment posées. Si vous ne trouvez pas la réponse que vous cherchez, n'hésitez pas à 
+        <a href="{{ path('contact') }}" style="color: #007bff; text-decoration: none; font-weight: bold;">nous contacter</a>.
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="faq-item">
+            <h3>Comment puis-je créer un compte ?</h3>
+            <p>Pour créer un compte, cliquez sur le bouton "S'inscrire" en haut de la page, puis remplissez le formulaire d'inscription avec vos informations personnelles.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Est-ce que l'inscription est gratuite ?</h3>
+            <p>Oui, l'inscription est entièrement gratuite. Vous pouvez créer un compte sans frais et accéder à nos services de manière immédiate.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Quels types de services offrez-vous ?</h3>
+            <p>Nous offrons des services de développement web, de création d'applications mobiles, de marketing digital, ainsi que de support technique et de maintenance. Vous pouvez consulter la page "Nos Services" pour plus de détails.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Comment puis-je réinitialiser mon mot de passe ?</h3>
+            <p>Si vous avez oublié votre mot de passe, cliquez sur le lien "Mot de passe oublié" sur la page de connexion, puis suivez les instructions pour réinitialiser votre mot de passe via votre adresse e-mail.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Est-ce que vous proposez un support technique ?</h3>
+            <p>Oui, nous proposons un support technique 24/7. Vous pouvez nous contacter par e-mail ou via notre formulaire de contact pour obtenir de l'aide.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Comment puis-je vous contacter ?</h3>
+            <p>Vous pouvez nous contacter via notre formulaire de contact disponible sur notre site, ou bien par e-mail à l'adresse suivante : support@votresite.com.</p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle visibility of the FAQ answers
+        document.querySelectorAll('.faq-item h3').forEach(item => {
+            item.addEventListener('click', () => {
+                item.parentElement.classList.toggle('active');
+            });
+        });
+    </script>
+{% endblock %}

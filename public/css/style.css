@@ -1,0 +1,342 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#cookie-banner {
+    animation: fadeIn 2s ease-in-out;
+}
+
+.gestion-cookies {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1002;
+    width: 90%;
+    max-width: 800px;
+}
+
+.gestion-cookies h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.gestion-cookies p {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.gestion-cookies ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.gestion-cookies li {
+    margin-bottom: 15px;
+}
+
+.gestion-cookies .cookie-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.gestion-cookies button {
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    color: #333;
+}
+
+.gestion-cookies .accept-btn.clicked {
+    background-color: green;
+    color: white;
+}
+
+.gestion-cookies .refuse-btn.clicked {
+    background-color: red;
+    color: white;
+}
+
+.gestion-cookies .close-btn,
+.gestion-cookies .validate-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    color: white;
+}
+
+.gestion-cookies .close-btn {
+    background-color: black;
+}
+
+.gestion-cookies .validate-btn {
+    background-color: black;
+    margin-left: 10px;
+    border: none;
+}
+
+.gestion-cookies .validate-btn:hover {
+    background-color: #272727;
+}
+
+.close-btn:hover {
+    background-color: #272727;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+}
+
+.start-button {
+    background-color: #0078ff;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.start-button:hover {
+    background-color: #0056cc;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.start-button:active {
+    background-color: #003a8c;
+    transform: scale(0.95);
+}
+
+.navbar {
+    background-color: white;
+    font-family: Tahoma;
+    padding: 40px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 90px;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #002d72;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    margin-left: 55px;
+}
+
+.FlexiBankAnimation h1 {
+    font-size: 2.0em;
+    margin: 0;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-icons a {
+    color: #1a1a1a;
+    text-decoration: none;
+    margin-right: 42px;
+    margin-left: -15px;
+    font-size: 1.0em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer {
+    background-color: #232427;
+    padding: 30px 180px;
+    color: white;
+}
+
+.footer-container {
+    max-width: 800px;
+    /* Réduction de la largeur totale */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* Centre les colonnes */
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Ajuste l’espace entre les colonnes */
+}
+
+.footer .column {
+    flex: none;
+    /* Désactive la répartition automatique */
+    width: 180px;
+    /* Taille fixe plus petite */
+}
+
+.footer h4 {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+
+.footer a {
+    font-size: 1rem;
+    color: #c5c5c5;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+}
+
+.footer a:hover {
+    color: #0078ff;
+}
+
+ul {
+    list-style-type: none;
+    /* Supprime les puces */
+    padding: 0;
+    /* Supprime le padding par défaut */
+    margin: 0;
+    /* Supprime la marge par défaut */
+}
+
+/* Réseaux sociaux */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icons a {
+    font-size: 1.2rem;
+    color: white;
+    text-align: left;
+}
+
+/* Newsletter */
+.newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.newsletter-form {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.newsletter-form input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.newsletter input {
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    width: 250px;
+    text-align: left;
+}
+
+.newsletter-form input::placeholder {
+    color: #aaa;
+}
+
+.newsletter-form button {
+    background: #007bff;
+    border: none;
+    outline: none;
+    padding: 12px 15px;
+    border-radius: 20%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.newsletter-form button i {
+    color: white;
+    font-size: 18px;
+}
+
+.newsletter-form button:hover {
+    background: #0056b3;
+}
+
+/* Copyright */
+.footer-bottom {
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    margin-top: 20px;
+    width: 100%;
+    margin-left: 0;
+    /* Supprime le décalage */
+}
+
+
+/* Responsive */
+@media (max-width: 480px) {
+    .newsletter-form {
+        max-width: 100%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .newsletter input {
+        width: 100%;
+    }
+}

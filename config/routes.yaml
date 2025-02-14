@@ -1,0 +1,8 @@
+controllers:
+    resource: '../src/Controller/'
+    type: attribute
+
+client_step1:
+    path: /client/step1
+    controller: App\Controller\ClientController::step1
+

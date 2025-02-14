@@ -1,0 +1,175 @@
+{# templates/crypto_wallet.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Portefeuille Crypto{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .crypto-header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .crypto-header h1 {
+        margin: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .balance {
+        background-color: #34495e;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        font-size: 18px;
+    }
+
+    .balance h2 {
+        margin: 0 0 10px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+        margin: 0 0 10px;
+        color: #2c3e50;
+    }
+
+    .card p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .transactions {
+        margin-top: 30px;
+    }
+
+    .transactions h2 {
+        margin-bottom: 15px;
+    }
+
+    .transaction-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .transaction-table th, .transaction-table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .transaction-table th {
+        background-color: #2c3e50;
+        color: white;
+    }
+
+    .transaction-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .transaction-table tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+<div class="crypto-header">
+    <h1>Portefeuille Crypto</h1>
+</div>
+
+<div class="container">
+    <div class="balance">
+        <h2>Solde Total</h2>
+        <p>10 500 €</p>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Bitcoin (BTC)</h3>
+            <p>Quantité : 0.5</p>
+            <p>Valeur : 12 000 €</p>
+        </div>
+        <div class="card">
+            <h3>Ethereum (ETH)</h3>
+            <p>Quantité : 1.2</p>
+            <p>Valeur : 2 800 €</p>
+        </div>
+        <div class="card">
+            <h3>Litecoin (LTC)</h3>
+            <p>Quantité : 5.0</p>
+            <p>Valeur : 500 €</p>
+        </div>
+    </div>
+
+    <div class="transactions">
+        <h2>Dernières Transactions</h2>
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Crypto</th>
+                    <th>Quantité</th>
+                    <th>Valeur (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024-11-10</td>
+                    <td>BTC</td>
+                    <td>0.05</td>
+                    <td>1 200</td>
+                </tr>
+                <tr>
+                    <td>2024-11-08</td>
+                    <td>ETH</td>
+                    <td>0.3</td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>2024-11-05</td>
+                    <td>LTC</td>
+                    <td>1.0</td>
+                    <td>100</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
