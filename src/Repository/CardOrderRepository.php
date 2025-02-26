@@ -1,5 +1,7 @@
 <?php
 
+// src/Repository/CardOrderRepository.php
+
 namespace App\Repository;
 
 use App\Entity\CardOrder;
@@ -16,28 +18,17 @@ class CardOrderRepository extends ServiceEntityRepository
         parent::__construct($registry, CardOrder::class);
     }
 
-    //    /**
-    //     * @return CardOrder[] Returns an array of CardOrder objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?CardOrder
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Trouve toutes les commandes en attente (statut "pending" ou autre si nécessaire).
+     *
+     * @return CardOrder[]
+     */
+    public function findPendingOrders(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.status = :status')
+            ->setParameter('status', 'pending') // Assure-toi que le statut correspond à celui utilisé dans ton projet
+            ->getQuery()
+            ->getResult();
+    }
 }

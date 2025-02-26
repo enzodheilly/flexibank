@@ -369,16 +369,16 @@
     <h2>Suivi de votre demande de carte</h2>
     <div class="card-tracking">
         <div class="card-info">
-            <span>Type de carte :</span> <strong>Gold</strong>
+            <span>Type de carte :</span> <strong>{{ cardOrder.cardType }}</strong>
         </div>
         <div class="card-info">
-            <span>Date de commande :</span> <strong>12 février 2025</strong>
+            <span>Date de commande :</span> <strong>{{ cardOrder.orderDate|date('d/m/Y') }}</strong>
         </div>
         <div class="card-info">
-            <span>Numéro de commande :</span> <strong>#123456789</strong>
+            <span>Commande :</span> <strong>Demande #REQ-{{ cardOrder.id }}</strong>
         </div>
         <div class="card-info status">
-            <span>Statut :</span> <strong>En cours de traitement</strong>
+            <span>Statut :</span> <strong>{{ cardOrder.status }}</strong>
         </div>
     </div>
 </div>
