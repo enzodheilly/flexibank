@@ -1,0 +1,805 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Espace - FlexiBank{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    /* Styles de base */
+    body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        color: #1f2937;
+        background-color: #f9fafb;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Composants */
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .btn-primary {
+        background-color: #2563eb;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #1d4ed8;
+    }
+    
+    .btn-secondary {
+        background-color: white;
+        color: #4b5563;
+        border: 1px solid #d1d5db;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #f9fafb;
+    }
+    
+    .card {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        transition: box-shadow 0.2s;
+    }
+    
+    .card:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .input {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .input:focus {
+        border-color: #3b82f6;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Header */
+    .header {
+        background:#002d72;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 1.6rem;
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-left:40px;
+        letter-spacing: -0.025em;
+    }
+
+    .user-id {
+        color: #ECF0F1;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .user-id p {
+        margin: 0;
+    }
+
+    /* Main content */
+    .main-container {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .welcome-section {
+        margin-bottom: 2rem;
+    }
+
+    .welcome-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .welcome-subtitle {
+        color: #6b7280;
+    }
+
+    /* Quick actions */
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+        margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+        .quick-actions {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+        text-decoration: none;
+    }
+
+    .action-btn:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .action-icon-container {
+        background-color: #dbeafe;
+        padding: 0.5rem;
+        border-radius: 9999px;
+    }
+
+    .action-icon {
+        color: #2563eb;
+    }
+
+    .action-text {
+        font-weight: 500;
+    }
+
+    /* Tabs */
+    .tabs-container {
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 1.5rem;
+    }
+
+    .tabs-nav {
+        display: flex;
+        margin-bottom: -1px;
+        gap: 2rem;
+    }
+
+    .tab-btn {
+        padding-bottom: 1rem;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        border-bottom: 2px solid transparent;
+        font-weight: 500;
+        font-size: 0.875rem;
+        background: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .tab-btn.active {
+        border-bottom-color: #3b82f6;
+        color: #2563eb;
+    }
+
+    .tab-btn:not(.active) {
+        color: #6b7280;
+    }
+
+    .tab-btn:not(.active):hover {
+        color: #4b5563;
+        border-bottom-color: #d1d5db;
+    }
+
+    /* Content grid */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+        .content-grid {
+            grid-template-columns: 2fr 1fr;
+        }
+    }
+
+    /* Section headers */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .add-btn {
+        font-size: 0.875rem;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .add-btn:hover {
+        color: #1d4ed8;
+    }
+
+    /* Account cards */
+    .accounts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .account-card {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.2s;
+    }
+
+    .account-card:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .account-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+    .account-name {
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    .account-number {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .account-balance {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .account-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .account-action-btn {
+        color: #2563eb;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .account-action-btn:hover {
+        color: #1d4ed8;
+    }
+
+    /* Transactions */
+    .transactions-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+    }
+
+    .transaction-item {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .transaction-item:last-child {
+        border-bottom: none;
+    }
+
+    .transaction-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .transaction-description {
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    .transaction-date {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .transaction-amount {
+        font-weight: 500;
+    }
+
+    .transaction-amount.credit {
+        color: #059669;
+    }
+
+    .view-all-btn {
+        margin-top: 1rem;
+        color: #2563eb;
+        font-size: 0.875rem;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .view-all-btn:hover {
+        color: #1d4ed8;
+    }
+
+    /* Crypto market */
+    .crypto-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+    }
+
+    .crypto-item:hover {
+        background-color: #f9fafb;
+    }
+
+    .crypto-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .crypto-icon-container {
+        padding: 0.5rem;
+        border-radius: 9999px;
+    }
+
+    .crypto-icon-container.orange {
+        background-color: #ffedd5;
+    }
+
+    .crypto-icon-container.purple {
+        background-color: #f3e8ff;
+    }
+
+    .crypto-icon-container.blue {
+        background-color: #dbeafe;
+    }
+
+    .crypto-icon.orange {
+        color: #f97316;
+    }
+
+    .crypto-icon.purple {
+        color: #a855f7;
+    }
+
+    .crypto-icon.blue {
+        color: #3b82f6;
+    }
+
+    .crypto-name {
+        font-weight: 500;
+    }
+
+    .crypto-symbol {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .crypto-price-info {
+        text-align: right;
+    }
+
+    .crypto-price {
+        font-weight: 500;
+    }
+
+    .crypto-change {
+        font-size: 0.875rem;
+    }
+
+    .crypto-change.positive {
+        color: #059669;
+    }
+
+    .crypto-change.negative {
+        color: #dc2626;
+    }
+
+    /* Modal */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+    }
+
+    .modal-container {
+        background-color: white;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 28rem;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.25rem;
+    }
+
+    .form-select {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+        pointer-events: none;
+    }
+
+    .input-with-icon {
+        padding-left: 1.75rem;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .cancel-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #4b5563;
+        background-color: white;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+        background-color: #f9fafb;
+    }
+
+    .submit-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: white;
+        background-color: #2563eb;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #1d4ed8;
+    }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {# Modal de virement supprimée #}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {# Header #}
+    <header class="header">
+        <div class="header-container">
+            <div class="header-content">
+                <a href="{{ path('app_home') }}" class="back-button">
+                    ← Retour
+                </a>
+                <h1 class="header-title"></h1>
+                <div class="header-actions">
+                    <span class="user-id">
+                        <p>ID: {{ app.user.codeClient }}</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="welcome-section">
+            <h2 class="welcome-title">Bonjour, {{ app.user.nom|upper }} {{ app.user.prenom|capitalize }}</h2>
+            <p class="welcome-subtitle">Bienvenue dans votre espace personnel</p>
+        </div>
+
+        {# Quick Actions #}
+        <div class="quick-actions">
+            <a href="{{ path('app_transfer_new') }}" class="action-btn">
+                <div class="action-icon-container">
+                    <i class="fas fa-exchange-alt action-icon"></i>
+                </div>
+                <span class="action-text">Virement</span>
+            </a>
+            <a href="{{ path('virtual_card') }}" class="action-btn">
+                <div class="action-icon-container">
+                    <i class="fas fa-credit-card action-icon"></i>
+                </div>
+                <span class="action-text">Cartes</span>
+            </a>
+            <a href="{{ path('crypto') }}" class="action-btn">
+                <div class="action-icon-container">
+                    <i class="fab fa-bitcoin action-icon"></i>
+                </div>
+                <span class="action-text">Crypto</span>
+            </a>
+            <a href="{{ path('loan_request') }}" class="action-btn">
+                <div class="action-icon-container">
+                    <i class="fas fa-wallet action-icon"></i>
+                </div>
+                <span class="action-text">Prêts</span>
+            </a>
+        </div>
+
+        {# Tabs #}
+        <div class="tabs-container">
+            <nav class="tabs-nav">
+                <a href="{{ path('card_dashboard', {'tab': 'accounts'}) }}" 
+                   class="tab-btn {{ app.request.get('tab') == 'accounts' or app.request.get('tab') is null ? 'active' : '' }}">
+                    Comptes
+                </a>
+                <a href="{{ path('card_dashboard', {'tab': 'crypto'}) }}"
+                   class="tab-btn {{ app.request.get('tab') == 'crypto' ? 'active' : '' }}">
+                    Crypto-monnaies
+                </a>
+            </nav>
+        </div>
+
+        {% if app.request.get('tab') != 'crypto' %}
+    <div class="content-grid">
+        {# Accounts Section #}
+        <div>
+            <div class="section-header">
+                <h3 class="section-title">Mes Comptes</h3>
+            </div>
+
+            {# Affichage de bankAccounts - Assurez-vous qu'il est passé dans le contrôleur #}
+            <div class="accounts-list">
+                {# Compte courant #}
+                <div class="account-section">
+                    <h3>Compte Courant</h3>
+                    {% if currentAccount %}
+                        <div class="account-card">
+                            <div class="account-header">
+                                <div>
+                                    <h4 class="account-name">{{ currentAccount.accountType }}</h4>
+                                    <p class="account-number">FR **** **** **** {{ currentAccount.iban|slice(-4) }}</p>
+                                </div>
+                                <span class="account-balance">{{ currentAccount.balance|format_currency('EUR') }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Vous n'avez pas de compte courant.</p>
+                    {% endif %}
+                </div>
+
+                {# Compte Épargne #}
+                <div class="account-section">
+                    <h3>Compte Épargne</h3>
+                    {% if savingsAccount %}
+                        <div class="account-card">
+                            <div class="account-header">
+                                <div>
+                                    <h4 class="account-name">{{ savingsAccount.accountType }}</h4>
+                                    <p class="account-number">FR **** **** **** {{ savingsAccount.iban|slice(-4) }}</p>
+                                </div>
+                                <span class="account-balance">{{ savingsAccount.balance|format_currency('EUR') }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Vous n'avez pas de compte épargne.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# Derniers Transferts #}
+        <div>
+            <h3 class="section-title">Derniers Transferts</h3>
+            <div class="transactions-card">
+                {% for transfer in recentTransfers %}
+                    <div class="transaction-item">
+                        <div class="transaction-content">
+                            <div>
+                                <p class="transaction-description">{{ transfer.description }}</p>
+                                <p class="transaction-date">{{ transfer.date|date('d M') }}</p>
+                            </div>
+                           <span class="transaction-amount">
+                                {{ transfer.amount|format_currency('EUR') }}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+                <a href="{{ path('recent_transfers') }}" class="view-all-btn">
+                    Voir tous les transferts 
+                    <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="content-grid">
+        {# Crypto Wallet #}
+        <div>
+            <div class="section-header">
+                <h3 class="section-title">Portefeuille Crypto</h3>
+                <a href="{{ path('crypto_buy') }}" class="add-btn">
+                    <i class="fas fa-plus"></i>
+                    Acheter des cryptos
+                </a>
+            </div>
+            <div class="accounts-list">
+                {% for crypto in cryptoWallet %}
+                    <div class="account-card">
+                        <div class="account-header">
+                            <div>
+                                <h4 class="account-name">{{ crypto.currency }}</h4>
+                                <p class="account-number">{{ crypto.amount }}</p>
+                            </div>
+                            <span class="account-balance">{{ crypto.value|format_currency('EUR') }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Crypto Market #}
+        <div>
+            <h3 class="section-title">Marché Crypto</h3>
+            <div class="transactions-card">
+                <div class="crypto-list">
+                    {% for crypto in cryptoMarket %}
+                        <div class="crypto-item">
+                            <div class="crypto-info">
+                                <div class="crypto-icon-container {{ crypto.iconColor }}">
+                                    <i class="fab fa-{{ crypto.icon }} crypto-icon {{ crypto.iconColor }}"></i>
+                                </div>
+                                <div>
+                                    <p class="crypto-name">{{ crypto.name }}</p>
+                                    <p class="crypto-symbol">{{ crypto.symbol }}</p>
+                                </div>
+                            </div>
+                            <div class="crypto-price-info">
+                                <p class="crypto-price">{{ crypto.price|format_currency('EUR') }}</p>
+                                <p class="crypto-change {{ crypto.change >= 0 ? 'positive' : 'negative' }}">
+                                    {{ crypto.change >= 0 ? '+' }}{{ crypto.change }}%
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <a href="{{ path('crypto_market') }}" class="view-all-btn">
+                    Voir tout le marché
+                    <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+    </main>
+{% endblock %}
+
+
+

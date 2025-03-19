@@ -1,10 +1,10 @@
 <?php
 
-// src/Entity/User.php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -31,7 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "json")]
     private array $roles = [];
 
-    // Champs spécifiques au client, mais optionnels au début
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $paysDeResidence = null;
 
@@ -50,25 +49,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $numeroTelephone = null;
 
-    #[ORM\Column(type: 'string', length: 10, unique: true)]
+    #[ORM\Column(type: 'string', length: 20, unique: true)]
     private ?string $codeClient = null;
 
-    // Propriété de la date de création
     #[ORM\Column(type: "datetime")]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: "string", nullable: true)]
-    private ?string $profilePicture = null; // Propriété pour la photo de profil
+    private ?string $profilePicture = null;
 
     private ?string $plainPassword = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BankAccount::class)]
+    private Collection $accounts;
 
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
-        $this->createdAt = new \DateTime();  // Initialise la date de création au moment de la création de l'utilisateur
+        $this->createdAt = new \DateTime();
+        $this->accounts = new ArrayCollection();
+        $this->codeClient = strtoupper(substr(uniqid('CL-', true), 0, 20));
     }
 
-    // Getters et setters pour la propriété createdAt
+    public function getAccounts(): Collection
+    {
+        return $this->accounts;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -80,10 +92,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Implémentation des méthodes de l'interface UserInterface
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
     public function getUserIdentifier(): string
@@ -93,17 +110,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Effacer les données sensibles comme le mot de passe en clair
         $this->plainPassword = null;
     }
 
-    // Implémentation de la méthode de l'interface PasswordAuthenticatedUserInterface
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    // Getters et setters pour les autres propriétés...
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -126,6 +146,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCodeClient(): ?string
+    {
+        return $this->codeClient;
+    }
+
+    public function setCodeClient(string $codeClient): self
+    {
+        $this->codeClient = $codeClient;
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -137,9 +190,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function setPassword(string $password): self
+    public function getNumeroTelephone(): ?string
     {
-        $this->password = $password;
+        return $this->numeroTelephone;
+    }
+
+    public function setNumeroTelephone(?string $numeroTelephone): self
+    {
+        $this->numeroTelephone = $numeroTelephone;
         return $this;
     }
 
@@ -164,6 +222,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->profession = $profession;
         return $this;
     }
+
+    public function isClient(): bool
+    {
+        return in_array('ROLE_CLIENT', $this->roles);
+    }
+
+    public function isClientComplete(): bool
+    {
+        return !empty($this->paysDeResidence) && !empty($this->profession) &&
+               !empty($this->adressePostale) && !empty($this->codePostal) &&
+               !empty($this->ville) && !empty($this->numeroTelephone);
+    }
+
 
     public function getAdressePostale(): ?string
     {
@@ -197,68 +268,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ville = $ville;
         return $this;
     }
-
-    public function getNumeroTelephone(): ?string
-    {
-        return $this->numeroTelephone;
-    }
-
-    public function setNumeroTelephone(?string $numeroTelephone): self
-    {
-        $this->numeroTelephone = $numeroTelephone;
-        return $this;
-    }
-
-    public function isClient(): bool
-    {
-        // Vérifie si l'utilisateur a toutes les informations nécessaires pour être un client
-        return !empty($this->paysDeResidence) && !empty($this->profession) && 
-               !empty($this->adressePostale) && !empty($this->codePostal) && 
-               !empty($this->ville) && !empty($this->numeroTelephone);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-        return $this;
-    }
-
-    public function getProfilePicture(): ?string
-    {
-        return $this->profilePicture;
-    }
-
-    // Setter
-    public function setProfilePicture(?string $profilePicture): self
-    {
-        $this->profilePicture = $profilePicture;
-        return $this;
-    }
-
-    // Méthode pour obtenir l'URL de la photo de profil
-    public function getProfilePictureUrl(): ?string
-{
-    if ($this->profilePicture) {
-        return '/uploads/profile_pictures/' . $this->profilePicture;
-    }
-
-    return null; // ou un chemin par défaut si l'image n'existe pas
-}
-
-public function getCodeClient(): ?string
-{
-    return $this->codeClient;
-}
-
-public function setCodeClient(?string $codeClient): self
-{
-    $this->codeClient = $codeClient;
-    return $this;
-}
-
 }

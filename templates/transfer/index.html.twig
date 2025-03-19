@@ -1,0 +1,236 @@
+{% block stylesheets %}
+<style>
+
+        body {
+        font-family: 'Roboto', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+
+    .hero {
+        background-color: #002d72;
+        color: white;
+        text-align: center;
+        padding: 10px 20px;
+    }
+    .hero h1 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .custom-select {
+    width: 100%;  /* Prend toute la largeur disponible */
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: white;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+    .form-container {
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: 1.5rem;
+    }
+    .transfer-form {
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        padding: 2rem;
+        margin-top: 10px;
+    }
+    .form-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem; /* Augmentation de l'espace entre les inputs */
+        margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .form-group {
+        margin-bottom: 2rem; /* Augmentation de l'espace entre les inputs */
+    }
+    .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    .form-control {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    .amount-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .amount-symbol {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #374151;
+    }
+    .info-box {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #eff6ff;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.875rem;
+        color: #1e40af;
+    }
+    .btn-submit {
+        width: 50%;
+        margin-left:240px;
+        background-color: #2563eb;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+    .btn-submit:hover {
+        background-color: #1d4ed8;
+    }
+    .alert {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .alert-success {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    /* Style pour l'icône de virement */
+    .form-header img {
+        width: 30px; /* Ajuster la largeur de l'icône */
+        height: 30px; /* Ajuster la hauteur de l'icône */
+        object-fit: contain; /* S'assurer que l'icône est bien contenue dans la taille */
+        color:white;
+    }
+
+        .back-button {
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="hero">
+        <a href="{{ path('dashboard2') }}" class="back-button">
+            ← Retour
+        </a>
+        <h1 class="form-title">Effectuer un virement</h1>
+    </div>
+
+    <div class="form-container">
+        <div class="transfer-form">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {{ form_start(transferForm) }}
+                <div class="form-grid">
+                    <div class="form-group">
+                        {{ form_label(transferForm.fromAccount, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(transferForm.fromAccount) }}
+                        {{ form_errors(transferForm.fromAccount) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(transferForm.toAccount, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(transferForm.toAccount) }}
+                        {{ form_errors(transferForm.toAccount) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Montant (€)</label>
+                    <div class="amount-group">
+                        {{ form_widget(transferForm.amount) }}
+                    </div>
+                    {{ form_errors(transferForm.amount) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(transferForm.description, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(transferForm.description) }}
+                    {{ form_errors(transferForm.description) }}
+                </div>
+
+                <div class="info-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <p>Les comptes doivent être au format CLI-XXXXX</p>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Valider le virement
+                </button>
+            {{ form_end(transferForm) }}
+        </div>
+    </div>
+
+    {# Vérification et affichage de la modal si le message flash est défini #}
+    {% if app.flashes('showTransferModal') is not empty %}
+        <div class="modal">
+            <!-- Contenu de la modal -->
+            <p>Virement effectué avec succès !</p>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+

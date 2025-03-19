@@ -5,88 +5,8 @@
 {% endblock %}
 
 {% block body %}
-  <div class="premium-container">
-    <div class="header">
-      <a href="javascript:history.back()" class="back-button">← Retour</a>
-      <h1 style="margin-right:650px;"><span style="color:#007bff;">FlexiBank</span> Premium</h1>
 
-      <p style="margin-right:360px;">Découvrez une nouvelle façon de gérer votre argent avec des avantages exclusifs.</p>
-      <button class="cta-button">
-        <h1 style="font-size:1.5em;">Carte Premium Gratuite</h1>
-        <span style="font-size: 1.1em; display: block;margin-right:18px;">pendant 1 an, puis 9,99€/mois</span>
-      </button>
-    </div>
-
-    <div class="advantages" style="font-size:0.8em;width:67%; margin-left:250px;">
-      <h2>Vos Avantages Premium</h2>
-      <div class="advantage-grid" style="margin-top:50px;">
-        <div class="advantage-item">
-          <h3>Cashback Garanti</h3><p>1€ remboursé tous les 10€ dépensés, sur tous vos achats</p>
-        </div>
-        <div class="advantage-item">
-          <h3>Miles Rewards</h3><p>Cumulez des miles à chaque achat pour vos prochains voyages</p>
-        </div>
-        <div class="advantage-item">
-          <h3>Réductions Exclusives</h3><p>Profitez de réductions chez nos partenaires premium</p>
-        </div>
-        <div class="advantage-item">
-          <h3>Offres Partenaires</h3><p>Accès à des offres exclusives FlexiBank</p>
-        </div>
-        <div class="advantage-item">
-          <h3>Carte Premium</h3><p>Carte bancaire premium gratuite la première année</p>
-        </div>
-        <div class="advantage-item">
-          <h3>Protection Maximale</h3><p>Assurance et protection de vos achats incluses</p>
-        </div>
-      </div>
-    </div>
-    <div class="partners" style="margin-top:120px;">
-      <h2>Nos Partenaires Premium</h2>
-      <div class="partners-grid" style="font-size:1.0em;">
-        <div class="partner-item">
-          <div class="image-container">
-            <img src="{{ asset('images/voyages-hotels.jpg') }}" alt="Voyages & Hôtels" />
-          </div>
-          <div class="text-container">
-            <h3>Voyages & Hôtels</h3>
-            <p>Jusqu'à 10% de remise sur vos réservations</p>
-          </div>
-        </div>
-        <div class="partner-item">
-          <div class="image-container">
-            <img src="{{ asset('images/restaurants.jpg') }}" alt="Restaurants" />
-          </div>
-          <div class="text-container">
-            <h3>Restaurants</h3>
-            <p>5% de cashback dans les restaurants partenaires</p>
-          </div>
-        </div>
-        <div class="partner-item">
-          <div class="image-container">
-            <img src="{{ asset('images/shopping.jpg') }}" alt="Shopping" />
-          </div>
-          <div class="text-container">
-            <h3>Shopping</h3>
-            <p>Offres exclusives chez vos marques préférées</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cta-section">
-      <h2>Rejoignez FlexiBank Premium</h2>
-      <p>Profitez de tous ces avantages dès maintenant</p>
-      <button class="cta-button2">Ouvrir un compte</button>
-    </div>
-  </div>
-
-  <footer class="footer" style="background-color:#102489; color:white; padding:20px 0; margin-top: 50px;">
-    <div class="footer-content" style="text-align:center;">
-      <p>&copy; 2025 FlexiBank - Tous droits réservés</p>
-    </div>
-  </footer>
-
-  <style>
+<style>
     html,
     body {
       margin: 0;
@@ -174,6 +94,7 @@
     }
     .footer-content p {
       margin: 5px 0;
+      font-family: Arial, Helvetica, sans-serif;
     }
     .image-container {
       position: relative;
@@ -204,4 +125,85 @@
       background-color: #0056b3;
     }
   </style>
+
+  <div class="premium-container">
+    <div class="header">
+      <a href="javascript:history.back()" class="back-button">← Retour</a>
+      <h1 style="margin-right:650px;"><span style="color:#007bff;">FlexiBank</span> Premium</h1>
+
+      <p style="margin-right:360px;">Découvrez une nouvelle façon de gérer votre argent avec des avantages exclusifs.</p>
+      <button class="cta-button">
+        <h1 style="font-size:1.5em;">Carte Premium Gratuite</h1>
+        <span style="font-size: 1.1em; display: block;margin-right:18px;">pendant 1 an, puis 9,99€/mois</span>
+      </button>
+    </div>
+
+    <div class="advantages" style="font-size:1.1em;width:67%; margin-left:250px;">
+      <h2>Vos Avantages Premium</h2>
+      <div class="advantage-grid" style="margin-top:50px;">
+        <div class="advantage-item">
+          <h3>Cashback Garanti</h3><p>1€ remboursé tous les 10€ dépensés, sur tous vos achats</p>
+        </div>
+        <div class="advantage-item">
+          <h3>Miles Rewards</h3><p>Cumulez des miles à chaque achat pour vos prochains voyages</p>
+        </div>
+        <div class="advantage-item">
+          <h3>Réductions Exclusives</h3><p>Profitez de réductions chez nos partenaires premium</p>
+        </div>
+        <div class="advantage-item">
+          <h3>Offres Partenaires</h3><p>Accès à des offres exclusives FlexiBank</p>
+        </div>
+        <div class="advantage-item">
+          <h3>Carte Premium</h3><p>Carte bancaire premium gratuite la première année</p>
+        </div>
+        <div class="advantage-item">
+          <h3>Protection Maximale</h3><p>Assurance et protection de vos achats incluses</p>
+        </div>
+      </div>
+    </div>
+    <div class="partners" style="margin-top:120px;">
+      <h2>Nos Partenaires Premium</h2>
+      <div class="partners-grid" style="font-size:1.0em;">
+        <div class="partner-item">
+          <div class="image-container">
+            <img src="{{ asset('images/voyages-hotels.jpg') }}" alt="Voyages & Hôtels" />
+          </div>
+          <div class="text-container">
+            <h3>Voyages & Hôtels</h3>
+            <p>Jusqu'à 10% de remise sur vos réservations</p>
+          </div>
+        </div>
+        <div class="partner-item">
+          <div class="image-container">
+            <img src="{{ asset('images/restaurants.jpg') }}" alt="Restaurants" />
+          </div>
+          <div class="text-container">
+            <h3>Restaurants</h3>
+            <p>5% de cashback dans les restaurants partenaires</p>
+          </div>
+        </div>
+        <div class="partner-item">
+          <div class="image-container">
+            <img src="{{ asset('images/shopping.jpg') }}" alt="Shopping" />
+          </div>
+          <div class="text-container">
+            <h3>Shopping</h3>
+            <p>Offres exclusives chez vos marques préférées</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <h2>Rejoignez FlexiBank Premium</h2>
+      <p>Profitez de tous ces avantages dès maintenant</p>
+      <button class="cta-button2">Ouvrir un compte</button>
+    </div>
+  </div>
+
+  <footer class="footer" style="background-color:#102489; color:white; padding:20px 0; margin-top: 50px;">
+    <div class="footer-content" style="text-align:center;">
+      <p>&copy; 2025 FlexiBank - Tous droits réservés</p>
+    </div>
+  </footer>
 {% endblock %}

@@ -6,3 +6,19 @@ client_step1:
     path: /client/step1
     controller: App\Controller\ClientController::step1
 
+crypto:
+    path: /crypto
+    controller: App\Controller\CryptoController::index
+loan:
+    path: /loan
+    controller: App\Controller\LoanController::index
+crypto_buy:
+    path: /crypto/buy
+    controller: App\Controller\CryptoController::buy
+account_new:
+    path: /account/new
+    controller: App\Controller\BankAccountController::new
+app_transfer_new:
+  path: /transfer/new
+  controller: App\Controller\TransferController::new
+

@@ -1,0 +1,395 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style>
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #1f2937;
+    background-color: #f9fafb;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+    nav {
+      background-color: #002d72; /* Fond blanc pour contraster avec le fond général */
+      padding: 40px 30px;
+      color: #333333; /* Gris foncé pour une meilleure lisibilité */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre pour séparation */
+      display: flex;
+      align-items: center;
+      position: relative;
+      justify-content: space-between;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+        nav h1 {
+        position: absolute;
+        right: 80px;
+        top: 20%;
+        transform: translateY(-50%);
+        font-size: 28px;
+        font-weight: bold;
+        color: #007BFF;
+    }
+
+.progress {
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button-group button {
+    flex: 1;
+    margin: 0 5px;
+}
+
+.progress-bar {
+    height: 20px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 5px;
+    transition: width 0.3s;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+/* Main container styles */
+.loan-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    margin-top:120px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button {
+    display: none;
+}
+
+/* Progress bar styles */
+.progress {
+    width: 100%;
+    background: #f3f4f6;
+    border-radius: 10px;
+    margin-bottom: 2.5rem;
+    height: 12px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(45deg, #4f46e5, #6366f1);
+    color: white;
+    text-align: center;
+    line-height: 12px;
+    font-size: 0.85rem;
+    transition: width 0.5s ease;
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Form styles */
+.form-step {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+/* Form fields */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Button styles */
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top:10px;
+    margin-left:40%;
+    transition: all 0.3s ease;
+}
+
+.next-step {
+    background: #4f46e5;
+    color: white;
+    margin-right: 1rem;
+}
+
+.next-step:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+}
+
+.prev-step {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.prev-step:hover {
+    background: #e5e7eb;
+}
+
+button[type="submit"] {
+    background: #10b981;
+    color: white;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+button[type="submit"]:hover {
+    background: #059669;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .loan-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    button {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+
+/* Error states */
+.form-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+input.is-invalid {
+    border-color: #ef4444;
+}
+
+/* Helper text */
+.form-help {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+    </style>
+<nav>
+    <a href="javascript:history.back()" class="back-button">
+        ← Retour
+    </a>
+    <h1>Demande de prêt</h1>
+</nav>
+
+<div class="loan-container">
+
+    <!-- Barre de progression -->
+    <div class="progress">
+        <div class="progress-bar" id="progress-bar" style="width: 33%;">Étape 1/3</div>
+    </div>
+
+    {{ form_start(form, {'attr': {'id': 'loan-form'}}) }}
+    
+    <!-- Étape 1: Montant et durée -->
+    <div class="form-step active">
+        {{ form_row(form.amount) }}
+        {{ form_row(form.duration) }}
+        <p id="monthly-payment" style="font-weight: bold; color: #4f46e5;">Mensualité estimée : 0 €</p>
+
+        <button type="button" class="next-step">Suivant</button>
+    </div>
+
+<!-- Étape 2: Type de prêt -->
+<div class="form-step">
+    {{ form_row(form.loanType) }}
+    <div class="button-group">
+        <button type="button" class="prev-step">Précédent</button>
+        <button type="button" class="next-step">Suivant</button>
+    </div>
+</div>
+
+<!-- Étape 3: Profession et soumission -->
+<div class="form-step">
+    {{ form_row(form.profession) }}
+    <div class="button-group">
+        <button type="button" class="prev-step">Précédent</button>
+        <button type="submit" class="submit-button">Soumettre</button>
+    </div>
+</div>
+
+
+
+    {{ form_end(form) }}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".form-step");
+    const progressBar = document.getElementById("progress-bar");
+    const submitButton = document.querySelector(".submit-button");
+
+    function updateStep(step) {
+        steps.forEach((stepDiv, index) => {
+            stepDiv.style.display = index === step ? "block" : "none";
+        });
+
+        const progress = ((step + 1) / steps.length) * 100;
+        progressBar.style.width = progress + "%";
+        progressBar.textContent = `Étape ${step + 1}/${steps.length}`;
+
+        // Afficher le bouton Soumettre uniquement à la dernière étape
+        if (step === steps.length - 1) {
+            submitButton.style.display = "block";
+        } else {
+            submitButton.style.display = "none";
+        }
+    }
+
+    document.querySelectorAll(".next-step").forEach(button => {
+        button.addEventListener("click", () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateStep(currentStep);
+            }
+        });
+    });
+
+    document.querySelectorAll(".prev-step").forEach(button => {
+        button.addEventListener("click", () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStep(currentStep);
+            }
+        });
+    });
+
+    updateStep(0);
+});
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const amountInput = document.querySelector("input[name='loan[amount]']");
+    const durationInput = document.querySelector("input[name='loan[duration]']");
+    const monthlyPaymentText = document.getElementById("monthly-payment");
+
+    function calculateMonthlyPayment() {
+        const amount = parseFloat(amountInput.value);
+        const duration = parseInt(durationInput.value);
+        const annualRate = 3; // 3% de taux d'intérêt annuel
+        const monthlyRate = annualRate / 100 / 12; // Converti en taux mensuel
+
+        console.log("Montant saisi :", amount);
+        console.log("Durée saisie :", duration);
+
+        if (!isNaN(amount) && !isNaN(duration) && duration > 0) {
+            const monthlyPayment = (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -duration));
+            monthlyPaymentText.textContent = `Mensualité estimée : ${monthlyPayment.toFixed(2)} €`;
+        } else {
+            monthlyPaymentText.textContent = "Mensualité estimée : 0 €";
+        }
+    }
+
+    if (amountInput && durationInput && monthlyPaymentText) {
+        amountInput.addEventListener("input", calculateMonthlyPayment);
+        durationInput.addEventListener("input", calculateMonthlyPayment);
+    } else {
+        console.error("Un des éléments du formulaire est introuvable !");
+    }
+});
+
+</script>
+
+{% endblock %}

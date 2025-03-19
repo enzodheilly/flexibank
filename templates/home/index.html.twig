@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlexiBank Accueil</title>
+{% extends 'base.html.twig' %}
+{% block title %}FlexiBank Accueil{% endblock %}
+{% block body %}
     <script src="{{ asset('js/main.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -91,7 +88,7 @@
       
       .button-container {
         position: absolute;
-        bottom: 190px; /* Position en bas */
+        bottom: 180px; /* Position en bas */
         left: 50%; /* Centre horizontalement */
         transform: translateX(-146%); /* Ajuste pour centrer parfaitement */
         display: flex;
@@ -205,12 +202,12 @@
       }
       
       .lien {
-    display: flex;
-    justify-content: left; /* Garde les liens alignés à gauche dans le bloc */
-    margin-left: auto; /* Permet au conteneur de se déplacer vers la droite */
-    margin-right: 100px; /* Ajuste le décalage vers la droite */
-    width: fit-content; /* Adapte la largeur au contenu */
-}
+        display: flex;
+        justify-content: left; /* Garde les liens alignés à gauche dans le bloc */
+        margin-left: auto; /* Permet au conteneur de se déplacer vers la droite */
+        margin-right: 80px; /* Ajuste le décalage vers la droite */
+        width: fit-content; /* Adapte la largeur au contenu */
+      }
 
       
       .lien a {
@@ -263,16 +260,16 @@
       } /* Conteneur des box */
       
       .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-    background-color: #f7fbff;
-    text-align: left; /* Alignement global à gauche */
-    max-width: 1300px; /* Pour éviter que la grille ne prenne toute la largeur */
-    margin-left: auto; 
-    margin-right: auto; /* Centre la grille */
-}
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+        background-color: #f7fbff;
+        text-align: left; /* Alignement global à gauche */
+        max-width: 1300px; /* Pour éviter que la grille ne prenne toute la largeur */
+        margin-left: auto; 
+        margin-right: auto; /* Centre la grille */
+      }
       
       .feature-card {
         position: relative;
@@ -346,8 +343,7 @@
         }
       }
     </style>
-  </head>
-  <body>
+
     <div id="cookie-banner" style="display: flex; align-items: center; justify-content: center; background-color: white; color: black; padding: 20px; text-align: center; position: fixed; bottom: 0; width: 100%; z-index: 1001; font-weight: bold;">
       Nous utilisons des cookies pour améliorer votre expérience.
       <button id="accept-cookies" style="margin-left: 20px; background-color: white; color: black; border: 1px solid black; padding: 10px; cursor: pointer;">J'accepte</button>
@@ -378,8 +374,8 @@
           <!-- Si l'utilisateur est connecté -->
           {% if 'ROLE_CLIENT' in app.user.roles %}
             <!-- Si l'utilisateur est un client, afficher le bouton cliquable -->
-            <a href="{{ path('app_profile') }}">
-              <button class="profile" style="margin-right:25px;">
+            <a href="{{ path('dashboard2') }}">
+              <button class="profile" style="margin-right:35px;">
                 <img src="{{ asset('images/iconprofile.jpg') }}" alt="Icône profil" class="button-icon" />
                 <span class="ms-2">Mon Espace</span>
               </button>
@@ -740,5 +736,4 @@
         }
       })
     </script>
-  </body>
-</html>
+{% endblock %}

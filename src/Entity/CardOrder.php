@@ -1,10 +1,12 @@
 <?php
 
+// src/Entity/CardOrder.php
 namespace App\Entity;
 
+use App\Repository\CardOrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: CardOrderRepository::class)]
 class CardOrder
 {
     #[ORM\Id]
@@ -13,32 +15,104 @@ class CardOrder
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $userEmail = null;
+    private ?string $fullName = null;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private ?string $cardType = null;
+    #[ORM\Column(type: 'date')]
+    private ?\DateTimeInterface $birthDate = null;
 
-    #[ORM\Column(type: 'string', length: 19)]
-    private ?string $cardNumber = null;
-
-    #[ORM\Column(type: 'string', length: 3)]
-    private ?string $ccv = null;
-
-    #[ORM\Column(type: 'date')]  // Ou 'datetime' si vous avez besoin d'un timestamp complet
-    private ?\DateTimeInterface $expirationDate = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 20)]
-    private ?string $status = 'pending';
+    private ?string $phone = null;
+
+    #[ORM\Column(type: 'string', length: 20)]
+    private ?string $cardType = 'basic'; // Le type de carte
+
+    #[ORM\Column(type: 'string', length: 19)] // Si tu veux une longueur de 19 caractères pour le numéro de carte
+    private ?string $cardNumber = null;    
+
+    #[ORM\Column(type: 'string', length: 3)]
+    private ?string $ccv = null; // Le code de sécurité CCV
 
     #[ORM\Column(type: 'datetime')]
-    private ?\DateTimeInterface $orderDate = null;
+    private ?\DateTimeInterface $expirationDate = null; // La date d'expiration
+
+    #[ORM\Column(type: 'string', length: 20)]
+    private ?string $status = 'pending'; // Statut de la commande
+
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $createdAt;
+
+    // Relation avec l'utilisateur
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
-        // Initialisation de la date de commande à la date actuelle
-        $this->orderDate = new \DateTime();  
-        // Valeur par défaut pour status
-        $this->status = 'pending';
+        $this->createdAt = new \DateTime();
+    }
+
+    // Getters & Setters
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    public function getCardType(): ?string
+    {
+        return $this->cardType;
+    }
+
+    public function setCardType(string $cardType): self
+    {
+        $this->cardType = $cardType;
+        return $this;
     }
 
     public function getCardNumber(): ?string
@@ -74,33 +148,6 @@ class CardOrder
         return $this;
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getUserEmail(): ?string
-    {
-        return $this->userEmail;
-    }
-
-    public function setUserEmail(string $userEmail): self
-    {
-        $this->userEmail = $userEmail;
-        return $this;
-    }
-
-    public function getCardType(): ?string
-    {
-        return $this->cardType;
-    }
-
-    public function setCardType(string $cardType): self
-    {
-        $this->cardType = $cardType;
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -112,14 +159,26 @@ class CardOrder
         return $this;
     }
 
-    public function getOrderDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->orderDate;
+        return $this->createdAt;
     }
 
-    public function setOrderDate(\DateTimeInterface $orderDate): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->orderDate = $orderDate;
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    // Getter et setter pour l'utilisateur
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
         return $this;
     }
 }

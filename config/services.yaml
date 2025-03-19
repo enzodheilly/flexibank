@@ -29,3 +29,8 @@ services:
             $httpClient: '@http_client'
             $apiKey: '%binance_api_key%'
             $apiSecret: '%binance_api_secret%'
+
+    # Déclaration explicite du repository BankAccountRepository
+    App\Repository\BankAccountRepository:
+        arguments:
+            $registry: '@doctrine'

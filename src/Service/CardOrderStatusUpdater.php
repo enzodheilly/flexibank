@@ -24,10 +24,10 @@ class CardOrderStatusUpdater
 
         foreach ($orders as $order) {
             switch ($order->getStatus()) {
-                case 'pending':
-                    $order->setStatus('processing');
-                    break;
                 case 'processing':
+                    $order->setStatus('active');
+                    break;
+                case 'active':
                     $order->setStatus('active'); // Pour carte virtuelle, statut final
                     break;
             }

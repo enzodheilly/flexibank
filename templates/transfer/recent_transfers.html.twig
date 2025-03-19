@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transferts Récents{% endblock %}
+
+{% block body %}
+    <div class="recent-transfers">
+        <h3 class="section-title">Derniers Transferts</h3>
+
+        {% if recentTransfers is empty %}
+            <p>Aucun transfert récent.</p>
+        {% else %}
+            <div class="transactions-list">
+                {% for transfer in recentTransfers %}
+                    <div class="transaction-item">
+                        <div class="transaction-details">
+                            <p class="transaction-description"><strong>Description :</strong> {{ transfer.description }}</p>
+                            <p class="transaction-date"><strong>Date :</strong> {{ transfer.date|date('d M Y') }}</p>
+                            <p class="transaction-amount"><strong>Montant :</strong> {{ transfer.amount|format_currency('EUR') }}</p>
+                            <p class="transaction-type"><strong>Type :</strong> {{ transfer.type == 'credit' ? 'Crédit' : 'Débit' }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <a href="{{ path('app_transfer_new') }}" class="btn btn-primary">
+            Voir tous les transferts
+        </a>
+    </div>
+{% endblock %}
