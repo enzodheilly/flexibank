@@ -82,7 +82,7 @@
             left: -6rem;
         }
 
-        .home-button {
+        .return-button {
             display: inline-block;
             background: blue;
             color: white;
@@ -117,9 +117,8 @@
                 Nous avons bien reçu votre demande de prêt. Notre équipe l'examinera dans les plus brefs délais et vous contactera rapidement.
             </p>
             
-            <a href="{{ path('app_home') }}" class="home-button">
-                Retour à l'accueil
-            </a>
+            <a href="{{ path('loan_request_tracking') }}" class="return-button">Suivi des demandes</a>
+
         </div>
     </div>
 {% endblock %}

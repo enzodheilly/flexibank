@@ -1,9 +1,10 @@
 <?php
 
 // src/Form/TransferType.php
+
 namespace App\Form;
 
-use App\Entity\BankAccount; // Importer l'entité BankAccount
+use App\Entity\BankAccount;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,7 +17,7 @@ class TransferType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $user = $options['user'];  // Récupération de l'utilisateur depuis les options
+        $user = $options['user'];
 
         $builder
             ->add('fromAccount', EntityType::class, [
@@ -39,7 +40,7 @@ class TransferType extends AbstractType
             ->add('toAccount', TextType::class, [
                 'label' => 'IBAN du compte destinataire',
                 'attr' => [
-                    'class' => 'form-control', 
+                    'class' => 'form-control',
                     'placeholder' => 'Ex: FR203000300459833583',
                 ],
                 'constraints' => [
@@ -50,23 +51,24 @@ class TransferType extends AbstractType
                 ],
             ])
             ->add('amount', MoneyType::class, [
-                'currency' => 'EUR',
+                'currency' => false,  // Désactive l'affichage du symbole €
                 'label' => 'Montant',
                 'attr' => [
-                    'class' => 'form-control', 
+                    'class' => 'form-control',
                     'placeholder' => 'Entrez le montant du virement',
                 ],
             ])
+            
             ->add('description', TextType::class, [
                 'label' => 'Description du virement',
-                'required' => true,  // Le champ est désormais obligatoire
+                'required' => true,
                 'attr' => [
-                    'class' => 'form-control', 
+                    'class' => 'form-control',
                     'placeholder' => 'Ajouter une description',
                 ],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'La description ne peut pas être vide.',  // Message d'erreur personnalisé
+                        'message' => 'La description ne peut pas être vide.',
                     ]),
                 ],
             ]);
@@ -75,7 +77,7 @@ class TransferType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'user' => null,  // Assurez-vous que 'user' est bien passé dans les options
+            'user' => null,
         ]);
     }
 }

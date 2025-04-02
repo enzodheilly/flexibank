@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Créer un Administrateur{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-md p-8">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Créer un Administrateur</h2>
+        
+        <form method="post" action="{{ path('admin_create') }}">
+            {{ form_start(form) }}
+            
+            <div class="mb-4">
+                {{ form_label(form.nom, 'Nom') }}
+                {{ form_widget(form.nom, {'attr': {'class': 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.nom) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.prenom, 'Prénom') }}
+                {{ form_widget(form.prenom, {'attr': {'class': 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.prenom) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.email, 'Email') }}
+                {{ form_widget(form.email, {'attr': {'class': 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.password, 'Mot de Passe') }}
+                {{ form_widget(form.password, {'attr': {'class': 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.password) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.role, 'Rôle') }} <!-- Corrigé ici -->
+                {{ form_widget(form.role, {'attr': {'class': 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }} <!-- Corrigé ici -->
+                {{ form_errors(form.role) }} <!-- Corrigé ici -->
+            </div>
+
+            <div class="flex justify-center">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Créer l'Administrateur</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+</div>
+{% endblock %}

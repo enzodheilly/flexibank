@@ -1,7 +1,5 @@
 parameters:
     profile_pictures_directory: '%kernel.project_dir%/public/uploads/profile_pictures'
-    binance_api_key: '%env(BINANCE_API_KEY)%'
-    binance_api_secret: '%env(BINANCE_API_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -23,14 +21,8 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
 
-    # Service Binance API
-    App\Service\BinanceService:
-        arguments:
-            $httpClient: '@http_client'
-            $apiKey: '%binance_api_key%'
-            $apiSecret: '%binance_api_secret%'
-
     # Déclaration explicite du repository BankAccountRepository
     App\Repository\BankAccountRepository:
         arguments:
             $registry: '@doctrine'
+    

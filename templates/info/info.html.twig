@@ -235,11 +235,18 @@ footer {
     </div>
 </section>
 
-
 <section class="cta">
     <div class="container">
         <h2>Prêt à nous rejoindre ?</h2>
-        <a href="{{ path('app_register') }}" class="cta-button">Ouvrir un compte</a>
+        {% if app.user %}
+            <!-- Si l'utilisateur est connecté mais n'est pas client, rediriger vers le formulaire pour devenir client -->
+            {% if not app.user.isClient() %}
+                <a href="{{ path('client_step1') }}" class="cta-button">Devenir client</a>
+            {% endif %}
+        {% else %}
+            <!-- Si l'utilisateur n'est pas connecté, rediriger vers le formulaire d'inscription -->
+            <a href="{{ path('app_register') }}" class="cta-button">S'inscrire</a>
+        {% endif %}
     </div>
 </section>
 

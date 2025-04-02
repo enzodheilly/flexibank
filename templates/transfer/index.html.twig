@@ -1,7 +1,9 @@
+{% extends 'base.html.twig' %}
+
 {% block stylesheets %}
 <style>
 
-        body {
+    body {
         font-family: 'Roboto', Arial, sans-serif;
         margin: 0;
         padding: 0;
@@ -20,19 +22,19 @@
     }
 
     .custom-select {
-    width: 100%;  /* Prend toute la largeur disponible */
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    background-color: white;
-}
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        background-color: white;
+    }
 
-.custom-select:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
+    .custom-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
 
     .form-container {
         max-width: 64rem;
@@ -56,7 +58,7 @@
     .form-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem; /* Augmentation de l'espace entre les inputs */
+        gap: 2rem;
         margin-bottom: 2rem;
     }
     @media (max-width: 768px) {
@@ -65,7 +67,7 @@
         }
     }
     .form-group {
-        margin-bottom: 2rem; /* Augmentation de l'espace entre les inputs */
+        margin-bottom: 2rem;
     }
     .form-label {
         display: block;
@@ -108,8 +110,7 @@
         color: #1e40af;
     }
     .btn-submit {
-        width: 50%;
-        margin-left:240px;
+        width: 100%;
         background-color: #2563eb;
         color: white;
         padding: 0.75rem 1.5rem;
@@ -130,15 +131,14 @@
         color: #166534;
     }
 
-    /* Style pour l'icône de virement */
     .form-header img {
-        width: 30px; /* Ajuster la largeur de l'icône */
-        height: 30px; /* Ajuster la hauteur de l'icône */
-        object-fit: contain; /* S'assurer que l'icône est bien contenue dans la taille */
-        color:white;
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        color: white;
     }
 
-        .back-button {
+    .back-button {
         position: absolute;
         top: 18px;
         left: 20px;
@@ -155,6 +155,7 @@
     }
 </style>
 {% endblock %}
+
 
 {% block body %}
     <div class="hero">
@@ -213,7 +214,7 @@
                         <line x1="12" y1="16" x2="12" y2="12"/>
                         <line x1="12" y1="8" x2="12.01" y2="8"/>
                     </svg>
-                    <p>Les comptes doivent être au format CLI-XXXXX</p>
+                    <p>Les iban doivent être au format FR **** **** **** ****</p>
                 </div>
 
                 <button type="submit" class="btn-submit">

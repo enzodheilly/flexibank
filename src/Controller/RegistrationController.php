@@ -47,6 +47,9 @@ class RegistrationController extends AbstractController
                 $user->setPassword($hashedPassword);
             }
 
+            // Définir le statut à "Actif" lors de la création de l'utilisateur
+            $user->setStatus('Actif');  // Assurer que le statut est 'Actif'
+
             // Persister l'utilisateur dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
@@ -56,7 +59,6 @@ class RegistrationController extends AbstractController
 
             // Rediriger vers la page de conversion en client
             return $this->redirectToRoute('app_login', ['confirmation' => true]);
-
         }
 
         return $this->render('registration/register.html.twig', [

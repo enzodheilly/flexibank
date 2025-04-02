@@ -39,16 +39,19 @@ class CardOrder
     private ?\DateTimeInterface $expirationDate = null; // La date d'expiration
 
     #[ORM\Column(type: 'string', length: 20)]
-    private ?string $status = 'pending'; // Statut de la commande
+    private ?string $status = 'En attente'; // Modifier la valeur par défaut à 'En attente'    
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $createdAt;
 
-    // Relation avec l'utilisateur
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\Column(type: "string", nullable: true)]  // Ajouter 'nullable' pour permettre à ce champ d'être nul
+    private ?string $type = null; // Type nullable, avec valeur par défaut à null    
 
+    // Relation avec l'utilisateur
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cardOrders')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Ajout de 'onDelete' pour suppression en cascade
+    private ?User $user = null;
+    
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -179,6 +182,17 @@ class CardOrder
     public function setUser(User $user): self
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }    
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
         return $this;
     }
 }

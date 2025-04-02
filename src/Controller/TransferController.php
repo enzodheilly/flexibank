@@ -1,9 +1,12 @@
 <?php
 
+// src/Controller/TransferController.php
+
 namespace App\Controller;
 
 use App\Entity\BankAccount;
 use App\Entity\Transfer;
+use App\Entity\Notification;  // Ajouter l'entité Notification
 use App\Form\TransferType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,7 +46,7 @@ class TransferController extends AbstractController
     
             // Vérification de l'existence de l'IBAN du destinataire dans la base de données
             $toAccount = $entityManager->getRepository(BankAccount::class)->findOneBy(['iban' => $toAccountIban]);
-
+    
             if (!$toAccount) {
                 $this->addFlash('error', 'Erreur : L\'IBAN du destinataire n\'existe pas dans la base de données (IBAN: ' . $toAccountIban . ')');
                 return $this->redirectToRoute('transfer_new');
@@ -58,20 +61,18 @@ class TransferController extends AbstractController
                 // Démarrer une transaction
                 $entityManager->beginTransaction();
                 try {
-                    // Débiter le compte source
+                    // Débiter le compte source, mais ne créditer pas encore le compte destinataire
                     $fromAccount->setBalance($fromAccount->getBalance() - $amount);
     
-                    // Créditer le compte de destination
-                    $toAccount->setBalance($toAccount->getBalance() + $amount);
-    
-                    // Créer un objet Transfer et l'enregistrer
+                    // Créer un objet Transfer et l'enregistrer avec le statut 'En Attente'
                     $transfer = new Transfer();
                     $transfer->setFromAccount($fromAccount);
                     $transfer->setToAccount($toAccount);
                     $transfer->setAmount($amount);
                     $transfer->setDescription($data['description']); // Assure-toi que le formulaire contient un champ 'description'
+                    $transfer->setStatus('En Attente'); // Statut "En Attente" par défaut
     
-                    // Enregistrer le virement et les changements de solde
+                    // Enregistrer le virement (mais l'argent n'est pas encore transféré au destinataire)
                     $entityManager->persist($transfer);
                     $entityManager->flush();
     
@@ -80,6 +81,19 @@ class TransferController extends AbstractController
     
                     // Message flash de succès
                     $this->addFlash('success', 'Virement effectué avec succès');
+    
+                    // Créer la notification pour l'utilisateur destinataire
+                    $notification = new Notification();
+                    $notification->setDescription(
+                        'Vous avez reçu un virement de ' . $fromAccount->getUser()->getEmail() . ' de ' . $amount . '€. Description: ' . $data['description']
+                    );
+                    $notification->setUser($toAccount->getUser()); // Destinataire de la notification
+                    $notification->setIsRead(false);  // La notification est considérée comme non lue
+    
+                    // Enregistrer la notification pour le destinataire
+                    $entityManager->persist($notification);
+                    $entityManager->flush();
+    
                 } catch (\Exception $e) {
                     // En cas d'erreur, annuler la transaction
                     $entityManager->rollback();

@@ -65,7 +65,7 @@ nav {
 
 /* Margins & Spacing */
 .ml-3 { margin-left: 0.75rem; }
-.mb-6 { margin-bottom: 1.5rem; }
+.mb-6 { margin-bottom: 0.5rem; }
 .mt-1 { margin-top: 0.25rem; }
 .space-x-4 > * + * { margin-left: 1rem; }
 .space-y-4 > * + * { margin-top: 1rem; }
@@ -115,7 +115,7 @@ nav {
 }
 
 /* Status Colors */
-.text-yellow-600 { color: rgb(217, 119, 6); }
+
 .text-blue-600 { color: rgb(37, 99, 235); }
 .text-green-600 { color: rgb(22, 163, 74); }
 .text-red-600 { color: rgb(220, 38, 38); }
@@ -246,76 +246,90 @@ button:active {
                 {{ form_end(form) }}
             </div>
 
-            {% for message in app.flashes('success') %}
-                <div class="mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </main>
+
     {% endif %}
 
-
-    <!-- Section de suivi des commandes -->
-    {% if show_order_tracking %}
-        <div class="space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-6">Suivi de vos demandes</h2>
-                <div class="space-y-4">
-                    {% for order in orders %}
-                        <div class="border rounded-lg p-4 flex items-center justify-between">
-                            <div class="flex items-center space-x-4">
-                                <div class=" 
-                                    {% if order.status == 'pending' %}text-yellow-600
-                                    {% elseif order.status == 'processing' %}text-blue-600
-                                    {% elseif order.status == 'approved' %}text-green-600
-                                    {% else %}text-red-600{% endif %}">
-                                    <!-- Icone d'état ici -->
-                                    {% if order.status == 'pending' %}
-                                        <svg class="w-6 h-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5v2h6V5h-6zM5 3v2H3V3h2zM5 19v2H3v-2h2zM19 19v2h-2v-2h2zM19 3v2h-2V3h2zM9 17v2h6v-2H9z"></path></svg>
-                                    {% elseif order.status == 'processing' %}
-                                        <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2h4v4m4 14h-4v-4m-6 4h-4v-4H2m2-6h4v4m10-4h4v4h-4m-6 4h4v4m0-8v4h-4v-4z"></path></svg>
-                                    {% elseif order.status == 'approved' %}
-                                        <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5v2h6V5h-6zM5 3v2H3V3h2zM5 19v2H3v-2h2zM19 19v2h-2v-2h2zM19 3v2h-2V3h2zM9 17v2h6v-2H9z"></path></svg>
-                                    {% else %}
-                                        <svg class="w-6 h-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11l-4 4-4-4"></path></svg>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <p class="font-medium">Demande #{{ order.id }}</p>
-                                    <p class="text-sm text-gray-500">
-                                        Créée le {{ order.createdAt|date('d/m/Y H:i') }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="font-medium 
+<!-- Section de suivi des commandes -->
+{% if show_order_tracking %}
+    <div style="margin-top: 40px;" class="space-y-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-6">Suivi de votre demande</h2>
+            <div class="space-y-4">
+                {% for order in orders %}
+                    <div class="border rounded-lg p-4 flex items-center justify-between space-x-4">
+                        <div class="flex items-center space-x-4">
+                            <div class=" 
                                 {% if order.status == 'pending' %}text-yellow-600
                                 {% elseif order.status == 'processing' %}text-blue-600
                                 {% elseif order.status == 'approved' %}text-green-600
                                 {% else %}text-red-600{% endif %}">
+                                <!-- Icône d'état ici -->
                                 {% if order.status == 'pending' %}
-                                    En attente
+                                    <svg class="w-6 h-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5v2h6V5h-6zM5 3v2H3V3h2zM5 19v2H3v-2h2zM19 19v2h-2v-2h2zM19 3v2h-2V3h2zM9 17v2h6v-2H9z"></path></svg>
                                 {% elseif order.status == 'processing' %}
-                                    En cours de traitement
+                                    <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2h4v4m4 14h-4v-4m-6 4h-4v-4H2m2-6h4v4m10-4h4v4h-4m-6 4h4v4m0-8v4h-4v-4z"></path></svg>
                                 {% elseif order.status == 'approved' %}
-                                    Approuvée
+                                    <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5v2h6V5h-6zM5 3v2H3V3h2zM5 19v2H3v-2h2zM19 19v2h-2v-2h2zM19 3v2h-2V3h2zM9 17v2h6v-2H9z"></path></svg>
                                 {% else %}
-                                    Rejetée
+                                    <svg class="w-6 h-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11l-4 4-4-4"></path></svg>
                                 {% endif %}
                             </div>
+                            <div>
+                                <p class="font-medium">
+                                    Demande <span class="text-blue-600">#{{ order.id }}</span>
+                                </p>
+                                <p class="text-sm text-gray-500">
+                                    Créée le {{ order.createdAt|date('d/m/Y H:i') }}
+                                </p>
+                            </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
 
-            <a
-                href="{{ path('card_dashboard') }}"
-                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            >
-                Nouvelle demande
-            </a>
+                        <!-- Affichage du statut avec la pastille -->
+                        <div class="flex items-center justify-center font-medium 
+                            {% if order.status == 'pending' %}bg-yellow-200 text-yellow-600
+                            {% elseif order.status == 'processing' %}bg-blue-200 text-blue-600
+                            {% elseif order.status == 'approved' %}bg-green-200 text-green-600
+                            {% else %}bg-red-200 text-red-600{% endif %}" style="margin-top: -50px; padding: 5px 15px; border-radius: 20px; display: inline-flex; align-items: center;">
+                           {% if order.status == 'En Attente' %}
+    <span class="mr-2">⏳</span> En attente
+{% elseif order.status == 'En Cours' %}
+{% elseif order.status == 'Approuvé' %}
+        <span class="mr-2">✅</span> <span class="text-green-600">Approuvée</span>
+{% else %}
+    <span class="mr-2">❌</span> Rejetée
+{% endif %}
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    {% endif %}
-</div>
+    </div>
+{% endif %}
+
+
+<script>
+function updateOrderStatus(orderId, newStatus) {
+    fetch(`/update-status/${orderId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mettre à jour l'affichage du statut dans la page (exemple : changer la couleur ou le texte)
+            const statusElement = document.getElementById(`status-${orderId}`);
+            statusElement.textContent = newStatus;  // Mise à jour du statut affiché
+            statusElement.className = `status-${newStatus}`;  // Appliquer la nouvelle classe CSS
+        }
+    })
+    .catch(error => console.error('Erreur lors de la mise à jour du statut', error));
+}
+
+</script>
 {% endblock %}
 
 

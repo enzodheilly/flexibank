@@ -55,20 +55,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "datetime")]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
-    private ?string $profilePicture = null;
-
     private ?string $plainPassword = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BankAccount::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BankAccount::class, orphanRemoval: true)]
     private Collection $accounts;
+    
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Newsletter::class)]
+    private Collection $newsletters;
+
+    #[ORM\Column(type: "boolean")]
+    private bool $isActive = true;  // Par défaut, on suppose que l'utilisateur est actif
+
+    #[ORM\Column(length: 20)]
+    private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LoanRequest::class, orphanRemoval: true)]
+    private Collection $loanRequests; 
+    
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class)]
+    private $tickets;
 
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->createdAt = new \DateTime();
         $this->accounts = new ArrayCollection();
+        $this->loanRequests = new ArrayCollection();
         $this->codeClient = strtoupper(substr(uniqid('CL-', true), 0, 20));
+        $this->tickets = new ArrayCollection();
+        $this->status = 'Actif';
+        $this->newsletters = new ArrayCollection();
     }
 
     public function getAccounts(): Collection
@@ -102,6 +118,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
         return $this;
     }
+    
+    public function getNewsletters(): Collection
+    {
+        return $this->newsletters;
+    }
+    
+public function getIsActive(): bool
+{
+    return $this->isActive;
+}
+
+public function setIsActive(bool $isActive): self
+{
+    $this->isActive = $isActive;
+    return $this;
+}
+
+public function getStatus(): ?string
+{
+    return $this->status;
+}
+
+public function setStatus(?string $status): self
+{
+    $this->status = $status;
+    return $this;
+}
+
+public function getTotalBalance(): float
+{
+    $totalBalance = 0;
+    
+    // Parcourez les comptes bancaires associés à cet utilisateur
+    foreach ($this->accounts as $account) {
+        // Ajoutez le solde de chaque compte bancaire à la somme totale
+        $totalBalance += $account->getBalance();
+    }
+
+    return $totalBalance;
+}
 
     public function getUserIdentifier(): string
     {
@@ -154,17 +210,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCodeClient(string $codeClient): self
     {
         $this->codeClient = $codeClient;
-        return $this;
-    }
-
-    public function getProfilePicture(): ?string
-    {
-        return $this->profilePicture;
-    }
-
-    public function setProfilePicture(?string $profilePicture): self
-    {
-        $this->profilePicture = $profilePicture;
         return $this;
     }
 
@@ -266,6 +311,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVille(?string $ville): self
     {
         $this->ville = $ville;
+        return $this;
+    }
+
+    public function getTickets(): ArrayCollection
+    {
+        return $this->tickets;
+    }
+
+    public function getLoanRequests(): Collection
+    {
+        return $this->loanRequests;
+    }
+
+    public function addLoanRequest(LoanRequest $loanRequest): self
+    {
+        if (!$this->loanRequests->contains($loanRequest)) {
+            $this->loanRequests[] = $loanRequest;
+            $loanRequest->setUser($this);  // Associe cette LoanRequest à l'utilisateur
+        }
+
+        return $this;
+    }
+
+    public function removeLoanRequest(LoanRequest $loanRequest): self
+    {
+        if ($this->loanRequests->contains($loanRequest)) {
+            $this->loanRequests->removeElement($loanRequest);
+            if ($loanRequest->getUser() === $this) {
+                $loanRequest->setUser(null);  // Déassocie la LoanRequest de cet utilisateur
+            }
+        }
+
         return $this;
     }
 }

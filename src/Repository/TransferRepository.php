@@ -22,4 +22,16 @@ class TransferRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    // Nouvelle méthode pour récupérer les transferts par statut
+    public function findTransfersByStatus(string $status)
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.status = :status')
+            ->setParameter('status', $status)
+            ->orderBy('t.date', 'DESC')  // Tri par date
+            ->getQuery()
+            ->getResult();
+    }
 }
+

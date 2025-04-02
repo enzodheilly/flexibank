@@ -18,7 +18,7 @@
 
     .back-button {
         position: absolute;
-        top: 20px;
+        top: 14px;
         left: 20px;
         background-color: #002d72;
         color: white;
@@ -100,11 +100,13 @@
         padding: 1.6rem;
     }
 
-    .header-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Aligner à droite */
+    width: 100%; /* Assurez-vous que l'élément occupe toute la largeur disponible */
+}
+
 
     .header-title {
         font-size: 1.5rem;
@@ -583,6 +585,67 @@
     .submit-btn:hover {
         background-color: #1d4ed8;
     }
+
+.notification-container {
+    position: relative;
+    margin-right: 10px;  /* Ajout d'un petit espace entre l'icône et le code client */
+}
+
+.notification-dot {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+#notification-icon i {
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Modal styles */
+.notification-modal {
+    display: none;  /* Cacher la modale par défaut */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond sombre */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+}
+
+.close-btn {
+    font-size: 30px;
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#notification-list {
+    margin-top: 20px;
+}
+
+#notification-list p {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -591,8 +654,7 @@
 {% endblock %}
 
 {% block body %}
-    {# Modal de virement supprimée #}
-
+    {# Affichage des messages flash #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
@@ -601,15 +663,20 @@
         <div class="alert alert-danger">{{ message }}</div>
     {% endfor %}
 
-    {# Header #}
+    {# Header avec bouton retour et pastille de notifications #}
     <header class="header">
         <div class="header-container">
             <div class="header-content">
-                <a href="{{ path('app_home') }}" class="back-button">
-                    ← Retour
-                </a>
-                <h1 class="header-title"></h1>
-                <div class="header-actions">
+                <a href="{{ path('app_home') }}" class="back-button">← Retour</a>
+                <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                    <div id="notification-icon" class="notification-container">
+                        <i class="fas fa-bell"></i>
+                        
+                        {% set unreadNotificationsCount = unreadNotifications|length %}
+                        {% if unreadNotificationsCount > 0 %}
+                            <span id="notification-dot" class="notification-dot"></span> <!-- pastille rouge -->
+                        {% endif %}
+                    </div>
                     <span class="user-id">
                         <p>ID: {{ app.user.codeClient }}</p>
                     </span>
@@ -617,6 +684,39 @@
             </div>
         </div>
     </header>
+
+    {# Modal de notifications #}
+<div id="notification-modal" class="notification-modal">
+    <div class="modal-content">
+        <span class="close-btn" id="close-notification">&times;</span>
+        <h3>Vos notifications</h3>
+        <div id="notification-list">
+            {% if unreadNotifications is not empty %}
+                {% for notification in unreadNotifications %}
+                    <div class="notification-item {{ not notification.isRead ? 'unread' : 'read' }}">
+                        <p>
+                            {{ notification.description }} <br>
+                            <small class="notification-date">
+                                {{ notification.createdAt|date('d M Y à H:i') }} <!-- Format date amélioré -->
+                            </small>
+                        </p>
+                        {% if not notification.isRead %}
+                            <a href="{{ path('mark_as_read', {'id': notification.id}) }}" class="mark-read-btn">Marquer comme lue</a>
+                        {% else %}
+                            <span class="read-status">(Lue)</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Aucune notification pour le moment.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
 
     <main class="main-container">
         <div class="welcome-section">
@@ -644,12 +744,13 @@
                 </div>
                 <span class="action-text">Crypto</span>
             </a>
-            <a href="{{ path('loan_request') }}" class="action-btn">
-                <div class="action-icon-container">
-                    <i class="fas fa-wallet action-icon"></i>
-                </div>
-                <span class="action-text">Prêts</span>
-            </a>
+           <a href="{{ loanRequestInProgress ? path('loan_request_tracking') : path('loan_request') }}" class="action-btn">
+    <div class="action-icon-container">
+        <i class="fas fa-wallet action-icon"></i>
+    </div>
+    <span class="action-text">Prêts</span>
+</a>
+
         </div>
 
         {# Tabs #}
@@ -659,147 +760,173 @@
                    class="tab-btn {{ app.request.get('tab') == 'accounts' or app.request.get('tab') is null ? 'active' : '' }}">
                     Comptes
                 </a>
-                <a href="{{ path('card_dashboard', {'tab': 'crypto'}) }}"
-                   class="tab-btn {{ app.request.get('tab') == 'crypto' ? 'active' : '' }}">
-                    Crypto-monnaies
-                </a>
             </nav>
         </div>
 
         {% if app.request.get('tab') != 'crypto' %}
-    <div class="content-grid">
-        {# Accounts Section #}
-        <div>
-            <div class="section-header">
-                <h3 class="section-title">Mes Comptes</h3>
+        <div class="content-grid">
+            {# Accounts Section #}
+            <div>
+                <div class="section-header">
+                    <h3 class="section-title">Mes Comptes</h3>
+                </div>
+
+                {# Affichage de bankAccounts #}
+                <div class="accounts-list">
+                    {# Compte courant #}
+                    <div class="account-section">
+                        <h3>Compte Courant</h3>
+                        {% if currentAccount %}
+                            <div class="account-card">
+                                <div class="account-header">
+                                    <div>
+                                        <h4 class="account-name">{{ currentAccount.accountType }}</h4>
+                                        <p class="account-number">FR **** **** **** {{ currentAccount.iban|slice(-4) }}</p>
+                                    </div>
+                                    <span class="account-balance">{{ currentAccount.balance|format_currency('EUR') }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>Vous n'avez pas de compte courant.</p>
+                        {% endif %}
+                    </div>
+
+                    {# Compte Épargne #}
+                    <div class="account-section">
+                        <h3>Compte Épargne</h3>
+                        {% if savingsAccount %}
+                            <div class="account-card">
+                                <div class="account-header">
+                                    <div>
+                                        <h4 class="account-name">{{ savingsAccount.accountType }}</h4>
+                                        <p class="account-number">FR **** **** **** {{ savingsAccount.iban|slice(-4) }}</p>
+                                    </div>
+                                    <span class="account-balance">{{ savingsAccount.balance|format_currency('EUR') }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>Vous n'avez pas de compte épargne.</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
 
-            {# Affichage de bankAccounts - Assurez-vous qu'il est passé dans le contrôleur #}
-            <div class="accounts-list">
-                {# Compte courant #}
-                <div class="account-section">
-                    <h3>Compte Courant</h3>
-                    {% if currentAccount %}
+            {# Derniers Transferts #}
+            <div>
+                <h3 class="section-title">Derniers Transferts</h3>
+                <div class="transactions-card">
+                    {% for transfer in recentTransfers %}
+                        <div class="transaction-item">
+                            <div class="transaction-content">
+                                <div>
+                                    <p class="transaction-description">{{ transfer.description }}</p>
+                                    <p class="transaction-date">{{ transfer.date|date('d M') }}</p>
+                                </div>
+                               <span class="transaction-amount">
+                                    {{ transfer.amount|format_currency('EUR') }}
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <a href="{{ path('recent_transfers') }}" class="view-all-btn">
+                        Voir tous les transferts 
+                        <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="content-grid">
+            {# Crypto Wallet #}
+            <div>
+                <div class="section-header">
+                    <h3 class="section-title">Portefeuille Crypto</h3>
+                    <a href="{{ path('crypto_buy') }}" class="add-btn">
+                        <i class="fas fa-plus"></i>
+                        Acheter des cryptos
+                    </a>
+                </div>
+                <div class="accounts-list">
+                    {% for crypto in cryptoWallet %}
                         <div class="account-card">
                             <div class="account-header">
                                 <div>
-                                    <h4 class="account-name">{{ currentAccount.accountType }}</h4>
-                                    <p class="account-number">FR **** **** **** {{ currentAccount.iban|slice(-4) }}</p>
+                                    <h4 class="account-name">{{ crypto.currency }}</h4>
+                                    <p class="account-number">{{ crypto.amount }}</p>
                                 </div>
-                                <span class="account-balance">{{ currentAccount.balance|format_currency('EUR') }}</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <p>Vous n'avez pas de compte courant.</p>
-                    {% endif %}
-                </div>
-
-                {# Compte Épargne #}
-                <div class="account-section">
-                    <h3>Compte Épargne</h3>
-                    {% if savingsAccount %}
-                        <div class="account-card">
-                            <div class="account-header">
-                                <div>
-                                    <h4 class="account-name">{{ savingsAccount.accountType }}</h4>
-                                    <p class="account-number">FR **** **** **** {{ savingsAccount.iban|slice(-4) }}</p>
-                                </div>
-                                <span class="account-balance">{{ savingsAccount.balance|format_currency('EUR') }}</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <p>Vous n'avez pas de compte épargne.</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-        {# Derniers Transferts #}
-        <div>
-            <h3 class="section-title">Derniers Transferts</h3>
-            <div class="transactions-card">
-                {% for transfer in recentTransfers %}
-                    <div class="transaction-item">
-                        <div class="transaction-content">
-                            <div>
-                                <p class="transaction-description">{{ transfer.description }}</p>
-                                <p class="transaction-date">{{ transfer.date|date('d M') }}</p>
-                            </div>
-                           <span class="transaction-amount">
-                                {{ transfer.amount|format_currency('EUR') }}
-                            </span>
-                        </div>
-                    </div>
-                {% endfor %}
-                <a href="{{ path('recent_transfers') }}" class="view-all-btn">
-                    Voir tous les transferts 
-                    <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-{% else %}
-    <div class="content-grid">
-        {# Crypto Wallet #}
-        <div>
-            <div class="section-header">
-                <h3 class="section-title">Portefeuille Crypto</h3>
-                <a href="{{ path('crypto_buy') }}" class="add-btn">
-                    <i class="fas fa-plus"></i>
-                    Acheter des cryptos
-                </a>
-            </div>
-            <div class="accounts-list">
-                {% for crypto in cryptoWallet %}
-                    <div class="account-card">
-                        <div class="account-header">
-                            <div>
-                                <h4 class="account-name">{{ crypto.currency }}</h4>
-                                <p class="account-number">{{ crypto.amount }}</p>
-                            </div>
-                            <span class="account-balance">{{ crypto.value|format_currency('EUR') }}</span>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        {# Crypto Market #}
-        <div>
-            <h3 class="section-title">Marché Crypto</h3>
-            <div class="transactions-card">
-                <div class="crypto-list">
-                    {% for crypto in cryptoMarket %}
-                        <div class="crypto-item">
-                            <div class="crypto-info">
-                                <div class="crypto-icon-container {{ crypto.iconColor }}">
-                                    <i class="fab fa-{{ crypto.icon }} crypto-icon {{ crypto.iconColor }}"></i>
-                                </div>
-                                <div>
-                                    <p class="crypto-name">{{ crypto.name }}</p>
-                                    <p class="crypto-symbol">{{ crypto.symbol }}</p>
-                                </div>
-                            </div>
-                            <div class="crypto-price-info">
-                                <p class="crypto-price">{{ crypto.price|format_currency('EUR') }}</p>
-                                <p class="crypto-change {{ crypto.change >= 0 ? 'positive' : 'negative' }}">
-                                    {{ crypto.change >= 0 ? '+' }}{{ crypto.change }}%
-                                </p>
+                                <span class="account-balance">{{ crypto.value|format_currency('EUR') }}</span>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-                <a href="{{ path('crypto_market') }}" class="view-all-btn">
-                    Voir tout le marché
-                    <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i>
-                </a>
+            </div>
+
+            {# Crypto Market #}
+            <div>
+                <h3 class="section-title">Marché Crypto</h3>
+                <div class="transactions-card">
+                    <div class="crypto-list">
+                        {% for crypto in cryptoMarket %}
+                            <div class="crypto-item">
+                                <div class="crypto-info">
+                                    <div class="crypto-icon-container {{ crypto.iconColor }}">
+                                        <i class="fab fa-{{ crypto.icon }} crypto-icon {{ crypto.iconColor }}"></i>
+                                    </div>
+                                    <div>
+                                        <p class="crypto-name">{{ crypto.name }}</p>
+                                        <p class="crypto-symbol">{{ crypto.symbol }}</p>
+                                    </div>
+                                </div>
+                                <div class="crypto-price-info">
+                                    <p class="crypto-price">{{ crypto.price|format_currency('EUR') }}</p>
+                                    <p class="crypto-change {{ crypto.change >= 0 ? 'positive' : 'negative' }}">
+                                        {{ crypto.change >= 0 ? '+' }}{{ crypto.change }}%
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ path('crypto_market') }}" class="view-all-btn">
+                        Voir tout le marché
+                        <i class="fas fa-arrow-right" style="margin-left: 0.25rem;"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-{% endif %}
-
+        {% endif %}
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const notificationIcon = document.getElementById("notification-icon");
+            const notificationModal = document.getElementById("notification-modal");
+            const closeNotificationBtn = document.getElementById("close-notification");
+            const notificationDot = document.getElementById("notification-dot");
+
+            // Afficher la modale quand on clique sur l'icône de notification
+            notificationIcon.addEventListener("click", () => {
+                notificationModal.style.display = "flex";
+                if (notificationDot) notificationDot.style.display = "none";  // Cache la pastille rouge
+            });
+
+            // Fermer la modale en cliquant sur la croix
+            closeNotificationBtn.addEventListener("click", () => {
+                notificationModal.style.display = "none";
+            });
+
+            // Fermer la modale si on clique en dehors du contenu
+            window.addEventListener("click", (e) => {
+                if (e.target === notificationModal) {
+                    notificationModal.style.display = "none";
+                }
+            });
+        });
+    </script>
 {% endblock %}
+
+
+
+
 
 
 

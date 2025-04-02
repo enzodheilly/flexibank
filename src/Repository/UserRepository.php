@@ -16,28 +16,31 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Trouver les utilisateurs par rôle
+     *
+     * @param string $role Le rôle à chercher (ex: 'ROLE_ADMIN')
+     * @return User[] Retourne un tableau d'utilisateurs avec ce rôle
+     */
+    public function findByRole(string $role): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+    
+        $sql = "SELECT * FROM user WHERE JSON_CONTAINS(roles, :role)";
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['role' => json_encode($role)]);
+    
+        return $stmt->fetchAllAssociative();
+    }
+    
+    public function findByEmail(string $email)
+{
+    return $this->createQueryBuilder('u')
+        ->where('u.email LIKE :email')
+        ->setParameter('email', '%' . $email . '%')
+        ->getQuery()
+        ->getResult();
+}
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

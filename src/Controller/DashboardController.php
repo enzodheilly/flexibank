@@ -33,6 +33,7 @@ class DashboardController extends AbstractController
 
             // Associez la commande à l'utilisateur connecté
             $cardOrder->setUser($user);  // On suppose que CardOrder a un champ 'user'
+            $cardOrder->setStatus('En Attente'); 
 
             $em->persist($cardOrder);
             $em->flush();
@@ -74,4 +75,5 @@ class DashboardController extends AbstractController
             'cardOrder' => $cardOrder,  // Passer la commande de carte au template
         ]);
     }
+
 }

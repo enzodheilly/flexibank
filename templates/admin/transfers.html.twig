@@ -1,0 +1,187 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Transactions - Admin{% endblock %}
+
+{% block body %}
+<div class="p-8">
+    <!-- Section des statistiques des virements -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-blue-100 rounded-full">
+                    <i class="fas fa-credit-card text-blue-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Virements en Attente</p>
+                    <p class="text-2xl font-semibold">{{ pendingCount }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-green-100 rounded-full">
+                    <i class="fas fa-credit-card text-green-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Virements Approuvés</p>
+                    <p class="text-2xl font-semibold">{{ approvedCount }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-red-100 rounded-full">
+                    <i class="fas fa-credit-card text-red-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Virements Refusés</p>
+                    <p class="text-2xl font-semibold">{{ rejectedCount }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section des virements en attente -->
+    <div class="bg-white rounded-lg shadow mb-8">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-lg font-semibold">Virements en Attente</h2>
+        </div>
+
+        <div class="overflow-x-auto max-h-96">
+            <table class="w-full table-auto">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for transfer in pendingTransfers %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.fromAccount.user.nom }} {{ transfer.fromAccount.user.prenom }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.date|date('Y-m-d H:i:s') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.type }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                En Attente
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex space-x-2">
+                                <form action="{{ path('admin_transfer_approve', {id: transfer.id}) }}" method="POST">
+                                    <button type="submit" class="text-green-600 hover:text-green-800">Approuver</button>
+                                </form>
+
+                                <form action="{{ path('admin_transfer_reject', {id: transfer.id}) }}" method="POST">
+                                    <button type="submit" class="text-red-600 hover:text-red-800">Annuler</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section des virements approuvés -->
+    <div class="mt-8 bg-white rounded-lg shadow mb-8">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-green-600">Virements Approuvés</h2>
+        </div>
+
+        <div class="overflow-x-auto max-h-96">
+            <table class="w-full table-auto">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for transfer in approvedTransfers %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.fromAccount.user.nom }} {{ transfer.fromAccount.user.prenom }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.date|date('Y-m-d H:i:s') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.type }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Validé
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <!-- Bouton "Voir" qui affichera la description -->
+                            <button class="text-blue-600 hover:text-blue-800" onclick="toggleDescription({{ transfer.id }})">Voir</button>
+                        </td>
+                    </tr>
+                    <tr id="description-{{ transfer.id }}" class="hidden">
+                        <td colspan="6" class="px-6 py-4 bg-gray-100 text-gray-800 rounded">
+                            {{ transfer.description }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section des virements refusés -->
+    <div class="mt-8 bg-white rounded-lg shadow max-w-7xl mx-auto">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-red-600">Virements Refusés</h2>
+        </div>
+
+        <div class="overflow-x-auto max-h-96">
+            <table class="w-full table-auto">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for transfer in rejectedTransfers %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.fromAccount.user.nom }} {{ transfer.fromAccount.user.prenom }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.date|date('Y-m-d H:i:s') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ transfer.type }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                Refusé
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <!-- Actions possibles ici -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction JavaScript pour afficher/masquer la description
+    function toggleDescription(transferId) {
+        var descriptionRow = document.getElementById('description-' + transferId);
+        descriptionRow.classList.toggle('hidden');
+    }
+</script>
+
+{% endblock %}

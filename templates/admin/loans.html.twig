@@ -1,0 +1,151 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Prêts - Admin{% endblock %}
+
+{% block body %}
+<div class="p-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold">Gestion des Prêts</h1>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Section des demandes en attente -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-blue-100 rounded-full">
+                    <i class="fas fa-piggy-bank text-blue-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Demandes en Attente</p>
+                    <p class="text-2xl font-semibold">{{ loanRequests|length }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section des prêts actifs -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-green-100 rounded-full">
+                    <i class="fas fa-piggy-bank text-green-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Prêts Actifs</p>
+                    <p class="text-2xl font-semibold">{{ approvedCount }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section du montant total -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-yellow-100 rounded-full">
+                    <i class="fas fa-piggy-bank text-yellow-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Montant Total</p>
+                    <p class="text-2xl font-semibold">€{{ totalAmount|number_format(2, ',', ' ') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section des demandes de prêts -->
+    <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold">Demandes de Prêts</h2>
+                <div class="flex space-x-4">
+                    <div class="relative">
+                        <!-- Icône de recherche centrée dans le champ -->
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" style="margin-top:-5px;"></i>
+                        <form action="{{ path('admin_loans') }}" method="get" class="mb-4 flex items-center">
+                            <input type="text" name="search" value="{{ search }}" placeholder="Rechercher une demande..." 
+                                class="pl-10 pr-4 py-2 border rounded-lg w-64" />
+                            <button type="submit" class="px-4 py-2 border rounded-lg ml-2">Rechercher</button>
+                        </form>
+
+                        {% if search %}
+                            <a href="{{ path('admin_loans') }}" class="text-blue-600 hover:text-blue-800 mt-2 inline-block">Voir toutes les demandes</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type de Prêt</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de Demande</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for request in loanRequests %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ request.user.nom }} {{ request.user.prenom }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ request.amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ request.loanType }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ request.requestDate|date('d/m/Y') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {{ request.status == 'Approuvé' ? 'bg-green-100 text-green-800' : 
+                                   request.status == 'En Attente' ? 'bg-yellow-100 text-yellow-800' : 
+                                   'bg-blue-100 text-blue-800' }}">
+                                {{ request.status }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex space-x-2">
+                                {% if request.status == 'En Attente' %}
+                                    <a href="{{ path('admin_approve_loan', {'id': request.id}) }}" class="text-green-600 hover:text-green-800">Approuver</a>
+                                    <a href="{{ path('admin_reject_loan', {'id': request.id}) }}" class="text-red-600 hover:text-red-800">Rejeter</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+   <!-- Section des demandes de prêts refusées -->
+   <div class="mt-8 bg-white rounded-lg shadow">
+    <div class="p-6 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-red-600">Demandes Refusées</h2>
+    </div>
+
+    <div id="rejected-loans" class="p-6 text-gray-500">
+        {% if rejectedRequests is empty %}
+            Aucune demande refusée pour le moment.
+        {% else %}
+            <table class="w-full table-auto">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type de Prêt</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de Demande</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in rejectedRequests %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ loan.user.nom }} {{ loan.user.prenom }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ loan.amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ loan.loanType }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ loan.requestDate|date('d/m/Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

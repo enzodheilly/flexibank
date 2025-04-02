@@ -366,7 +366,7 @@ h1 {
 <h1>Ma carte virtuelle</h1>
 <div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black flex items-center justify-center p-8">
     <div class="max-w-md w-full">
-        {% if cardOrder %}
+        {% if cardOrder and cardOrder.status == 'Approuvé' %}
             <div class="perspective-1000" id="card-container">
                 <div class="relative w-full aspect-[1.586] transition-transform duration-500 ease-out transform-style-3d cursor-pointer rounded-2xl shadow-2xl bg-gradient-to-br"
                     id="card"
@@ -430,17 +430,17 @@ h1 {
                     </div>
                 </div>
             </div>
-
         {% else %}
             <div class="card-placeholder">
                 <div class="blurred-card">
-                    <p class="no-card-text">Vous n'avez pas encore de carte</p>
+                    <p class="no-card-text">Votre carte n'est pas encore approuvée</p>
                 </div>
             </div>
         {% endif %}
     </div>
 </div>
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script>

@@ -15,116 +15,12 @@
     }
 }
 
-#cookie-banner {
-    animation: fadeIn 2s ease-in-out;
-}
-
-.gestion-cookies {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f9f9f9;
-    color: #333;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1002;
-    width: 90%;
-    max-width: 800px;
-}
-
-.gestion-cookies h2 {
-    font-family: 'Arial', sans-serif;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.gestion-cookies p {
-    font-family: 'Arial', sans-serif;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.gestion-cookies ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.gestion-cookies li {
-    margin-bottom: 15px;
-}
-
-.gestion-cookies .cookie-options {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.gestion-cookies button {
-    padding: 10px 20px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Arial', sans-serif;
-    background-color: white;
-    color: #333;
-}
-
-.gestion-cookies .accept-btn.clicked {
-    background-color: green;
-    color: white;
-}
-
-.gestion-cookies .refuse-btn.clicked {
-    background-color: red;
-    color: white;
-}
-
-.gestion-cookies .close-btn,
-.gestion-cookies .validate-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    color: white;
-}
-
-.gestion-cookies .close-btn {
-    background-color: black;
-}
-
-.gestion-cookies .validate-btn {
-    background-color: black;
-    margin-left: 10px;
-    border: none;
-}
-
-.gestion-cookies .validate-btn:hover {
-    background-color: #272727;
-}
-
-.close-btn:hover {
-    background-color: #272727;
-}
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: black;
 }
 
-.start-button {
-    background-color: #0078ff;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
 .start-button:hover {
     background-color: #0056cc;
@@ -158,11 +54,6 @@ body {
     margin-left: 55px;
 }
 
-.FlexiBankAnimation h1 {
-    font-size: 2.0em;
-    margin: 0;
-}
-
 .navbar-container {
     display: flex;
     justify-content: space-between;
@@ -187,28 +78,22 @@ body {
 
 .footer-container {
     max-width: 800px;
-    /* Réduction de la largeur totale */
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    /* Centre les colonnes */
     flex-wrap: wrap;
     gap: 20px;
-    /* Ajuste l’espace entre les colonnes */
 }
 
 .footer .column {
     flex: none;
-    /* Désactive la répartition automatique */
     width: 180px;
-    /* Taille fixe plus petite */
 }
 
 .footer h4 {
     margin-bottom: 15px;
     font-weight: bold;
 }
-
 
 .footer a {
     font-size: 1rem;
@@ -225,11 +110,8 @@ body {
 
 ul {
     list-style-type: none;
-    /* Supprime les puces */
     padding: 0;
-    /* Supprime le padding par défaut */
     margin: 0;
-    /* Supprime la marge par défaut */
 }
 
 /* Réseaux sociaux */
@@ -317,9 +199,7 @@ ul {
     margin-top: 20px;
     width: 100%;
     margin-left: 0;
-    /* Supprime le décalage */
 }
-
 
 /* Responsive */
 @media (max-width: 480px) {
@@ -328,7 +208,6 @@ ul {
     }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .footer-container {
         flex-direction: column;
@@ -340,4 +219,12 @@ ul {
         width: 100%;
     }
 }
+
+
+/* Pour les boutons sur desktop */
+.login-signup-btn {
+    padding: 15px 30px;
+    font-size: 16px;
+}
+
 

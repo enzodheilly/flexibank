@@ -5,6 +5,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\CardOrder; 
+use App\Entity\LoanRequest;
+use App\Entity\Ticket;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,39 +20,56 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AccountController extends AbstractController
 {
     #[Route("/account/delete", name: "app_account_delete")]
-public function delete(
-    Request $request, 
-    EntityManagerInterface $entityManager, 
-    Security $security
-): Response {
-    // Récupérer l'utilisateur connecté
-    $user = $security->getUser();
-    if (!$user) {
-        return $this->redirectToRoute('app_login');
-    }
-
-    // Vérifier le jeton CSRF
-    if ($request->isMethod('POST')) {
-        if (!$this->isCsrfTokenValid('delete_account', $request->request->get('_csrf_token'))) {
-            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+    public function delete(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        Security $security
+    ): Response {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
         }
 
-        // Déconnecter l'utilisateur
-        $security->logout(false);
+        // Vérifier le jeton CSRF
+        if ($request->isMethod('POST')) {
+            if (!$this->isCsrfTokenValid('delete_account', $request->request->get('_csrf_token'))) {
+                throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+            }
 
-        // Supprimer l'utilisateur
-        $entityManager->remove($user);
-        $entityManager->flush();
+            // Supprimer les demandes associées à l'utilisateur
+            // Supprimer les demandes de carte
+            $cardOrders = $entityManager->getRepository(CardOrder::class)->findBy(['user' => $user]);
+            foreach ($cardOrders as $cardOrder) {
+                $entityManager->remove($cardOrder);
+            }
 
-        // Rediriger vers la page d'accueil avec un message flash
-        $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
-        return $this->redirectToRoute('app_home');
+            // Supprimer les demandes de prêt
+            $loanRequests = $entityManager->getRepository(LoanRequest::class)->findBy(['user' => $user]);
+            foreach ($loanRequests as $loanRequest) {
+                $entityManager->remove($loanRequest);
+            }
+
+            // Supprimer les tickets
+            $tickets = $entityManager->getRepository(Ticket::class)->findBy(['user' => $user]);
+            foreach ($tickets as $ticket) {
+                $entityManager->remove($ticket);
+            }
+
+            // Supprimer l'utilisateur
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            // Déconnecter l'utilisateur
+            $security->logout(false);
+
+            // Rediriger vers la page d'accueil sans message flash
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Afficher la page de confirmation de suppression
+        return $this->render('account/delete.html.twig');
     }
-
-    // Afficher la page de confirmation de suppression
-    return $this->render('account/delete.html.twig');
-}
-
 
     #[Route('/mon-compte', name: 'account_profile')]
     public function index(): Response
@@ -61,54 +81,6 @@ public function delete(
         return $this->render('account/profile.html.twig', [
             'user' => $user,
         ]);
-    }
-
-    #[Route('/account/upload-photo', name: 'account_upload_photo', methods: ['POST'])]
-    public function uploadProfilePicture(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager, Security $security): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $security->getUser();
-
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
-
-        $file = $request->files->get('profile_picture');
-
-        if ($file) {
-            // Créer un nom de fichier unique
-            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-            try {
-                // Déplace le fichier dans le répertoire de stockage
-                $file->move(
-                    $this->getParameter('profile_pictures_directory'),
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                // En cas d'erreur, rediriger avec un message d'erreur
-                $this->addFlash('error', 'Une erreur est survenue lors de l\'upload de la photo');
-                return $this->redirectToRoute('account_profile');
-            }
-
-            // Mettre à jour l'utilisateur avec la nouvelle photo de profil
-            $user->setProfilePicture($newFilename);
-
-            // Sauvegarder les modifications
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // Afficher un message de succès
-            $this->addFlash('success', 'Photo de profil mise à jour avec succès');
-
-            return $this->redirectToRoute('account_profile');
-        }
-
-        // Si aucune photo n'est envoyée
-        $this->addFlash('error', 'Aucune photo sélectionnée');
-        return $this->redirectToRoute('account_profile');
     }
 
     #[Route('/account/edit', name: 'account_edit')]
@@ -136,9 +108,7 @@ public function delete(
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Afficher un message de succès
-            $this->addFlash('success', 'Informations mises à jour avec succès');
-
+            // Rediriger sans message de succès
             return $this->redirectToRoute('account_profile');
         }
 
@@ -165,13 +135,11 @@ public function delete(
 
             // Vérifier si le mot de passe actuel est correct
             if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
-                $this->addFlash('error', 'Le mot de passe actuel est incorrect');
                 return $this->redirectToRoute('account_change_password');
             }
 
             // Vérifier si les nouveaux mots de passe correspondent
             if ($newPassword !== $confirmPassword) {
-                $this->addFlash('error', 'Les mots de passe ne correspondent pas');
                 return $this->redirectToRoute('account_change_password');
             }
 
@@ -182,9 +150,7 @@ public function delete(
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Afficher un message de succès
-            $this->addFlash('success', 'Mot de passe changé avec succès');
-
+            // Rediriger sans message de succès
             return $this->redirectToRoute('account_profile');
         }
 

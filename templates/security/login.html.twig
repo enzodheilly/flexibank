@@ -1,3 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
     body {
@@ -29,8 +35,9 @@
     }
 
     input[type="email"],
-    input[type="password"] {
-        width: 100%;
+    input[type="password"],
+    input[type="text"] {
+        width: 92.5%;
         padding: 14px;
         margin-bottom: 20px;
         border: 1px solid #444;
@@ -42,7 +49,8 @@
     }
 
     input[type="email"]:focus,
-    input[type="password"]:focus {
+    input[type="password"]:focus,
+    input[type="text"]:focus {
         border-color: #6699ff;
         background-color: #333;
         outline: none;
@@ -112,14 +120,38 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         margin: 0;
     }
-</style>
 
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 10px;
+        top: 40%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #aaa;
+        visibility: hidden; /* Cacher l'icône au début */
+    }
+
+    .password-toggle:hover {
+        color: #6699ff;
+    }
+
+    .password-wrapper input[type="password"]:valid + .password-toggle {
+        visibility: visible; /* Afficher l'icône quand il y a du texte dans le champ */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
 <div class="header">
     <h1 class="logo">Flexibank</h1>
 </div>
 
 <div class="wrapper">
-    <!-- Texte ajusté selon le cas -->
     <h1 class="form-title">
         {% if confirmation %}
             Connectez-vous pour finaliser l'inscription
@@ -141,7 +173,12 @@
 
             <input type="email" value="{{ last_username }}" name="_username" id="username" placeholder="Email" autocomplete="email" required autofocus>
 
-            <input type="password" name="_password" id="password" placeholder="Password" autocomplete="current-password" required>
+            <div class="password-wrapper">
+                <input type="password" name="_password" id="password" placeholder="Password" autocomplete="current-password" required>
+                <span class="password-toggle" onclick="togglePassword()">
+                    <i class="fa fa-eye"></i> <!-- Icône d'œil pour voir le mot de passe -->
+                </span>
+            </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -149,11 +186,39 @@
                 Se connecter
             </button>
 
-            <div class="checkbox">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Se souvenir de moi</label>
-            </div>
-
         </form>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <p>Vous n'avez pas de compte ? <a href="{{ path('app_register') }}" style="color: #0059ff;text-decoration:none;">Créez un compte</a></p>
+        </div>
     </div>
 </div>
+
+<script>
+    function togglePassword() {
+        var passwordField = document.getElementById('password');
+        var toggleIcon = document.querySelector('.password-toggle i');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Afficher l'icône quand l'utilisateur tape dans le champ mot de passe
+    document.getElementById('password').addEventListener('input', function() {
+        var passwordField = document.getElementById('password');
+        var toggleIcon = document.querySelector('.password-toggle');
+        if (passwordField.value.length > 0) {
+            toggleIcon.style.visibility = 'visible';
+        } else {
+            toggleIcon.style.visibility = 'hidden';
+        }
+    });
+</script>
+
+{% endblock %}

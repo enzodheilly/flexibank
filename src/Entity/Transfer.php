@@ -1,5 +1,7 @@
 <?php
 
+// src/Entity/Transfer.php
+
 namespace App\Entity;
 
 use App\Repository\TransferRepository;
@@ -18,13 +20,13 @@ class Transfer
 
     // Relation ManyToOne avec BankAccount pour le compte source
     #[ORM\ManyToOne(targetEntity: BankAccount::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Ajout de onDelete="CASCADE"
     #[Assert\NotBlank]
     private ?BankAccount $fromAccount = null;
 
     // Relation ManyToOne avec BankAccount pour le compte destinataire
     #[ORM\ManyToOne(targetEntity: BankAccount::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Ajout de onDelete="CASCADE"
     #[Assert\NotBlank]
     private ?BankAccount $toAccount = null;
 
@@ -39,9 +41,15 @@ class Transfer
     #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
     private ?string $description = null;
 
+    #[ORM\Column(type: 'string', length: 50, nullable: true)] // Permet à "status" d'être nul
+    private ?string $status = null;    
+
     // Date du virement (remplaçant createdAt)
     #[ORM\Column(type: "datetime_immutable")]
     private ?\DateTimeImmutable $date = null;
+
+    #[ORM\Column(type:"string", length:255, nullable:true)]
+    private ?string $type = null;
 
     // Constructeur initialisant la date du virement
     public function __construct()
@@ -55,6 +63,11 @@ class Transfer
     {
         if ($this->date === null) {
             $this->date = new \DateTimeImmutable();
+        }
+    
+        // Si le statut n'est pas défini, on le met par défaut à "en attente"
+        if ($this->status === null) {
+            $this->status = 'En Attente';
         }
     }
 
@@ -85,6 +98,28 @@ class Transfer
     public function setToAccount(BankAccount $toAccount): static
     {
         $this->toAccount = $toAccount;
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
         return $this;
     }
 

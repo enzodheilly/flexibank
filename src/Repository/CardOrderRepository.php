@@ -19,16 +19,36 @@ class CardOrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Trouve toutes les commandes en attente (statut "pending" ou autre si nécessaire).
+     * Trouve toutes les commandes en attente (statut "En Attente").
      *
-     * @return CardOrder[]
+     * @return CardOrder[] 
      */
     public function findPendingOrders(): array
     {
         return $this->createQueryBuilder('c')
-            ->where('c.status = :status')
-            ->setParameter('status', 'pending') // Assure-toi que le statut correspond à celui utilisé dans ton projet
+            ->where('LOWER(c.status) = :status') // Comparaison insensible à la casse
+            ->setParameter('status', 'En Attente') // Assure-toi que c'est en minuscule
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Trouve toutes les commandes approuvées (statut "Approuvé").
+     *
+     * @return CardOrder[]
+     */
+    public function findApprovedOrders(): array
+    {
+        return $this->findBy(['status' => 'Approuvé']);
+    }
+
+    /**
+     * Trouve toutes les commandes refusées (statut "Refusé").
+     *
+     * @return CardOrder[]
+     */
+    public function findRejectedOrders(): array
+    {
+        return $this->findBy(['status' => 'Refusé']);
     }
 }

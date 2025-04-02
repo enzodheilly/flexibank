@@ -1,0 +1,98 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Édition de l'Utilisateur - Admin{% endblock %}
+
+{% block body %}
+<div class="p-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold">Édition de l'Utilisateur</h1>
+        <a href="{{ path('admin_users') }}" class="text-blue-600 hover:text-blue-800">
+            Retour à la liste des utilisateurs
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-xl font-bold">Informations de l'Utilisateur</h2>
+        </div>
+
+        <div class="p-6">
+            <form method="POST" action="{{ path('admin_user_edit', {id: user.id}) }}">
+                <div class="grid grid-cols-1 gap-6 mb-6">
+                    <!-- Nom -->
+                    <div>
+                        <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+                        <input type="text" name="nom" id="nom" value="{{ user.nom }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+
+                    <!-- Prénom -->
+                    <div>
+                        <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
+                        <input type="text" name="prenom" id="prenom" value="{{ user.prenom }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" name="email" id="email" value="{{ user.email }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+
+                    <!-- Numéro de téléphone -->
+                    <div>
+                        <label for="numeroTelephone" class="block text-sm font-medium text-gray-700">Numéro de téléphone</label>
+                        <input type="text" name="numeroTelephone" id="numeroTelephone" value="{{ user.numeroTelephone }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Adresse postale -->
+                    <div>
+                        <label for="adressePostale" class="block text-sm font-medium text-gray-700">Adresse postale</label>
+                        <input type="text" name="adressePostale" id="adressePostale" value="{{ user.adressePostale }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Code postal -->
+                    <div>
+                        <label for="codePostal" class="block text-sm font-medium text-gray-700">Code postal</label>
+                        <input type="text" name="codePostal" id="codePostal" value="{{ user.codePostal }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Ville -->
+                    <div>
+                        <label for="ville" class="block text-sm font-medium text-gray-700">Ville</label>
+                        <input type="text" name="ville" id="ville" value="{{ user.ville }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Pays de résidence -->
+                    <div>
+                        <label for="paysDeResidence" class="block text-sm font-medium text-gray-700">Pays de résidence</label>
+                        <input type="text" name="paysDeResidence" id="paysDeResidence" value="{{ user.paysDeResidence }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Profession -->
+                    <div>
+                        <label for="profession" class="block text-sm font-medium text-gray-700">Profession</label>
+                        <input type="text" name="profession" id="profession" value="{{ user.profession }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Code client -->
+                    <div>
+                        <label for="codeClient" class="block text-sm font-medium text-gray-700">Code client</label>
+                        <input type="text" name="codeClient" id="codeClient" value="{{ user.codeClient }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                    </div>
+
+                    <!-- Mot de passe -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                        <input type="password" name="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Sauvegarder les modifications
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

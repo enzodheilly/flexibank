@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\BankAccountRepository::class)]
@@ -21,7 +22,6 @@ class BankAccount
     #[Assert\Regex(pattern: "/^FR\\d{18}$/", message: "Le format de l'IBAN est invalide.")]
     private $iban;
     
-
     // Type de compte : Courant ou Epargne
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Choice(choices: [self::ACCOUNT_TYPE_COURANT, self::ACCOUNT_TYPE_EPARGNE], message: "Le type de compte doit être 'Courant' ou 'Epargne'.")]
@@ -35,10 +35,20 @@ class BankAccount
     #[ORM\Column(type: 'decimal', precision: 15, scale: 2)]
     private $balance = 0.0;
 
+    // Relation OneToMany pour les virements reçus (virements où ce compte est le destinataire)
+    #[ORM\OneToMany(mappedBy: 'toAccount', targetEntity: Transfer::class, orphanRemoval: true)]
+    private $incomingTransfers;
+
+    // Relation OneToMany pour les virements envoyés (virements où ce compte est le compte source)
+    #[ORM\OneToMany(mappedBy: 'fromAccount', targetEntity: Transfer::class, orphanRemoval: true)]
+    private $outgoingTransfers;
+
     public function __construct()
     {
         $this->iban = $this->generateIban();
         $this->balance = 0.0;
+        $this->incomingTransfers = new ArrayCollection();
+        $this->outgoingTransfers = new ArrayCollection();
     }
 
     // Générer un IBAN valide

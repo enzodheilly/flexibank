@@ -14,21 +14,23 @@ class LoanRequestController extends AbstractController
     #[Route('/demande-prets', name: 'loan_request')]
     public function requestLoan(Request $request, EntityManagerInterface $em)
     {
-        // Créer un nouvel objet LoanRequest
+        $user = $this->getUser();
+
+        // Créer une nouvelle demande de prêt
         $loanRequest = new LoanRequest();
-        
-        // Créer le formulaire simple avec LoanRequestType
+        $loanRequest->setUser($user);
+
+        // Créer et gérer le formulaire
         $form = $this->createForm(LoanRequestType::class, $loanRequest);
-        
-        // Traiter la requête et valider le formulaire
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrer les données dans la base de données
+            // Définir la date de demande
+            $loanRequest->setRequestDate(new \DateTime());
             $em->persist($loanRequest);
             $em->flush();
 
-            // Rediriger après soumission réussie
+            // Rediriger vers la page de succès
             return $this->redirectToRoute('loan_request_success');
         }
 
@@ -41,5 +43,33 @@ class LoanRequestController extends AbstractController
     public function success()
     {
         return $this->render('loan_request/success.html.twig');
+    }
+
+    #[Route('/demande-prets/suivi', name: 'loan_request_tracking')]
+    public function tracking(EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
+        $loanRequests = $em->getRepository(LoanRequest::class)->findBy(['user' => $user]);
+
+        return $this->render('loan_request/tracking.html.twig', [
+            'loanRequests' => $loanRequests,
+        ]);
+    }
+
+    #[Route('/demande-prets/annuler/{id}', name: 'cancel_loan_request')]
+    public function cancelLoanRequest($id, EntityManagerInterface $em)
+    {
+        $loanRequest = $em->getRepository(LoanRequest::class)->find($id);
+
+        // Vérifier si la demande existe et appartient à l'utilisateur connecté
+        if ($loanRequest && $loanRequest->getUser() === $this->getUser()) {
+            // Permettre l'annulation de toute demande en attente
+            if ($loanRequest->getStatus() === 'En Attente') {
+                $loanRequest->setStatus('annulée');
+                $em->flush();
+            }
+        }
+
+        return $this->redirectToRoute('loan_request_tracking');
     }
 }
