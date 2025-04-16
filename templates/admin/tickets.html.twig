@@ -66,7 +66,7 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     {% for ticket in tickets %}
                     <tr class="{{ ticket.status == 'Urgent' ? 'bg-yellow-50' : ticket.status == 'Résolu' ? 'bg-green-50' : 'bg-gray-50' }}">
-                        <td class="px-6 py-4 whitespace-nowrap">{{ ticket.user }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ ticket.user.email }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ ticket.subject }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ ticket.submissionDate|date('d/m/Y') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ ticket.priority }}</td>

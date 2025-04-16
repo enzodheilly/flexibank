@@ -32,9 +32,11 @@ security:
                 path: app_logout
 
             remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
+                secret: '%kernel.secret%'  # Utilise la clé secrète de l'application pour le cookie "se souvenir de moi"
+                lifetime: 604800  # Durée de vie du cookie "se souvenir de moi" (1 semaine ici)
+                path: /  # Le cookie sera valide pour tout le site
+                # Le nom du cookie peut aussi être personnalisé si nécessaire
+                # name: YOUR_COOKIE_NAME
 
         admin:
             pattern: ^/admin

@@ -3,6 +3,10 @@
 {% block title %}Mon Espace - FlexiBank{% endblock %}
 
 {% block stylesheets %}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 {{ parent() }}
 <style>
     /* Styles de base */
@@ -645,15 +649,116 @@
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
+@media (max-width: 767px) {
+  .quick-actions {
+    width:90%;
+  }
+}
+
+/* Style du message de chargement */
+.loading-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-message.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Roue de chargement */
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Empêche le défilement pendant le chargement */
+body.no-scroll {
+    overflow: hidden;
+}
+
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 30, 30, 0.85); /* fond sombre semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.alert-top-right {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background-color: #2a2a2a;
+    color: #ff4d4f;
+    border: 1px solid #ff4d4f;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(255, 77, 79, 0.3);
+    z-index: 9999;
+    animation: slideDown 0.4s ease-out;
+}
+
+/* Animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
+
+    {# Affichage du message de récupération des données et de la roue de chargement #}
+<div id="loading-message" class="loading-message">
+    <p>Récupération de vos données...</p>
+    <div class="spinner"></div>
+</div>
+
+{% for message in app.flashes('error') %}
+    <div class="alert-top-right">
+        {{ message }}
+    </div>
+{% endfor %}
+
     {# Affichage des messages flash #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">{{ message }}</div>
@@ -686,39 +791,35 @@
     </header>
 
     {# Modal de notifications #}
-<div id="notification-modal" class="notification-modal">
-    <div class="modal-content">
-        <span class="close-btn" id="close-notification">&times;</span>
-        <h3>Vos notifications</h3>
-        <div id="notification-list">
-            {% if unreadNotifications is not empty %}
-                {% for notification in unreadNotifications %}
-                    <div class="notification-item {{ not notification.isRead ? 'unread' : 'read' }}">
-                        <p>
-                            {{ notification.description }} <br>
-                            <small class="notification-date">
-                                {{ notification.createdAt|date('d M Y à H:i') }} <!-- Format date amélioré -->
-                            </small>
-                        </p>
-                        {% if not notification.isRead %}
-                            <a href="{{ path('mark_as_read', {'id': notification.id}) }}" class="mark-read-btn">Marquer comme lue</a>
-                        {% else %}
-                            <span class="read-status">(Lue)</span>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>Aucune notification pour le moment.</p>
-            {% endif %}
+    <div id="notification-modal" class="notification-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-notification">&times;</span>
+            <h3>Vos notifications</h3>
+            <div id="notification-list">
+                {% if unreadNotifications is not empty %}
+                    {% for notification in unreadNotifications %}
+                        <div class="notification-item {{ not notification.isRead ? 'unread' : 'read' }}">
+                            <p>
+                                {{ notification.description }} <br>
+                                <small class="notification-date">
+                                    {{ notification.createdAt|date('d M Y à H:i') }} <!-- Format date amélioré -->
+                                </small>
+                            </p>
+                            {% if not notification.isRead %}
+                                <a href="{{ path('mark_as_read', {'id': notification.id}) }}" class="mark-read-btn">Marquer comme lue</a>
+                            {% else %}
+                                <span class="read-status">(Lue)</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Aucune notification pour le moment.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-
-
-
-
-    <main class="main-container">
+    <main class="main-container" style="visibility: hidden;">
         <div class="welcome-section">
             <h2 class="welcome-title">Bonjour, {{ app.user.nom|upper }} {{ app.user.prenom|capitalize }}</h2>
             <p class="welcome-subtitle">Bienvenue dans votre espace personnel</p>
@@ -750,7 +851,6 @@
     </div>
     <span class="action-text">Prêts</span>
 </a>
-
         </div>
 
         {# Tabs #}
@@ -922,6 +1022,56 @@
             });
         });
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const loadingMessage = document.getElementById("loading-message");
+        const mainContent = document.querySelector("main");
+        const currentTime = new Date().getTime();
+        const lastVisitTime = localStorage.getItem('lastVisitTime');
+        const fiveMinutes = 5 * 60 * 1000; // 5 minutes en ms
+
+        // Fonctions
+        const showLoadingMessage = () => {
+            loadingMessage.classList.add("active");
+            document.body.classList.add("no-scroll");
+            if (mainContent) mainContent.style.visibility = "hidden";
+        };
+
+        const hideLoadingMessage = () => {
+            loadingMessage.classList.remove("active");
+            document.body.classList.remove("no-scroll");
+            if (mainContent) mainContent.style.visibility = "visible";
+        };
+
+        let shouldShowLoading = false;
+
+        if (lastVisitTime) {
+            const timeDiff = currentTime - lastVisitTime;
+            if (timeDiff >= fiveMinutes) {
+                shouldShowLoading = true;
+            }
+        }
+
+        if (shouldShowLoading) {
+            showLoadingMessage();
+        } else {
+            // Si pas besoin d’afficher le message, on cache quand même
+            if (mainContent) mainContent.style.visibility = "visible";
+        }
+
+        // Attendre 3 secondes si le message est affiché, sinon ne rien attendre
+        setTimeout(() => {
+            hideLoadingMessage();
+        }, shouldShowLoading ? 3000 : 0);
+
+        // Sauvegarder la dernière visite
+        window.addEventListener("beforeunload", () => {
+            localStorage.setItem('lastVisitTime', new Date().getTime());
+        });
+    });
+</script>
+
 {% endblock %}
 
 

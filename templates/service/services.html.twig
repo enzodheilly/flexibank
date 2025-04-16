@@ -22,7 +22,8 @@
     .header {
       background: #002d72;
       color: white;
-      padding: 30px;
+              text-align: center;
+        padding: 60px 20px;
       font-family: 'Arial', sans-serif;
     }
     .cta-button {
@@ -115,6 +116,114 @@
     .back-button:hover {
       background-color: #0056b3;
     }
+    @media (max-width: 768px) {
+  /* Bouton cta */
+  .cta-button {
+    width: 50%;
+    margin-right: 0;
+    font-size: 14px;
+  }
+
+  /* Ajustement de la grille des avantages */
+  .advantage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Ajustement de la grille des partenaires */
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-left: 0;
+  }
+
+  /* Ajuster la taille de la carte de l'élément */
+  .advantage-item,
+  .partner-item {
+    padding: 15px;
+    font-size: 0.9em;
+  }
+
+  .footer-content p {
+    font-size: 0.8em;
+  }
+}
+
+/* Pour les très petits écrans */
+@media (max-width: 480px) {
+  /* Bouton cta */
+  .cta-button {
+    width: 70%;
+    font-size: 12px;
+  }
+
+  /* Ajustement de la grille des avantages */
+  .advantage-grid {
+    grid-template-columns: 1fr;
+    margin-left:-185px;
+  }
+  .advantages h2{
+    margin-left:-370px;
+    font-size:1.5em;
+  }
+  /* Ajustement de la grille des partenaires */
+  .partners-grid {
+    grid-template-columns: 1fr;
+    margin-left:24px;
+  }
+
+  /* Ajuster la taille de la carte de l'élément */
+  .advantage-item,
+  .partner-item {
+    padding: 10px;
+    font-size: 0.8em;
+  }
+
+  .footer-content p {
+    font-size: 0.7em;
+  }
+}
+@media (max-width: 767px) {
+  .premium-container {
+    padding: 0px; /* Réduit le padding pour les petits écrans */
+  }
+
+  .header {
+    padding: 15px; /* Ajuste le padding du header */
+    text-align: center; /* Centre le texte pour un meilleur affichage */
+  }
+
+  .back-button {
+    position: static; /* Remet le bouton dans le flux normal */
+    margin-bottom: 20px; /* Ajoute un espacement en bas */
+    font-size: 16px; /* Ajuste la taille du texte */
+    margin-right:260px;
+  }
+
+  .header h1 {
+    margin-right: 0; /* Enlève la marge à droite pour centrer le titre */
+    font-size: 1.0em; /* Réduit la taille du texte pour les petits écrans */
+  }
+
+  .header p {
+    margin-right: -50px; /* Enlève la marge à droite */
+    font-size: 0.5em; /* Ajuste la taille du texte */
+  }
+
+  .cta-button {
+    width: 60%; /* Utilise toute la largeur disponible pour le bouton */
+    padding: 20px;
+    font-size: 0.5em; /* Réduit la taille du texte */
+    margin-right: 0; /* Enlève la marge à droite */
+  }
+
+  .cta-button h1 {
+    font-size: 1.2em; /* Réduit la taille du texte dans le bouton */
+  }
+
+  .cta-button span {
+    font-size: 1em; /* Réduit la taille du texte dans le bouton */
+  }
+}
+
   </style>
 
   <div class="premium-container">
@@ -153,7 +262,7 @@
       </div>
     </div>
     <div class="partners" style="margin-top:120px;">
-      <h2>Nos Partenaires Premium</h2>
+     <h2>Nos Partenaires Premium</h2>
       <div class="partners-grid" style="font-size:1.0em;">
         <div class="partner-item">
           <div class="image-container">

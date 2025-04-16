@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,30 +36,37 @@ class TicketController extends AbstractController
     }
 
     #[Route('/tickets/create', name: 'ticket_create')]
-    public function createTicket(Request $request): Response
+    public function createTicket(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
-        
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // Utiliser DateTimeImmutable
-            $ticket->setSubmissionDate(new \DateTimeImmutable());  // Utilise DateTimeImmutable
-            
-            // Persister l'objet ticket
-            $this->entityManager->persist($ticket);
-            $this->entityManager->flush();
-    
-            // Ajouter un message flash de succès
-            $this->addFlash('success', 'Votre demande a été reçue et sera traitée par notre support.');
-    
-            // Rediriger vers la liste des tickets
-            return $this->redirectToRoute('ticket_create');
+            // Récupérer l'email du formulaire
+            $email = $ticket->getEmail();
+
+            // Chercher l'utilisateur par email
+            $user = $userRepository->findOneBy(['email' => $email]);
+
+            if ($user) {
+                $ticket->setUser($user);
+                $ticket->setSubmissionDate(new \DateTimeImmutable());
+
+                $entityManager->persist($ticket);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre demande a été reçue et sera traitée par notre support.');
+                return $this->redirectToRoute('ticket_create');
+            } else {
+                $this->addFlash('error', 'L\'utilisateur avec cet email n\'a pas été trouvé.');
+            }
         }
-    
+
         return $this->render('pages/ticket_create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+    
 }
+

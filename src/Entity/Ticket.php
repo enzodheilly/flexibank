@@ -15,8 +15,8 @@ class Ticket
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    #[ORM\JoinColumn(nullable: true)] // Permet de rendre 'user' nullable
+    private ?User $user = null; // Changer 'User' pour '?User' pour accepter null
 
     #[ORM\Column(type: "string", length: 255)]
     private string $email;
@@ -35,29 +35,29 @@ class Ticket
 
     // Nouveau champ status
     #[ORM\Column(type: "string", length: 50)]
-    private string $status = 'En Attente';  // Définir "Pending" par défaut
+    private string $status = 'En Attente';  // Définir "En Attente" par défaut
 
-    public function __construct($user = '', $email = '', $subject = '', $priority = '', $status = 'En Attente')
+    public function __construct(?User $user = null, string $email = '', string $subject = '', string $priority = '', string $status = 'En Attente')
     {
         $this->user = $user;
         $this->email = $email;
         $this->subject = $subject;
         $this->priority = $priority;
-        $this->date = new \DateTime();
+        $this->submissionDate = new \DateTimeImmutable();  // DateTimeImmutable
         $this->status = $status;  // Initialiser le statut par défaut
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User  // Modification ici pour retourner '?User' et accepter null
     {
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(?User $user): self  // Modification ici pour accepter '?User'
     {
         $this->user = $user;
         return $this;
@@ -84,6 +84,7 @@ class Ticket
         $this->priority = $priority;
         return $this;
     }
+
     public function getSubmissionDate(): ?\DateTimeImmutable
     {
         return $this->submissionDate;

@@ -143,10 +143,42 @@
     .password-wrapper input[type="password"]:valid + .password-toggle {
         visibility: visible; /* Afficher l'icône quand il y a du texte dans le champ */
     }
+
+    /* Style pour le conteneur du bouton "Se souvenir de moi" */
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 14px;
+    margin-left:112px;
+}
+
+/* Style de la case à cocher */
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #0059ff; /* Couleur personnalisée de la case à cocher */
+}
+
+/* Style du label */
+.remember-me label {
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+/* Changement de couleur au survol */
+.remember-me label:hover {
+    color: #0059ff;
+}
 </style>
 {% endblock %}
 
 {% block body %}
+
+
 <div class="header">
     <h1 class="logo">Flexibank</h1>
 </div>
@@ -162,8 +194,14 @@
     <div class="container">
         <form method="post">
             {% if error %}
-                <div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                <div class="alert">{{ error }}</div>
+
             {% endif %}
+
+            {# Affichage des flash messages pour le compte bloqué #}
+            {% for message in app.flashes('error') %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
 
             {% if app.user %}
                 <div class="mb-3">
@@ -185,6 +223,11 @@
             <button type="submit">
                 Se connecter
             </button>
+            
+            <div class="remember-me">
+                <input type="checkbox" name="_remember_me" id="remember_me" class="form-check-input">
+                <label for="remember_me">Se souvenir de moi</label>
+            </div>
 
         </form>
 

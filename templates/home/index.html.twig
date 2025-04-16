@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}FlexiBank Accueil{% endblock %}
-{% block body %}
 
+{% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -523,7 +523,7 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
     font-size: 30px;
     background: none;
     border: none;
-    color: #595959;
+    color: blue;
     cursor: pointer;
     padding: 10px;
     position: absolute;
@@ -535,6 +535,7 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
   /* Affiche les liens lorsque le menu est ouvert */
   .menu-open .lien {
     display: flex;
+    margin-top:40px;
   }
 
   /* Masque le bouton "Mon Espace" classique sur les petits écrans */
@@ -543,18 +544,7 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
   }
 
   /* Affiche le bouton "Mon Espace" dans le menu hamburger uniquement sur mobile */
-  .hamburger .profile {
-    display: block;
-    margin-top: 20px;
-    background-color: #007bff; /* Couleur bleue sur mobile */
-    color: #fff;
-    width: 100%;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px; /* Taille plus petite */
-    border: none;
-    border-radius: 5px;
-  }
+  
 }
 
 /* Style pour les grands écrans (PC) */
@@ -582,7 +572,7 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
 
   /* Le bouton "Mon Espace" classique sur PC avec des caractéristiques CSS différentes */
   .navbar-icons .profile {
-   background-color: #007bff;
+  background-color: #007bff;
   color: white;
   padding: 15px;
   border-radius: 15px;
@@ -592,7 +582,15 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
   align-items: center; /* Centre verticalement le contenu */
   }
 }
+
+  .no-scroll {
+    overflow: hidden;
+  }
+
 </style>
+{% endblock %}
+
+{% block body %}
 
     <!-- Barre de navigation -->
 <nav class="navbar navbar-expand-sm navbar-light">
@@ -620,7 +618,7 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
       
       <!-- Le bouton Mon Espace à ajouter au menu hamburger -->
       <a href="{{ path('dashboard2') }}">
-        <button class="profile" style="margin-top: 20px; background-color: #f0f0f0; color: #595959; width: 100%; padding: 10px; text-align: left;">
+        <button class="profile" style="margin-top: 20px; background-color: #007bff; color: white; width: 31%; padding: 10px; text-align: center;margin-left:118px;margin-top:5px;">
           <img src="{{ asset('images/iconprofile.jpg') }}" alt="Icône profil" class="button-icon" />
           <span class="ms-2">Mon Espace</span>
         </button>
@@ -656,14 +654,12 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
     {% else %}
 
       <!-- Button Login and Sign up -->
-     <a href="{{ path('app_login') }}" class="login-signup-btn d-none d-sm-block" style="margin-right: 5px;">Login</a>
-<a href="{{ path('app_register') }}" class="login-signup-btn d-none d-sm-block" style="padding: 15px; background-color: #0059ff; color: white; border-radius: 35px; margin-left: 5px;">Sign up</a>
+    <a href="{{ path('app_login') }}" class="login-signup-btn d-block d-sm-none" style="margin-right: 5px;">Login</a>
+<a href="{{ path('app_register') }}" class="login-signup-btn d-block d-sm-none" style="padding: 15px; background-color: #0059ff; color: white; border-radius: 35px; margin-left: 5px;">Sign up</a>
 
     {% endif %}
   </div>
 </nav>
-
-
 
     <!-- Section d'accueil -->
 <div class="hero">
@@ -819,10 +815,273 @@ margin-top: 10px; /* Ajouter de l'espace entre le texte FlexiBank et les liens *
       </div>
     </footer>
 
+<!-- Overlay de fond grisé -->
+<div id="cookie-overlay" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9998;
+"></div>
+
+<!-- Bannière cookies style luxe -->
+<div id="cookie-banner" style="
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: #333;
+  padding: 40px 50px; /* Augmentation du padding */
+  border-radius: 5px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: none;
+  width: 95%; /* Augmentation de la largeur de la bannière */
+  max-width: 1000px; /* Limite maximale augmentée */
+  font-family: 'Segoe UI', sans-serif;
+  text-align: left;
+">
+<button id="decline-cookies" style="
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 0.85em;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+">
+  Continuer sans accepter
+</button>
+
+  <h2 style="margin-top: 0; font-size: 1.3em; color: #007bff;">VOS PARAMÈTRES DE COOKIES</h2>
+  <br>
+  <hr>
+  <br>
+  <p style="margin-bottom: 15px; font-size: 0.9em;">BIENVENUE SUR LE SITE FLEXIBANK.COM</p>
+  <p style="font-size: 0.95em; line-height: 1.5em;">
+    Nous utilisons des cookies, y compris des cookies tiers, à des fins de fonctionnement, d’analyses statistiques, 
+    de personnalisation de votre expérience, afin de vous proposer des contenus ciblés adaptés à vos centres d’intérêts 
+    et analyser la performance de nos campagnes publicitaires.
+  </p>
+  <p style="font-size: 0.9em; margin-top: 15px;">
+    Vous pouvez accepter ces cookies en cliquant sur "Tout accepter et continuer" ou cliquer sur 
+  "Paramétrer les cookies"pour gérer vos préférences.
+  </p>
+
+<div style="margin-top: 25px; display: flex; gap: 10px;">
+  <button id="cookie-settings" style="
+    background-color: white;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 17px 20px;
+    border-radius: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    font-size:1em;
+    font-family: sans-serif;
+  ">
+    Paramétrer les cookies
+  </button>
+
+  <button id="accept-cookies" style="
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 17px 20px;
+    border-radius: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    font-size:1em;
+    font-family: sans-serif;
+  ">
+    Tout accepter et continuer
+  </button>
+</div>
+
+
+  <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
+    Vous pouvez à tout moment modifier vos préférences en vous rendant dans la section <strong>"COOKIES"</strong> ou la section<strong>"MENTIONS LÉGALES & DONNÉES PERSONNELLES"</strong> en bas de la page du site flexibank.com<br>
+    <a href="{{ path('cookie') }}" style="color: #007bff; text-decoration: underline;">Voir la liste des cookies utilisés</a>
+    <p style="margin-top: 20px; font-size: 0.8em; color: #666;">Pour en savoir plus sur notre politique en matière de cookies, notre <a href="{{ path('politique') }}" style="color: #007bff; text-decoration: underline;">Politique de Données Personnelles</a></p>
+  </p>
+</div>
+
+<!-- Modale de paramétrage des cookies -->
+<div id="cookie-settings-modal" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: #333;
+  padding: 40px 50px;
+  border-radius: 5px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  width: 95%;
+  max-width: 800px;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: left;
+">
+
+  <h2 style="margin-top: 0; font-size: 1.3em; color: #007bff;">Paramètres avancés des cookies</h2>
+  <br>
+  <hr>
+  <br>
+
+  <p style="font-size: 0.95em; line-height: 1.6em;">
+    Vous pouvez ici personnaliser votre expérience en choisissant les types de cookies que vous souhaitez activer.
+  </p>
+
+  <form id="cookie-preferences-form" style="margin-top: 20px; font-size: 0.95em;">
+    <div style="margin-bottom: 15px;">
+      <label>
+        <input type="checkbox" name="necessary" checked disabled style="margin-right: 10px;">
+        <strong>Cookies nécessaires</strong> – indispensables au bon fonctionnement du site.
+      </label>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label>
+        <input type="checkbox" name="analytics" style="margin-right: 10px;">
+        <strong>Cookies de statistiques</strong> – pour améliorer l’expérience utilisateur grâce à des analyses anonymes.
+      </label>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label>
+        <input type="checkbox" name="marketing" style="margin-right: 10px;">
+        <strong>Cookies marketing</strong> – pour personnaliser les publicités affichées.
+      </label>
+    </div>
+
+    <div style="margin-bottom: 25px;">
+      <label>
+        <input type="checkbox" name="personalization" style="margin-right: 10px;">
+        <strong>Cookies de personnalisation</strong> – pour adapter le contenu à vos préférences.
+      </label>
+    </div>
+
+    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <button type="button" id="close-cookie-settings" style="
+        background-color: white;
+        color: #007bff;
+        border: 2px solid #007bff;
+        padding: 12px 20px;
+        border-radius: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: 'Segoe UI', sans-serif;
+      ">Annuler</button>
+
+      <button type="submit" style="
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: 'Segoe UI', sans-serif;
+      ">Enregistrer mes choix</button>
+    </div>
+  </form>
+
+  <p style="margin-top: 25px; font-size: 0.8em; color: #666;">
+    Pour plus d’informations, consultez notre <a href="{{ path('politique') }}" style="color: #007bff; text-decoration: underline;">Politique de Données Personnelles</a>.
+  </p>
+</div>
+
+
     <script>
     document.getElementById('hamburger-btn').addEventListener('click', function() {
   document.querySelector('.menu-container').classList.toggle('menu-open');
 });
-
     </script>
+
+<script>
+function getCookie(name) {
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+function hideCookieBanner() {
+  document.getElementById('cookie-banner').style.display = 'none';
+  document.getElementById('cookie-overlay').style.display = 'none';
+  document.body.classList.remove('no-scroll');
+}
+
+function showCookieBanner() {
+  document.getElementById('cookie-banner').style.display = 'block';
+  document.getElementById('cookie-overlay').style.display = 'block';
+  document.body.classList.add('no-scroll');
+}
+
+window.addEventListener('load', function () {
+  const consent = getCookie('cookie_consent');
+  const preferences = getCookie('cookie_preferences');
+
+  if (!consent && !preferences) {
+    showCookieBanner();
+  } else {
+    hideCookieBanner();
+  }
+
+  // Bouton "Tout accepter"
+  document.getElementById('accept-cookies').addEventListener('click', function () {
+    document.cookie = "cookie_consent=true; path=/; max-age=" + 60 * 60 * 24 * 365;
+    hideCookieBanner();
+  });
+
+  // Bouton "Continuer sans accepter"
+  document.getElementById('decline-cookies').addEventListener('click', function () {
+    document.cookie = "cookie_consent=false; path=/; max-age=" + 60 * 60 * 24 * 365;
+    hideCookieBanner();
+  });
+
+  // Bouton "Paramétrer les cookies"
+  document.getElementById('cookie-settings').addEventListener('click', function () {
+    document.getElementById('cookie-settings-modal').style.display = 'block';
+    document.getElementById('cookie-overlay').style.display = 'block';
+    document.body.classList.add('no-scroll');
+  });
+
+  // Fermeture de la modale
+  document.getElementById('close-cookie-settings').addEventListener('click', function () {
+    document.getElementById('cookie-settings-modal').style.display = 'none';
+    document.getElementById('cookie-overlay').style.display = 'none';
+    document.body.classList.remove('no-scroll');
+  });
+
+  // Validation du formulaire des préférences
+  document.getElementById('cookie-preferences-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const preferences = {
+      necessary: true,
+      analytics: form.analytics.checked,
+      marketing: form.marketing.checked,
+      personalization: form.personalization.checked
+    };
+
+    document.cookie = "cookie_preferences=" + JSON.stringify(preferences) + "; path=/; max-age=" + 60 * 60 * 24 * 365;
+    document.cookie = "cookie_consent=true; path=/; max-age=" + 60 * 60 * 24 * 365;
+
+    hideCookieBanner();
+    document.getElementById('cookie-settings-modal').style.display = 'none';
+  });
+});
+</script>
+
 {% endblock %}

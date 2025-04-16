@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250329140243 extends AbstractMigration
+final class Version20250416134847 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,14 @@ final class Version20250329140243 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE ticket ADD CONSTRAINT FK_97A0ADA3A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
-        $this->addSql('CREATE INDEX IDX_97A0ADA3A76ED395 ON ticket (user_id)');
+        $this->addSql('ALTER TABLE ticket CHANGE user_id user_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD failed_attempts INT NOT NULL, ADD lock_until DATETIME DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE ticket DROP FOREIGN KEY FK_97A0ADA3A76ED395');
-        $this->addSql('DROP INDEX IDX_97A0ADA3A76ED395 ON ticket');
+        $this->addSql('ALTER TABLE user DROP failed_attempts, DROP lock_until');
+        $this->addSql('ALTER TABLE ticket CHANGE user_id user_id INT NOT NULL');
     }
 }

@@ -75,6 +75,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class)]
     private $tickets;
 
+    #[ORM\Column(type:"integer")]
+    private $failedAttempts = 0; // Nombre de tentatives échouées
+
+   
+    #[ORM\Column(type:"datetime", nullable:true)]
+    private $lockUntil; // Date de verrouillage
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
@@ -345,4 +352,30 @@ public function getTotalBalance(): float
 
         return $this;
     }
+
+    public function getFailedAttempts(): ?int
+    {
+        return $this->failedAttempts;
+    }
+
+    public function setFailedAttempts(int $failedAttempts): self
+    {
+        $this->failedAttempts = $failedAttempts;
+
+        return $this;
+    }
+
+    // Getter et Setter pour lockUntil
+    public function getLockUntil(): ?\DateTimeInterface
+    {
+        return $this->lockUntil;
+    }
+
+    public function setLockUntil(?\DateTimeInterface $lockUntil): self
+    {
+        $this->lockUntil = $lockUntil;
+
+        return $this;
+    }
+
 }

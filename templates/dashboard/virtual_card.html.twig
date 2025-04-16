@@ -8,7 +8,7 @@
       body {
     margin: 0px;
     font-family: 'Roboto', Arial, sans-serif;
-    overflow: hidden;
+      overflow: hidden;
 }
 
 h1 {
@@ -36,6 +36,27 @@ h1 {
 
 .back-button:hover {
     background-color: #0056b3;
+}
+
+nav {
+    background-color: #002d72;
+    padding: 40px 30px;
+    color: #333333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
+}
+
+nav h1 {
+    position: absolute;
+    right: 80px;
+    top: 20%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    font-weight: bold;
+    color: #007BFF;
 }
 
 .min-h-screen {
@@ -334,6 +355,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top:-140px;
 }
 
 #card {
@@ -356,15 +378,57 @@ h1 {
 #card .rotate-y-180 {
     transform: rotateY(180deg);
 }
+@media (max-width: 767px) {
 
+    .tracking-wider {
+        font-size:1.2em;
+        margin-top:-40px;
+    }
+
+    h1{
+        font-size:1.5em;
+        margin-right:-50px;
+        margin-top:8px;
+    }
+
+    .w-8 {
+        width: 2rem;
+        margin-top:-5px;
+    }
+
+    .security-code-text {
+    margin-top: -28px; /* réduit le mt */
+    margin-left:10px;
+  }
+
+   .card-bar {
+    height: 2rem; /* réduit la hauteur */
+    margin-top: 5px;; /* réduit le mt */
+    width: 100%; /* conserve la largeur complète */
+    background-color: #374151; /* équivalent de bg-gray-700 */
+  }
+
+  .card-icon svg {
+        display:none;
+  }
+}
     </style>
 {% endblock %}
 
 {% block body %}
-<a href="javascript:history.back()" class="back-button">← Retour</a>
 
-<h1>Ma carte virtuelle</h1>
-<div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black flex items-center justify-center p-8">
+<nav>
+    <a href="{{ path('app_home') }}" class="back-button">
+        ← Retour
+    </a>
+
+    <h1 class="flex items-center">
+        Ma carte virtuelle
+    </h1>
+</nav>
+
+<div class="min-h-screen bg-white flex items-center justify-center p-8">
+
     <div class="max-w-md w-full">
         {% if cardOrder and cardOrder.status == 'Approuvé' %}
             <div class="perspective-1000" id="card-container">
@@ -414,19 +478,20 @@ h1 {
         style="background: linear-gradient(to bottom right, #7c3aed, #4f46e5);"
     {% endif %}>
 
-                        <div class="w-full h-12 bg-gray-700 mt-4"></div>
+                        <div class="w-full h-12 bg-gray-700 mt-4 card-bar"></div>
                         <div class="mt-8 px-4">
                             <div class="bg-white h-10 flex items-center justify-end px-4">
                                 <p class="font-mono">{{ cardOrder.ccv }}</p>
                             </div>
-                            <p class="text-gray-400 text-xs mt-2">Security Code</p>
+                           <p class="text-gray-400 text-xs mt-2 security-code-text">Security Code</p>
                         </div>
-                        <div class="absolute bottom-8 right-8">
-                            <svg class="text-white w-12 h-12 opacity-50" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect width="20" height="14" x="2" y="5" rx="2"/>
-                                <line x1="2" x2="22" y1="10" y2="10"/>
-                            </svg>
-                        </div>
+                        <div class="absolute bottom-8 right-8 card-icon">
+    <svg class="text-white w-12 h-12 opacity-50" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="20" height="14" x="2" y="5" rx="2"/>
+        <line x1="2" x2="22" y1="10" y2="10"/>
+    </svg>
+</div>
+
                     </div>
                 </div>
             </div>

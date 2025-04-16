@@ -143,7 +143,7 @@
 
         .alert {
             position: fixed;
-            top: 0;
+            margin-top: 15px;
             left: 50%;
             transform: translateX(-50%);
             padding: 1rem;
@@ -212,69 +212,62 @@
         </div>
     {% endfor %}
 
-    <div class="hero">
-        <a href="{{ path('app_home') }}" class="back-button">
-            ← Retour
-        </a>
-        <h1>Contactez-nous</h1>
-        <p style="text-align: center; color:white;">
-            Si vous avez des questions, des suggestions ou souhaitez obtenir plus d'informations,
-            <span class="new-line" style="color:white;">n'hésitez pas à nous contacter en remplissant le formulaire ci-dessous.</span>
-            <span class="new-line" style="color:white;"> Nous vous répondrons dans les plus brefs délais.</span>
-        </p>
-    </div>
+<div class="hero">
+    <a href="{{ path('app_home') }}" class="back-button">
+        ← Retour
+    </a>
+    <h1>Contactez-nous</h1>
+    <p style="text-align: center; color:white;">
+        Si vous avez des questions, des suggestions ou souhaitez obtenir plus d'informations,
+        <span class="new-line" style="color:white;">n'hésitez pas à nous contacter en remplissant le formulaire ci-dessous.</span>
+        <span class="new-line" style="color:white;">Nous vous répondrons dans les plus brefs délais.</span>
+    </p>
+</div>
 
-    <div class="container">
-        {# Vérifie si le formulaire contient des erreurs et affiche-les #}
-        {% if form is not empty and form.vars.errors|length > 0 %}
-            <div class="alert alert-danger">
-                <ul>
-                    {% for error in form.vars.errors %}
-                        <li>{{ error.message }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+<div class="container">
+    {% if form is not empty and form.vars.errors|length > 0 %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for error in form.vars.errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
-        {# Le formulaire Symfony avec Twig #}
-        <form action="{{ path('ticket_create') }}" method="POST">
-            {{ form_start(form) }}
-            
-            <div class="form-group">
-                {{ form_label(form.user) }}
-                {{ form_widget(form.user) }}
-                {{ form_errors(form.user) }}
-            </div>
+    <form action="{{ path('ticket_create') }}" method="POST">
+        {{ form_start(form) }}
 
-            <div class="form-group">
-                {{ form_label(form.email) }}
-                {{ form_widget(form.email) }}
-                {{ form_errors(form.email) }}
-            </div>
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
 
-            <div class="form-group">
-                {{ form_label(form.subject) }}
-                {{ form_widget(form.subject) }}
-                {{ form_errors(form.subject) }}
-            </div>
+        <div class="form-group">
+            {{ form_label(form.subject) }}
+            {{ form_widget(form.subject) }}
+            {{ form_errors(form.subject) }}
+        </div>
 
-            <div class="form-group">
-                {{ form_label(form.priority) }}
-                {{ form_widget(form.priority) }}
-                {{ form_errors(form.priority) }}
-            </div>
+        <div class="form-group">
+            {{ form_label(form.priority) }}
+            {{ form_widget(form.priority) }}
+            {{ form_errors(form.priority) }}
+        </div>
 
-            <div class="form-group">
-                {{ form_label(form.message) }}
-                {{ form_widget(form.message) }}
-                {{ form_errors(form.message) }}
-            </div>
+        <div class="form-group">
+            {{ form_label(form.message) }}
+            {{ form_widget(form.message) }}
+            {{ form_errors(form.message) }}
+        </div>
 
-            <div class="form-group">
-                <button type="submit">Envoyer</button>
-            </div>
+        <div class="form-group">
+            <button type="submit">Envoyer</button>
+        </div>
 
-            {{ form_end(form) }}
-        </form>
-    </div>
+        {{ form_end(form) }}
+    </form>
+</div>
+
 {% endblock %}

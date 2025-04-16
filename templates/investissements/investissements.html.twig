@@ -95,6 +95,23 @@
     .back-button:hover {
         background-color: #0056b3;
     }
+
+    @media (max-width: 767px) {
+    .performance {
+        flex-direction: column; /* Empile les éléments verticalement */
+        align-items: center; /* Centre les éléments horizontalement */
+        padding: 30px 10px; /* Ajuste le padding pour les petits écrans */
+    }
+
+    .performance img {
+        max-width: 90%; /* Réduit la taille de l'image pour les petits écrans */
+        margin-bottom: 20px; /* Ajoute un espacement en bas de l'image */
+    }
+
+    .solutions{
+        font-size:0.6em;
+    }
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 

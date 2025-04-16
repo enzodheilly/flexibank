@@ -64,16 +64,23 @@ class DashboardController extends AbstractController
         return $this->redirectToRoute('card_dashboard');  // Remplacez par le nom de la route vers le dashboard
     }
 
-    #[Route('/virtual-card', name: 'virtual_card')]
-    public function virtualCard(EntityManagerInterface $em, UserInterface $user): Response
-    {
-        // Récupérer la carte virtuelle de l'utilisateur (s'il en a une)
-        $cardOrder = $em->getRepository(CardOrder::class)->findOneBy(['user' => $user]);
-        
-        // Rendre la vue avec la carte de l'utilisateur
-        return $this->render('dashboard/virtual_card.html.twig', [
-            'cardOrder' => $cardOrder,  // Passer la commande de carte au template
-        ]);
+   #[Route('/virtual-card', name: 'virtual_card')]
+public function virtualCard(EntityManagerInterface $em, UserInterface $user): Response
+{
+    // Récupérer la carte virtuelle de l'utilisateur (s'il en a une)
+    $cardOrder = $em->getRepository(CardOrder::class)->findOneBy(['user' => $user]);
+
+    // Si l'utilisateur n'a pas de carte, afficher un message et rediriger
+    if (!$cardOrder) {
+        $this->addFlash('error', "Vous n'avez pas de carte.");
+        return $this->redirectToRoute('dashboard2'); // Remplace 'dashboard' par la route de ton choix
     }
+
+    // Sinon, afficher la page carte
+    return $this->render('dashboard/virtual_card.html.twig', [
+        'cardOrder' => $cardOrder,
+    ]);
+}
+
 
 }

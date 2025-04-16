@@ -1,7 +1,5 @@
 <?php
 
-// src/Form/TicketType.php
-
 namespace App\Form;
 
 use App\Entity\Ticket;
@@ -18,9 +16,7 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user', TextType::class, [
-                'label' => 'Nom de l\'utilisateur'
-            ])
+            // ❌ Ne PAS inclure le champ "user"
             ->add('email', EmailType::class, [
                 'label' => 'Email'
             ])
@@ -33,6 +29,7 @@ class TicketType extends AbstractType
                     'Moyenne' => 'Moyenne',
                     'Urgent' => 'Urgent'
                 ],
+                'label' => 'Priorité'
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message'

@@ -92,6 +92,65 @@
       font-weight: bold;
       color: #007bff; /* Bleu pour mettre en avant le titre */
     }
+
+    @media (max-width: 768px) {
+  /* Ajustement du titre de la navigation */
+  nav h1 {
+    font-size: 22px;
+    margin-left: 20px;
+  }
+
+  /* Ajustement de la carte de suppression */
+  .delete-account-card {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .delete-account-title {
+    font-size: 20px;
+  }
+
+  .delete-account-text {
+    font-size: 14px;
+  }
+
+  .delete-account-button {
+    font-size: 14px;
+  }
+
+  .delete-account-cancel {
+    font-size: 12px;
+  }
+}
+
+/* Pour les très petits écrans */
+@media (max-width: 480px) {
+  nav {
+    padding: 15px 20px;
+  }
+
+  .delete-account-card {
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  .delete-account-title {
+    font-size: 18px;
+  }
+
+  .delete-account-text {
+    font-size: 12px;
+  }
+
+  .delete-account-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .delete-account-cancel {
+    font-size: 12px;
+  }
+}
   </style>
   <nav>
     <h1>Flexibank</h1>

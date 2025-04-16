@@ -153,6 +153,57 @@
     .back-button:hover {
         background-color: #0056b3;
     }
+
+     @media (max-width: 768px) {
+
+        .hero h1{
+            font-size:1.3em;
+            margin-left:80px;
+        }
+        /* Réorganise les éléments en une seule colonne */
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Réduit la taille des images dans le formulaire */
+        .form-header img {
+            width: 25px; /* Réduit la taille de l'image */
+            height: 25px;
+        }
+
+        /* Réduit les espaces pour les petits écrans */
+        .form-container {
+            padding: 1rem;
+        }
+
+        /* Modifie les tailles de police et l'espacement dans les formulaires */
+        .form-label {
+            font-size: 0.75rem; /* Réduit la taille de la police */
+        }
+
+        .form-control {
+            padding: 0.5rem 0.75rem; /* Réduit le padding pour les petits écrans */
+        }
+
+        .amount-symbol {
+            font-size: 0.875rem; /* Réduit la taille de la police */
+        }
+
+        .btn-submit {
+            padding: 0.75rem 1rem; /* Réduit le padding du bouton */
+            font-size: 0.875rem; /* Réduit la taille de la police */
+        }
+
+        .back-button {
+            padding: 8px 12px; /* Réduit le padding du bouton */
+            font-size: 0.875rem; /* Réduit la taille de la police */
+        }
+
+        .info-box {
+            font-size: 0.75rem; /* Réduit la taille de la police */
+            padding: 0.75rem; /* Réduit le padding */
+        }
+    }
 </style>
 {% endblock %}
 
