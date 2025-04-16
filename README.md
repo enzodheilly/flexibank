@@ -29,3 +29,34 @@ FlexiBank est une **application web de banque en ligne** développée avec **Sym
 
 Développé par DHEILLY Enzo
 Projet réalisé dans le cadre du BTS SIO SLAM
+
+## 📁 Structure du projet
+
+Dossier/Fichier | Description
+
+    config/  
+          # Fichiers de configuration Symfony
+
+    migrations/ 
+              # Fichiers de migration de la base de données
+
+    public/  
+          # Fichiers accessibles publiquement (CSS, JS, images)
+
+    src/  
+       # Code source de l'application (Contrôleurs, Entités, Services, etc.)
+
+    templates/ 
+             # Fichiers Twig pour les vues
+
+    .env/  
+        # Fichier d'environnement
+
+    composer.json/ 
+                 # Dépendances PHP
+
+    package.json/  
+                # Dépendances JavaScript (Webpack, Bootstrap, etc.)
+
+    README.md/  
+             # Ce fichier
