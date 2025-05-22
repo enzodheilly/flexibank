@@ -1,0 +1,179 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1e1e1e;
+    margin: 0;
+    padding: 0;
+}
+
+/* NAVBAR */
+nav {
+    background-color: #1e1e1e;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav h1 {
+    margin: 0;
+    font-size: 28px;
+    margin-right: 40px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+.back-arrow {
+    font-size: 16px;
+    display: flex;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    color: #007BFF;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+nav .back-arrow:hover {
+    color: #0056b3;
+}
+
+nav .back-arrow i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* FORMULAIRE */
+form {
+    max-width: 400px;
+    margin: -15px auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form select {
+    width: 100%;
+    padding: 20px;
+    font-size: 1rem;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: black;
+    appearance: none;
+}
+
+/* SELECT2 — général */
+.select2-container--default .select2-selection--single {
+    background-color: #1e1e1e !important;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    color: white;
+    height: 48px; /* plus grand pour centrer verticalement */
+    display: flex;
+    align-items: center;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: white !important;
+    display: flex !important;
+    align-items: center;
+    padding-left: 12px;
+    font-size: 15px;
+    height: 100%;
+    line-height: 1;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 8px;
+    right: 10px;
+}
+
+/* Dropdown */
+.select2-container--open .select2-dropdown,
+.select2-container--default .select2-dropdown {
+    background-color: #1e1e1e;
+    border: 1px solid #007BFF;
+}
+
+/* Options */
+.select2-results__option {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #242424 !important;
+    color: white !important;
+}
+
+/* Search */
+.select2-container--default .select2-search--dropdown {
+    background-color: #1e1e1e !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: #1e1e1e !important;
+    color: white !important;
+    border: 1px solid #007BFF !important;
+}
+
+/* Drapeaux (img ou span.flag-icon) */
+.flag-icon,
+.select2-results__option .flag-icon,
+.select2-selection__rendered .flag-icon {
+    width: 24px;
+    height: 16px;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+
+/* BOUTON */
+button[type="submit"] {
+    display: block;
+    margin: 20px auto 0;
+    width: 50%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007BFF;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #004494;
+    transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+    background-color: #003366;
+    transform: translateY(0);
+}
+
+/* TITRE */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    margin-top: 125px;
+}

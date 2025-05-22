@@ -1,162 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer un compte{% endblock %}
+{% block title %}Créer un compte | FlexiBank{% endblock %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/registration/register.css') }}" />
+
+{% endblock %}
 
 {% block body %}
-    <style>
-        body {
-            background-color: #1e1e1e;
-            color: #f2f2f2;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
 
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 400px;
-            background-color: #1e1e1e;
-            border-radius: 20px;
-            overflow: hidden;
-            padding: 40px;
-        }
+<div class="wrapper">
+  <h1 class="form-title">Créer un compte</h1>
+   <p>Faites partie de l’élite FlexiBank.</p>
 
-        .container {
-            width: 100%;
-        }
+  {% for message in app.session.flashbag.get('error') %}
+    <div class="error-message">{{ message }}</div>
+  {% endfor %}
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 93.8%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #444;
-            border-radius: 8px;
-            background-color: #2b2b2b;
-            color: #ddd;
-            font-size: 1.1em;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
+  {{ form_start(registrationForm) }}
+    {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
+    {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
+    {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+    {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+    <button type="submit">Créer mon compte</button>
+  {{ form_end(registrationForm) }}
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus {
-            border-color: #6699ff;
-            background-color: #333;
-            outline: none;
-        }
+  <div class="login-prompt">
+    Déjà inscrit ? <a href="{{ path('app_login') }}">Se connecter</a>
+  </div>
+</div>
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background-color: #0059ff;
-            color: #fff;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #3a6fdb;
-            transform: translateY(-3px);
-        }
-
-        button:active {
-            background-color: #2a5cc2;
-            transform: translateY(1px);
-        }
-
-        .login-prompt {
-            margin-top: 20px;
-            font-size: 1em;
-            color: #f2f2f2;
-            text-align: center;
-        }
-
-        .login-prompt a {
-            color: #0059ff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-prompt a:hover {
-            text-decoration: underline;
-        }
-
-        .form-title {
-            color: #007bff;
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .error-message {
-            color: #e74c3c;
-            background-color: rgba(231, 76, 60, 0.1);
-            border: 1px solid #e74c3c;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-    .back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 12px 20px;
-    background-color: #1e1e1e;
-    text-decoration:none;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    z-index: 1000;
-}
-
-    </style>
-
-<a href="{{ path('app_home') }}" class="back-button">
-    ← Retour
-</a>
-
-
-    <div class="wrapper">
-        <h1 class="form-title">Créez un compte</h1>
-
-        <div class="container">
-            {% for message in app.session.flashbag.get('error') %}
-                <div class="error-message">
-                    {{ message }}
-                </div>
-            {% endfor %}
-
-            {{ form_start(registrationForm) }}
-                {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
-                {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
-                {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
-                <button type="submit">Sign up</button>
-            {{ form_end(registrationForm) }}
-
-            <div class="login-prompt">
-                Vous êtes déjà membre ? <a href="{{ path('app_login') }}">Connectez-vous</a>
-            </div>
-        </div>
-    </div>
 {% endblock %}

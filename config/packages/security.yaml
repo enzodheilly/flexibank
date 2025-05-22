@@ -1,58 +1,41 @@
 security:
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
 
-    # Fournisseurs : User et Admin séparés
-    providers:
-        users_in_database:
-            entity:
-                class: App\Entity\User
-                property: email
-        admins_in_database:
-            entity:
-                class: App\Entity\Admin
-                property: email
+  providers:
+    users_in_database:
+      entity:
+        class: App\Entity\User
+        property: email
 
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-        main:
-            lazy: true
-            # Ici on autorise les deux types d'utilisateurs
-            provider: users_in_database
+    main:
+      lazy: true
+      provider: users_in_database
+      user_checker: App\Security\UserChecker
 
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
+      form_login:
+        login_path: app_login
+        check_path: app_login
+        enable_csrf: true
+        success_handler: App\Security\CustomAuthenticationSuccessHandler
 
-            logout:
-                path: app_logout
+      logout:
+        path: app_logout
 
-            remember_me:
-                secret: '%kernel.secret%'  # Utilise la clé secrète de l'application pour le cookie "se souvenir de moi"
-                lifetime: 604800  # Durée de vie du cookie "se souvenir de moi" (1 semaine ici)
-                path: /  # Le cookie sera valide pour tout le site
-                # Le nom du cookie peut aussi être personnalisé si nécessaire
-                # name: YOUR_COOKIE_NAME
+      remember_me:
+        secret: "%kernel.secret%"
+        lifetime: 604800
+        path: /
 
-        admin:
-            pattern: ^/admin
-            provider: admins_in_database
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
-            logout:
-                path: app_logout
-
-    # Contrôle d'accès : chaque rôle ses accès
-    access_control:
-        - { path: ^/admin, roles: [ROLE_ADMIN , ROLE_SUPPORT] }
-        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/order-card, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/track-card, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/view-card, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/tickets, roles: ROLE_USER } # Accès aux tickets pour les utilisateurs authentifiés
+  access_control:
+    - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_JURY] }
+    - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/order-card, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/track-card, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/view-card, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/tickets, roles: ROLE_USER }

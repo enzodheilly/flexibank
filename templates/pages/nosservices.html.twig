@@ -1,119 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nos Services{% endblock %}
+{% block title %}Nos Services | Flexibank{% endblock %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/pages/nosservices.css') }}" />
+
+{% endblock %}
 
 {% block body %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        .hero {
-            background-color: #002d72;
-            color: white;
-            text-align: center;
-            padding: 5px 20px;
-            border-bottom: 3px solid #0056b3;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #002d72;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1em;
-            font-weight: bold;
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #555;
-        }
-
-        .services-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        .service {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 25px;
-            width: 30%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .service h3 {
-            color: #004085;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-
-        .service p {
-            font-size: 1em;
-            color: #555;
-        }
-
-        .service-icon {
-            font-size: 50px;
-            color: #0056b3;
-            margin-bottom: 20px;
-        }
-
-        @media screen and (max-width: 1024px) {
-            .service {
-                width: 45%;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            .service {
-                width: 100%;
-                margin-bottom: 30px;
-            }
-        }
-    </style>
 
     <div class="hero">
         <a href="{{ path('app_home') }}" class="back-button">

@@ -1,0 +1,242 @@
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background-attachment: fixed;
+    color: #e0e0e0;
+      line-height: 1.6;
+  letter-spacing: 0.3px;
+  }
+
+/* ==== Hero + Retour ==== */
+.hero {
+   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  backdrop-filter: blur(6px);
+  padding: 24px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+  .navbar {
+
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+  .navbar a {
+    color: #00d0ff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+/* ==== Conteneur général ==== */
+.form-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ==== Bloc formulaire ==== */
+.transfer-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  padding: 35px 30px;
+  border-radius: 16px;
+    text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ==== Groupes & Champs ==== */
+.form-group {
+  margin-bottom: 1.4rem;
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+
+/* Uniformise les champs */
+.form-group input,
+.form-group select,
+.form-group textarea,
+.amount-group input {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Permet à la colonne de ne pas dépasser */
+.transfer-form .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ==== Montant ==== */
+.amount-group input {
+  font-size: 0.84rem;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: white;
+  transition: border 0.2s;
+  height: auto; /* Assure qu'il suit la hauteur naturelle des autres inputs */
+}
+/* Uniformise tous les champs de formulaire */
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+.amount-group input,
+.form-control,
+.custom-select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 12px 14px;
+  width: 100%;
+  border-radius: 10px;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  transition: border 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+  color: #cbd5e1;
+  opacity: 1;
+}
+
+/* Focus style uniforme */
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus,
+.amount-group input:focus,
+.form-control:focus,
+.custom-select:focus {
+  border-color: #00d0ff;
+  outline: none;
+  background: rgba(0, 208, 255, 0.1);
+}
+
+/* Harmonise les select */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23cbd5e1' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+}
+
+/* ==== Labels & Inputs ==== */
+.form-label {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  color: #cbd5e1;
+  display: block;
+}
+
+.form-control,
+.custom-select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 12px 14px;
+  width: 100%;
+  border-radius: 10px;
+  color: white;
+  transition: border 0.2s;
+  font-size: 0.95rem;
+}
+.form-control:focus,
+.custom-select:focus {
+  border-color: #00d0ff;
+  outline: none;
+}
+
+/* ==== Infos & Aide ==== */
+.info-box {
+  background-color: rgba(0, 208, 255, 0.05);
+  border-left: 4px solid #00d0ff;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: #bdeeff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* ==== Bouton Submit ==== */
+.btn-submit {
+  background-color: #00d0ff;
+  border: none;
+  color: white;
+  padding: 14px;
+  width: 100%;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+.btn-submit:hover {
+  background-color: #00b8e6;
+}
+
+/* ==== Messages === */
+.alert {
+  background-color: #1e3a8a;
+  padding: 12px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  border-left: 4px solid #00d0ff;
+}
+.alert-success {
+  background-color: #064e3b;
+  color: #bbf7d0;
+}
+
+select.form-control,
+select.custom-select {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 12px 14px;
+  -webkit-appearance: none; /* Pour Chrome/Safari */
+  -moz-appearance: none;    /* Pour Firefox */
+  appearance: none;
+}
+
+select.form-control:focus,
+select.custom-select:focus {
+  border-color: #00d0ff;
+  outline: none;
+  background: rgba(0, 208, 255, 0.1); /* Légère variation au focus */
+}

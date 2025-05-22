@@ -1,335 +1,90 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Demande de prêt | FlexiBank{% endblock %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/loan_request/request.css') }}" />
+
+{% endblock %}
+
 {% block body %}
-    <style>
-       /* Style général */
-body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: #1f2937;
-    background-color: #f9fafb;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+<nav class="navbar">
+  <a href="{{ path('dashboard2') }}">← Retour</a>
+</nav>
 
-/* Barre de navigation */
-nav {
-    background-color: #002d72;
-    padding: 40px 30px;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-}
+<div class="loan-container">
+  <h2>Formulaire de demande de prêt</h2>
+  <div class="progress">
+    <div class="progress-bar" id="progress-bar" style="width: 33%;"></div>
+  </div>
 
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #002d72;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1em;
-    font-weight: bold;
-}
+  {{ form_start(form, {'attr': {'id': 'loan-form'}}) }}
 
-.back-button:hover {
-    background-color: #0056b3;
-}
+  <div class="form-step active" id="step-1">
+    {{ form_row(form.amount) }}
+    {{ form_row(form.duration) }}
+  </div>
 
-nav h1 {
-    position: absolute;
-    right: 80px;
-    top: 20%;
-    transform: translateY(-50%);
-    font-size: 28px;
-    font-weight: bold;
-    color: #007BFF;
-}
+  <div class="form-step" id="step-2">
+    {{ form_row(form.loanType) }}
+  </div>
 
-/* Conteneur principal */
-.loan-container {
-    max-width: 800px;
-    margin: 120px auto 2rem;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+  <div class="form-step" id="step-3">
+    {{ form_row(form.profession) }}
+  </div>
 
-/* Progression */
-.progress {
-    width: 100%;
-    background: #f3f4f6;
-    border-radius: 10px;
-    margin-bottom: 2.5rem;
-    height: 12px;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(45deg, #4f46e5, #6366f1);
-    color: white;
-    text-align: center;
-    line-height: 12px;
-    font-size: 0.85rem;
-    transition: width 0.5s ease;
-    border-radius: 10px;
-    position: relative;
-}
-
-/* Étapes du formulaire */
-.form-step {
-    display: none;
-    animation: fadeIn 0.5s ease;
-}
-
-.form-step.active {
-    display: block;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #4b5563;
-    font-weight: 500;
-}
-
-input, select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-input:focus, select:focus {
-    outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
-/* Boutons */
-.button-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.button-group button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-}
-
-.next-step {
-    background: #4f46e5;
-    color: white;
-}
-
-.next-step:hover {
-    background: #4338ca;
-    transform: translateY(-1px);
-}
-
-.prev-step {
-    background: #f3f4f6;
-    color: #4b5563;
-}
-
-.prev-step:hover {
-    background: #e5e7eb;
-}
-
-button[type="submit"] {
-    background: #10b981;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-}
-
-button[type="submit"]:hover {
-    background: #059669;
-}
-
-/* Messages d'erreur et d'aide */
-.form-error {
-    color: #ef4444;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-}
-
-input.is-invalid {
-    border-color: #ef4444;
-}
-
-.form-help {
-    color: #6b7280;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .loan-container {
-        margin: 1rem;
-        padding: 1.5rem;
-    }
-
-    h2 {
-        font-size: 1.8rem;
-    }
-
-    .button-group {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .button-group button {
-        width: 100%;
-    }
-
-    nav h1{
-        font-size:1.5em;
-        margin-right:-30px;
-        margin-top:24px;
-    }
-
-    .form-step{
-        width:88%;
-    }
-}
-
-    </style>
-
-    <nav>
-        <a href="{{ path('dashboard2') }}" class="back-button">← Retour</a>
-        <h1>Demande de prêt</h1>
-    </nav>
-
-    <div class="loan-container">
-        <!-- Progress Bar -->
-        <div class="progress">
-            <div class="progress-bar" id="progress-bar" style="width: 33%;">Étape 1/3</div>
-        </div>
-
-        {{ form_start(form, {'attr': {'id': 'loan-form'}}) }}
-
-        <!-- Step 1: Amount and Duration -->
-        <div class="form-step active" id="step-1">
-            {{ form_row(form.amount) }}
-            {{ form_row(form.duration) }}
-            <p id="monthly-payment" style="font-weight: bold; color: #4f46e5;">Mensualité estimée : 0 €</p>
-        </div>
-
-        <!-- Étape 2 -->
-        <div class="form-step">
-            {{ form_row(form.loanType) }}
-        </div>
-
-        <!-- Étape 3 -->
-        <div class="form-step">
-            {{ form_row(form.profession) }}
-        </div>
-
-
-<div class="button-group">
+  <div class="button-group">
     <button type="button" class="prev-step">Précédent</button>
     <button type="button" class="next-step">Suivant</button>
     <button type="submit" class="submit-button">Soumettre</button>
+  </div>
+
+  {{ form_end(form) }}
 </div>
 
-
-        {{ form_end(form) }}
-    </div>
-
-    <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-    const nextButton = document.querySelector(".next-step");
-    const prevButton = document.querySelector(".prev-step");
-    const submitButton = document.querySelector(".submit-button"); 
-    const steps = document.querySelectorAll(".form-step");
-    const progressBar = document.getElementById("progress-bar");
+  const nextButton = document.querySelector(".next-step");
+  const prevButton = document.querySelector(".prev-step");
+  const submitButton = document.querySelector(".submit-button");
+  const steps = document.querySelectorAll(".form-step");
+  const progressBar = document.getElementById("progress-bar");
 
-    let currentStepIndex = 0;
+  let currentStepIndex = 0;
 
-    function updateButtons() {
-        if (currentStepIndex === 0) {
-            prevButton.style.display = "none"; // Cacher "Précédent"
-            nextButton.style.display = "inline-block"; // Afficher "Suivant"
-            submitButton.style.display = "none"; // Cacher "Soumettre"
-        } else if (currentStepIndex === steps.length - 1) {
-            prevButton.style.display = "inline-block"; // Afficher "Précédent"
-            nextButton.style.display = "none"; // Cacher "Suivant"
-            submitButton.style.display = "inline-block"; // Afficher "Soumettre"
-        } else {
-            prevButton.style.display = "inline-block"; // Afficher "Précédent"
-            nextButton.style.display = "inline-block"; // Afficher "Suivant"
-            submitButton.style.display = "none"; // Cacher "Soumettre"
-        }
+  function updateButtons() {
+    prevButton.style.display = currentStepIndex === 0 ? "none" : "inline-block";
+    nextButton.style.display = currentStepIndex === steps.length - 1 ? "none" : "inline-block";
+    submitButton.style.display = currentStepIndex === steps.length - 1 ? "inline-block" : "none";
+  }
+
+  function updateProgressBar() {
+    const progressWidth = ((currentStepIndex + 1) / steps.length) * 100;
+    progressBar.style.width = progressWidth + "%";
+  }
+
+  nextButton.addEventListener("click", () => {
+    if (currentStepIndex < steps.length - 1) {
+      steps[currentStepIndex].classList.remove("active");
+      currentStepIndex++;
+      steps[currentStepIndex].classList.add("active");
+      updateButtons();
+      updateProgressBar();
     }
+  });
 
-    nextButton.addEventListener("click", function () {
-        if (currentStepIndex < steps.length - 1) {
-            steps[currentStepIndex].classList.remove("active");
-            currentStepIndex++;
-            steps[currentStepIndex].classList.add("active");
+  prevButton.addEventListener("click", () => {
+    if (currentStepIndex > 0) {
+      steps[currentStepIndex].classList.remove("active");
+      currentStepIndex--;
+      steps[currentStepIndex].classList.add("active");
+      updateButtons();
+      updateProgressBar();
+    }
+  });
 
-            const progressWidth = ((currentStepIndex + 1) / steps.length) * 100;
-            progressBar.style.width = progressWidth + "%";
-            progressBar.textContent = `Étape ${currentStepIndex + 1} / ${steps.length}`;
-
-            updateButtons();
-        }
-    });
-
-    prevButton.addEventListener("click", function () {
-        if (currentStepIndex > 0) {
-            steps[currentStepIndex].classList.remove("active");
-            currentStepIndex--;
-            steps[currentStepIndex].classList.add("active");
-
-            const progressWidth = ((currentStepIndex + 1) / steps.length) * 100;
-            progressBar.style.width = progressWidth + "%";
-            progressBar.textContent = `Étape ${currentStepIndex + 1} / ${steps.length}`;
-
-            updateButtons();
-        }
-    });
-
-    updateButtons(); // Initialisation correcte des boutons au chargement
+  updateButtons();
 });
-
-
-
-    </script>
+</script>
 {% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Bienvenue Jury - Choisissez votre interface | FlexiBank
+{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/jury/jury_switch.css') }}" />
+{% endblock %}
+
+{% block body %}
+  <div class="jury-choice-container">
+    <img src="{{ asset('images/logo-flexibank.png') }}" alt="FlexiBank Logo" class="jury-logo-background" />
+
+    <h1>Bienvenue sur l’espace Jury</h1>
+    <p>
+      Vous accédez à l’interface de démonstration de FlexiBank. Veuillez sélectionner ci-dessous le mode que vous souhaitez explorer : l’espace <strong>Client</strong> ou l’espace <strong>Admin</strong>.
+    </p>
+
+    <div class="jury-buttons">
+      <a href="{{ path('jury_switch', { type: 'client' }) }}"><button class="btn btn-primary">🎯 Espace Client</button></a>
+
+      <a href="{{ path('jury_switch', { type: 'admin' }) }}"><button class="btn btn-danger">⚙️ Espace Admin</button></a>
+    </div>
+  </div>
+{% endblock %}

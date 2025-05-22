@@ -1,203 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}Contactez-nous | Flexibank{% endblock %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/pages/ticket_create.css') }}" />
+
+{% endblock %}
 
 {% block body %}
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-color: #f4f7fa;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        .hero {
-            background-color: #002d72;
-            color: white;
-            text-align: center;
-            padding: 5px 20px;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #002d72;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1em;
-            font-weight: bold;
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-
-        .container {
-            max-width: 600px;  /* Réduit encore plus la largeur maximale */
-            width: 100%;  /* Assure que le container prend bien la largeur spécifiée */
-            margin: 50px auto;
-            background-color: white;
-            padding: 30px;
-            font-size: 0.6em;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            color: #004085;
-            font-size: 1.6em;
-            margin-top: 20px;
-        }
-
-        p {
-            margin-bottom: 25px;
-            text-align: justify;
-            color: #555;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            font-size: 1.4em;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 1.2em;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1em;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #0056b3;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
-        }
-
-        .form-group textarea {
-            height: 150px;
-            resize: vertical;
-        }
-
-        .form-group button {
-            background-color: #0056b3;
-            color: white;
-            margin-left: 155px;
-            border: none;
-            padding: 15px 25px;
-            font-size: 0.8em;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            width: 50%;
-        }
-
-        .form-group button:hover {
-            background-color: #003c8f;
-            transform: scale(1.05);
-        }
-
-        .new-line {
-            display: block; /* Forcer un retour à la ligne */
-            margin-right: 3px;
-            color: blue;
-        }
-        
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1em;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        .form-group select:focus {
-            border-color: #0056b3;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
-        }
-
-        .alert {
-            position: fixed;
-            margin-top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            width: 90%;
-            max-width: 600px;
-            z-index: 9999; /* S'assurer que le message flash est au-dessus de tout autre élément */
-            opacity: 0;
-            animation: fadeInOut 3s forwards;
-        }
-
-        .alert-success {
-            background-color: #dcfce7;
-            color: #166534;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        @keyframes fadeInOut {
-            0% {
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .form-group button {
-                width: auto;
-                padding: 12px 20px;
-            }
-        }
-    </style>
 
     <!-- Affichage des messages flash -->
     {% for message in app.flashes('success') %}
@@ -225,7 +36,8 @@
 </div>
 
 <div class="container">
-    {% if form is not empty and form.vars.errors|length > 0 %}
+    {% if form is defined and form.vars.errors|length > 0 %}
+
         <div class="alert alert-danger">
             <ul>
                 {% for error in form.vars.errors %}

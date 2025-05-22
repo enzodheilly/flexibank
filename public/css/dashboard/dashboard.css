@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background-attachment: fixed;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+.navbar {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  backdrop-filter: blur(10px);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar a {
+  color: #00d0ff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;*
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px; /* pour ne pas être masqué par la navbar */
+  padding-bottom: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  padding: 30px;
+}
+
+.card h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #00d0ff;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.input-form {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.input-form:focus {
+  outline: none;
+  border-color: #00d0ff;
+  background: rgba(0, 208, 255, 0.1);
+}
+
+button[type="submit"] {
+  width: 50%;
+  padding: 14px;
+  background-color: #00d0ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+  margin-left:150px;
+}
+
+button[type="submit"]:hover {
+  background-color: #00b8e6;
+}
+
+.order-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  color: #333;
+  background-color: #f0f0f0;
+  text-align: center;
+  min-width: 120px;
+}
+
+/* Statut : En attente */
+.status-pending {
+  background-color: #fff8e1;
+  color: #b08500;
+  border-color: #ffe082;
+}
+
+/* Statut : En cours */
+.status-processing {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-color: #90caf9;
+}
+
+/* Statut : Approuvée */
+.status-approved {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-color: #a5d6a7;
+}
+
+/* Statut : Rejetée */
+.status-rejected {
+  background-color: #ffebee;
+  color: #c62828;
+  border-color: #ef9a9a;
+}
+
+
+
+@media (max-width: 768px) {
+  .main-container {
+    padding: 15px;
+  }
+  .card h2 {
+    font-size: 1.4rem;
+  }
+}

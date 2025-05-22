@@ -1,260 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-  Modifier mes informations personnelles
+{% block title %}Modifier mes informations personnelles | FlexiBank{% endblock %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/account/edit.css') }}" />
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/account/edit.js') }}?v=2" defer></script>
 {% endblock %}
 
 {% block body %}
-  <style>
-body {
-    margin: 0;
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f4f7fa;
-    color: #333;
-}
-
-nav {
-    background-color: #002d72; /* Fond de la nav */
-    padding: 40px;
-    color: #333333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    position: relative;
-    justify-content: space-between;
-    width: 100%; /* S'assure que la nav prend toute la largeur de l'écran */
-    box-sizing: border-box; /* Inclut les bordures et padding dans la largeur totale */
-}
-
-
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #002d72;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1em;
-    font-weight: bold;
-}
-.back-button:hover {
-    background-color: #0056b3;
-}
-
-nav h1 {
-    position: absolute;
-    right: 80px;
-    top: 20%;
-    transform: translateY(-50%);
-    font-size: 28px;
-    font-weight: bold;
-    color: #007bff;
-}
-
-.container {
-    background-color: #f4f7fa;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 700px;
-    width: 100%;
-    margin: 25px auto;
-    position: relative;
-}
-
-.brand-title {
-    position: absolute;
-    top: 15px;
-    left: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #007bff;
-}
-
-h1 {
-    text-align: center;
-    color: black;
-    margin-bottom: 10px;
-}
-
-p {
-    text-align: center;
-    color: gray;
-    margin-bottom: 20px;
-}
-
-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.full-width {
-    grid-column: span 2;
-}
-
-label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-}
-
-label i {
-    margin-right: 8px;
-    color: #007bff;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.btn-submit,
-.btn-cancel {
-    padding: 12px;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    margin-left: 240px;
-    justify-content: center;
-    width: 30%;
-    border: none;
-    margin-top: 14px;
-}
-
-.btn-submit {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn-submit i {
-    margin-right: 8px;
-}
-
-.btn-submit:hover {
-    background-color: #0056b3;
-}
-
-/* Ajustements pour les petits écrans */
-@media (max-width: 768px) {
-    nav {
-        padding: 40px;
-    }
-
-    nav h1 {
-        right: 17px;
-        top: 34%;
-        font-size:0.8em;
-    }
-
-    .back-button {
-        padding: 8px 12px;
-        font-size: 0.9em;
-    }
-
-    .container {
-        padding: 15px;
-        margin: 10px auto;
-    }
-
-    .brand-title {
-        font-size: 16px;
-        top: 10px;
-        left: 10px;
-    }
-
-    p {
-        font-size: 14px;
-        margin-bottom: 15px;
-    }
-
-    /* Formulaire - Colonnes */
-    form {
-        grid-template-columns: 1fr; /* Une seule colonne sur petits écrans */
-    }
-
-    .btn-submit,
-    .btn-cancel {
-        width: 100%; /* Les boutons prennent toute la largeur */
-        margin-left: 0; /* Supprime le décalage des boutons */
-        margin-top: 20px;
-    }
-
-    .btn-submit {
-        font-size: 14px;
-    }
-}
-/* Déjà présent dans ton code, pour les petits écrans */
-@media (max-width: 768px) {
-    form {
-        grid-template-columns: 1fr; /* Une seule colonne pour les champs de saisie */
-        padding: 0 10px; /* Ajouter un padding pour éviter que les champs touchent les bords */
-    }
-
-    input {
-        width: 100%; /* Les champs de saisie prennent toute la largeur de leur conteneur */
-        box-sizing: border-box; /* Assure que les padding et bordures sont inclus dans la largeur */
-        margin-bottom: 15px; /* Espacement entre les champs */
-    }
-
-    .btn-submit,
-    .btn-cancel {
-        width: 100%; /* Les boutons prennent toute la largeur */
-        margin-left: 0; /* Supprimer tout décalage des boutons */
-        margin-top: 20px; /* Espacement entre les champs et les boutons */
-        box-sizing: border-box; /* Assure que les padding et bordures sont inclus dans la largeur */
-    }
-}
-  #loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.85);
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  .loader {
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #007bff;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 15px;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  #loading-overlay p {
-    font-size: 1.2rem;
-    color: #333;
-  }
-  </style>
-
-<nav>
-  <a href="javascript:history.back()" class="back-button">← Retour</a>
-  <h1>Modifier mes informations personnelles</h1>
+<nav class="navbar">
+  <a href="{{ path('account_profile') }}">← Retour</a>
 </nav>
 
-<div class="container">
-  <p>Mettez à jour vos informations de compte FlexiBank</p>
+<div class="split-left">
+  <h2>👋 Bienvenue sur votre profil</h2>
+  <p>Mettez à jour vos coordonnées pour rester informé et à jour avec FlexiBank.</p>
+  <blockquote>« La simplicité est la sophistication suprême. » – Léonard de Vinci</blockquote>
+</div>
 
+<div class="split-right">
+  <h1>Modifier mes informations personnelles</h1>
   <form method="post" onsubmit="return showLoadingBeforeSubmit(event)">
     {% for field in [
       { id: 'nom', label: 'Nom', icon: 'fas fa-user', value: user.nom },
@@ -266,33 +36,17 @@ input {
       { id: 'numeroTelephone', label: 'Numéro de téléphone', icon: 'fas fa-phone', value: user.numeroTelephone },
       { id: 'profession', label: 'Profession', icon: 'fas fa-briefcase', value: user.profession, class: 'full-width' }
     ] %}
-      <div class="{{ field.class|default('') }}">
-        <label for="{{ field.id }}"><i class="{{ field.icon }}"></i> {{ field.label }}</label>
-        <input type="text" id="{{ field.id }}" name="{{ field.id }}" value="{{ field.value }}" required />
-      </div>
+    <div class="form-group {{ field.class|default('') }}">
+      <label for="{{ field.id }}"><i class="{{ field.icon }}"></i> {{ field.label }}</label>
+      <input type="text" id="{{ field.id }}" name="{{ field.id }}" value="{{ field.value }}" required />
+    </div>
     {% endfor %}
-
-    <button type="submit" class="btn-submit full-width"><i class="fas fa-save"></i> Enregistrer les modifications</button>
+    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Enregistrer</button>
   </form>
 </div>
 
-<!-- Loading Overlay -->
 <div id="loading-overlay">
   <div class="loader"></div>
-  <p>Enregistrement de vos modifications en cours...</p>
+  <p>Enregistrement en cours...</p>
 </div>
-
-
-  <script>
-  function showLoadingBeforeSubmit(event) {
-    event.preventDefault(); // Empêche la soumission immédiate
-    document.getElementById('loading-overlay').style.display = 'flex';
-
-    // Laisse l’animation visible quelques secondes, puis soumet le formulaire
-    setTimeout(() => {
-      event.target.submit();
-    }, 2000); // 2 secondes de chargement
-    return false;
-  }
-</script>
 {% endblock %}

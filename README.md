@@ -1,5 +1,10 @@
 # 💳 FlexiBank
 
+## Accès Jury
+
+- Email : jury@2025.fr
+- Mot de passe : Jury2025!
+
 FlexiBank est une **application web de banque en ligne** développée avec **Symfony**, permettant aux utilisateurs de gérer leurs finances de manière simple et sécurisée.
 
 ## 🚀 Fonctionnalités principales
@@ -34,29 +39,29 @@ Projet réalisé dans le cadre du BTS SIO SLAM
 
 Dossier/Fichier | Description
 
-    config/  
+    config/
           # Fichiers de configuration Symfony
 
-    migrations/ 
+    migrations/
               # Fichiers de migration de la base de données
 
-    public/  
+    public/
           # Fichiers accessibles publiquement (CSS, JS, images)
 
-    src/  
+    src/
        # Code source de l'application (Contrôleurs, Entités, Services, etc.)
 
-    templates/ 
+    templates/
              # Fichiers Twig pour les vues
 
-    .env/  
+    .env/
         # Fichier d'environnement
 
-    composer.json/ 
+    composer.json/
                  # Dépendances PHP
 
-    package.json/  
+    package.json/
                 # Dépendances JavaScript (Webpack, Bootstrap, etc.)
 
-    README.md/  
+    README.md/
              # Ce fichier

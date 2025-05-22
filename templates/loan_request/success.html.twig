@@ -1,130 +1,27 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Demande de prêt envoyée | Flexibank{% endblock %}
+
 {% block stylesheets %}
-    {{ parent() }}
-    <style>
-        /* Empêcher le défilement de la page */
-        body {
-            overflow: hidden;
-        }
 
-        .success-container {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
+<link rel="stylesheet" href="{{ asset('css/loan_request/success.css') }}" />
 
-        .success-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            padding: 2.5rem;
-            max-width: 32rem;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .success-icon {
-            background: blue;
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-        }
-
-        .success-icon svg {
-            width: 2rem;
-            height: 2rem;
-            color: white;
-        }
-
-        .success-title {
-            color: #1F2937;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .success-message {
-            color: #6B7280;
-            font-size: 1.125rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .success-decoration {
-            position: absolute;
-            width: 12rem;
-            height: 12rem;
-            background: blue;
-            opacity: 0.1;
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .decoration-1 {
-            top: -6rem;
-            right: -6rem;
-        }
-
-        .decoration-2 {
-            bottom: -6rem;
-            left: -6rem;
-        }
-
-        .return-button {
-            display: inline-block;
-            background: blue;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .home-button:hover {
-            background: #0056b3;
-        }
-
-        @media (max-width: 768px) {
-    .success-container {
-        margin-top:-80px;
-    }
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
-    <div class="success-container">
-        <div class="success-decoration decoration-1"></div>
-        <div class="success-decoration decoration-2"></div>
-        
-        <div class="success-card">
-            <div class="success-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-            
-            <h2 class="success-title">Votre demande de prêt a été envoyée avec succès !</h2>
-            
-            <p class="success-message">
-                Nous avons bien reçu votre demande de prêt. Notre équipe l'examinera dans les plus brefs délais et vous contactera rapidement.
-            </p>
-            
-            <a href="{{ path('loan_request_tracking') }}" class="return-button">Suivi des demandes</a>
-
-        </div>
+<div class="success-wrapper">
+    <div class="success-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
     </div>
+
+    <h2 class="success-title">Demande envoyée avec succès</h2>
+
+    <p class="success-message">
+        Merci d'avoir soumis votre demande de prêt. Notre équipe va l'étudier et vous recevrez une réponse prochainement.
+    </p>
+
+    <a href="{{ path('loan_request_tracking') }}" class="return-button">Suivre ma demande</a>
+</div>
 {% endblock %}

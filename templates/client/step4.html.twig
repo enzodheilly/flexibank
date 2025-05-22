@@ -1,182 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Étape 1: Pays de résidence{% endblock %}
+{% block title %}Formulaire d'inscription | Flexibank{% endblock %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/client/step4.css') }}" />
+<script src="{{ asset('js/client/step4.js') }}"></script>
+<!-- JS pour Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<!-- CSS pour Select2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+{% endblock %}
 
 {% block body %}
-<style>
-/* Style général */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #1e1e1e;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-nav {
-    background-color: #1e1e1e;
-    padding: 20px 30px;
-    color: #333333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-nav h1 {
-    margin: 0;
-    font-size: 28px;
-    margin-right: 40px;
-    font-weight: bold;
-    color: #007BFF;
-}
-
-.back-arrow {
-    font-size: 16px;
-    display: flex;
-    font-weight: bold;
-    background-color: transparent;
-    border: none;
-    color: #007BFF;
-    cursor: pointer;
-    padding: 10px;
-    transition: color 0.3s ease;
-}
-
-nav .back-arrow:hover {
-    color: #0056b3;
-}
-
-nav .back-arrow i {
-    margin-right: 8px;
-    font-size: 18px;
-}
-
-/* Formulaire */
-form {
-    max-width: 450px; /* Augmenté pour avoir plus de place */
-    margin: -15px auto;
-    padding: 20px;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-}
-
-/* Champs de formulaire */
-form div {
-    margin-bottom: 15px;
-}
-
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-}
-
-form input,
-form select {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    color: white;
-    background-color: #1e1e1e;
-}
-
-form input:focus,
-form select:focus {
-    border-color: #007BFF;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 86, 179, 0.2);
-}
-
-/* Bouton */
-button[type="submit"] {
-    display: block;
-    margin: 20px auto 0;
-    width: 50%;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out, transform 0.2s;
-}
-
-button[type="submit"]:hover {
-    background-color: #004494;
-    transform: translateY(-2px);
-}
-
-button[type="submit"]:active {
-    background-color: #003366;
-    transform: translateY(0);
-}
-
-h1 {
-    text-align: center;
-    font-size: 2rem;
-    color: white;
-    margin-top: 125px;
-}
-
-/* Ajuster la taille de l'input */
-.input-group {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;  /* Augmenter la largeur du conteneur */
-}
-
-.input-group select {
-    width: 82px; /* Augmenté pour les préfixes longs */
-    height: 40px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    background-color: #1e1e1e;
-    color: white;
-    padding-left: 10px;
-    cursor: pointer;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-.input-group input {
-    flex: 1;
-    height: 40px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-left: none;
-    border-radius: 0 5px 5px 0;
-    background-color: #1e1e1e;
-    color: white;
-    padding-left: 10px; /* Espacement pour ne pas superposer le texte */
-}
-
-/* Style pour l'image du drapeau */
-.input-group .flag {
-    position: absolute;
-    left: 10px;
-    width: 20px;
-    height: 15px;
-    object-fit: cover;
-    border-radius: 3px;
-}
-
-/* Forcer l'ouverture de la liste en bas */
-.select2-container .select2-dropdown {
-    top: 100% !important;
-    bottom: auto !important;
-}
-
-</style>
 
 <nav>
     <!-- Bouton "Étape précédente" utilisant JavaScript -->
@@ -192,58 +29,46 @@ h1 {
 {{ form_start(form) }}
     <div class="input-group" data-prefix="+33">
         <!-- Drapeau -->
-        <img class="flag" id="flag" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_France.svg">
+ <img
+  id="flag"
+  class="flag"
+  src="https://flagcdn.com/h40/fr.png"
+  width="30"
+  height="20"
+  referrerpolicy="no-referrer"
+/>
+
         <!-- Sélecteur de pays -->
         <select id="form_prefix">
-            <option value="+33" data-img="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_France.svg" selected>🇫🇷 +33</option>
-            <option value="+1" data-img="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg">🇺🇸 +1</option>
-            <option value="+44" data-img="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_Kingdom.svg">🇬🇧 +44</option>
-            <option value="+49" data-img="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg">🇩🇪 +49</option>
-            <option value="+39" data-img="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg">🇮🇹 +39</option>
-            <option value="+34" data-img="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_Spain.svg">🇪🇸 +34</option>
-            <option value="+41" data-img="https://upload.wikimedia.org/wikipedia/commons/7/73/Flag_of_Switzerland.svg">🇨🇭 +41</option>
-            <option value="+351" data-img="https://upload.wikimedia.org/wikipedia/commons/5/5f/Flag_of_Portugal.svg">🇵🇹 +351</option>
-            <option value="+31" data-img="https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg">🇳🇱 +31</option>
-            <option value="+32" data-img="https://upload.wikimedia.org/wikipedia/commons/6/65/Flag_of_Belgium.svg">🇧🇪 +32</option>
-            <option value="+45" data-img="https://upload.wikimedia.org/wikipedia/commons/4/43/Flag_of_Denmark.svg">🇩🇰 +45</option>
-            <option value="+46" data-img="https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Sweden.svg">🇸🇪 +46</option>
-            <option value="+47" data-img="https://upload.wikimedia.org/wikipedia/commons/b/b9/Flag_of_Norway.svg">🇳🇴 +47</option>
-            <option value="+48" data-img="https://upload.wikimedia.org/wikipedia/commons/1/12/Flag_of_Poland.svg">🇵🇱 +48</option>
-            <option value="+420" data-img="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_Czech_Republic.svg">🇨🇿 +420</option>
-            <option value="+36" data-img="https://upload.wikimedia.org/wikipedia/commons/4/47/Flag_of_Hungary.svg">🇭🇺 +36</option>
-            <option value="+353" data-img="https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg">🇮🇪 +353</option>
-            <option value="+389" data-img="https://upload.wikimedia.org/wikipedia/commons/a/a0/Flag_of_North_Macedonia.svg">🇲🇰 +389</option>
-            <option value="+382" data-img="https://upload.wikimedia.org/wikipedia/commons/6/63/Flag_of_Montenegro.svg">🇲🇪 +382</option>
-            <option value="+373" data-img="https://upload.wikimedia.org/wikipedia/commons/2/27/Flag_of_Moldova.svg">🇲🇩 +373</option>
-            <option value="+371" data-img="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_Latvia.svg">🇱🇻 +371</option>
-            <option value="+370" data-img="https://upload.wikimedia.org/wikipedia/commons/1/10/Flag_of_Lithuania.svg">🇱🇹 +370</option>
-        </select>
+    <option value="+33" data-img="https://flagcdn.com/24/fr.png" selected>🇫🇷 +33</option>
+    <option value="+1" data-img="https://flagcdn.com/24/us.png">🇺🇸 +1</option>
+    <option value="+44" data-img="https://flagcdn.com/24/gb.png">🇬🇧 +44</option>
+    <option value="+49" data-img="https://flagcdn.com/24/de.png">🇩🇪 +49</option>
+    <option value="+39" data-img="https://flagcdn.com/24/it.png">🇮🇹 +39</option>
+    <option value="+34" data-img="https://flagcdn.com/24/es.png">🇪🇸 +34</option>
+    <option value="+41" data-img="https://flagcdn.com/24/ch.png">🇨🇭 +41</option>
+    <option value="+351" data-img="https://flagcdn.com/24/pt.png">🇵🇹 +351</option>
+    <option value="+31" data-img="https://flagcdn.com/24/nl.png">🇳🇱 +31</option>
+    <option value="+32" data-img="https://flagcdn.com/24/be.png">🇧🇪 +32</option>
+    <option value="+45" data-img="https://flagcdn.com/24/dk.png">🇩🇰 +45</option>
+    <option value="+46" data-img="https://flagcdn.com/24/se.png">🇸🇪 +46</option>
+    <option value="+47" data-img="https://flagcdn.com/24/no.png">🇳🇴 +47</option>
+    <option value="+48" data-img="https://flagcdn.com/24/pl.png">🇵🇱 +48</option>
+    <option value="+420" data-img="https://flagcdn.com/24/cz.png">🇨🇿 +420</option>
+    <option value="+36" data-img="https://flagcdn.com/24/hu.png">🇭🇺 +36</option>
+    <option value="+353" data-img="https://flagcdn.com/24/ie.png">🇮🇪 +353</option>
+    <option value="+389" data-img="https://flagcdn.com/24/mk.png">🇲🇰 +389</option>
+    <option value="+382" data-img="https://flagcdn.com/24/me.png">🇲🇪 +382</option>
+    <option value="+373" data-img="https://flagcdn.com/24/md.png">🇲🇩 +373</option>
+    <option value="+371" data-img="https://flagcdn.com/24/lv.png">🇱🇻 +371</option>
+    <option value="+370" data-img="https://flagcdn.com/24/lt.png">🇱🇹 +370</option>
+</select>
+
         <!-- Champ de numéro de téléphone -->
         {{ form_widget(form.numeroTelephone, {'attr': {'placeholder': 'Votre numéro'}}) }}
     </div>
 
     <button type="submit">Suivant</button>
 {{ form_end(form) }}
-
-<!-- JS pour Select2 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<!-- CSS pour Select2 -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const select = document.getElementById("form_prefix");
-        const flagImg = document.getElementById("flag");
-
-        select.addEventListener("change", function () {
-            const selectedOption = select.options[select.selectedIndex];
-            // Met à jour l'image du drapeau
-            flagImg.src = selectedOption.getAttribute("data-img");
-            // Met à jour le préfixe dans l'input
-            const input = document.querySelector("input[name='form[numeroTelephone]']");
-            input.setAttribute("placeholder", `Votre numéro (${selectedOption.value})`);
-        });
-    });
-</script>
 
 {% endblock %}

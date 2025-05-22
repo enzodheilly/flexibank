@@ -1,267 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Se connecter{% endblock %}
+{% block title %}Connexion | FlexiBank{% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<style>
-    body {
-        background-color: #1e1e1e;
-        color: #f2f2f2;
-        font-family: 'Arial', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+<link rel="stylesheet" href="{{ asset('css/security/login.css') }}" />
 
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        max-width: 400px;
-        background-color: #1e1e1e;
-        border-radius: 20px;
-        overflow: hidden;
-        padding: 40px;
-    }
-
-    .container {
-        width: 100%;
-    }
-
-    input[type="email"],
-    input[type="password"],
-    input[type="text"] {
-        width: 92.5%;
-        padding: 14px;
-        margin-bottom: 20px;
-        border: 1px solid #444;
-        border-radius: 8px;
-        background-color: #2b2b2b;
-        color: #ddd;
-        font-size: 1.1em;
-        transition: border-color 0.3s ease, background-color 0.3s ease;
-    }
-
-    input[type="email"]:focus,
-    input[type="password"]:focus,
-    input[type="text"]:focus {
-        border-color: #6699ff;
-        background-color: #333;
-        outline: none;
-    }
-
-    button {
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 8px;
-        background-color: #0059ff;
-        color: #fff;
-        font-size: 1.2em;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    button:hover {
-        background-color: #3a6fdb;
-        transform: translateY(-3px);
-    }
-
-    button:active {
-        background-color: #2a5cc2;
-        transform: translateY(1px);
-    }
-
-    .checkbox {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .checkbox label {
-        margin: 0;
-        color: #ddd;
-        font-size: 1em;
-    }
-
-    .alert {
-        color: #e74c3c;
-        background-color: rgba(231, 76, 60, 0.1);
-        border: 1px solid #e74c3c;
-        padding: 12px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-    }
-
-    .form-title {
-        color: #007bff;
-        font-size: 1.5em;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .header {
-        position: absolute;
-        top: 25px;
-        left: 35px;
-    }
-
-    .logo {
-        color: #007bff;
-        font-size: 1.8em;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-        margin: 0;
-    }
-
-    .password-wrapper {
-        position: relative;
-        width: 100%;
-    }
-
-    .password-toggle {
-        position: absolute;
-        right: 10px;
-        top: 40%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: #aaa;
-        visibility: hidden; /* Cacher l'icône au début */
-    }
-
-    .password-toggle:hover {
-        color: #6699ff;
-    }
-
-    .password-wrapper input[type="password"]:valid + .password-toggle {
-        visibility: visible; /* Afficher l'icône quand il y a du texte dans le champ */
-    }
-
-    /* Style pour le conteneur du bouton "Se souvenir de moi" */
-.remember-me {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    font-size: 14px;
-    margin-left:112px;
-}
-
-/* Style de la case à cocher */
-.remember-me input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    cursor: pointer;
-    accent-color: #0059ff; /* Couleur personnalisée de la case à cocher */
-}
-
-/* Style du label */
-.remember-me label {
-    cursor: pointer;
-    color: white;
-    transition: color 0.3s ease;
-}
-
-/* Changement de couleur au survol */
-.remember-me label:hover {
-    color: #0059ff;
-}
-</style>
 {% endblock %}
 
 {% block body %}
+<div class="login-container">
+  <div class="login-header">
+    <h1>FlexiBank</h1>
+    <p>Connectez-vous à votre espace</p>
+  </div>
 
+  <form method="post">
+    {% if error %}
+      <div class="alert">{{ error }}</div>
+    {% endif %}
 
-<div class="header">
-    <h1 class="logo">Flexibank</h1>
-</div>
+    {% for message in app.flashes('error') %}
+      <div class="alert">{{ message }}</div>
+    {% endfor %}
 
-<div class="wrapper">
-    <h1 class="form-title">
-        {% if confirmation %}
-            Connectez-vous pour finaliser l'inscription
-        {% else %}
-            Connectez-vous
-        {% endif %}
-    </h1>
-    <div class="container">
-        <form method="post">
-            {% if error %}
-                <div class="alert">{{ error }}</div>
+    {% if app.user %}
+      <p class="alert">Connecté en tant que {{ app.user.userIdentifier }} — <a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+    {% endif %}
 
-            {% endif %}
-
-            {# Affichage des flash messages pour le compte bloqué #}
-            {% for message in app.flashes('error') %}
-                <div class="alert">{{ message }}</div>
-            {% endfor %}
-
-            {% if app.user %}
-                <div class="mb-3">
-                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                </div>
-            {% endif %}
-
-            <input type="email" value="{{ last_username }}" name="_username" id="username" placeholder="Email" autocomplete="email" required autofocus>
-
-            <div class="password-wrapper">
-                <input type="password" name="_password" id="password" placeholder="Password" autocomplete="current-password" required>
-                <span class="password-toggle" onclick="togglePassword()">
-                    <i class="fa fa-eye"></i> <!-- Icône d'œil pour voir le mot de passe -->
-                </span>
-            </div>
-
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit">
-                Se connecter
-            </button>
-            
-            <div class="remember-me">
-                <input type="checkbox" name="_remember_me" id="remember_me" class="form-check-input">
-                <label for="remember_me">Se souvenir de moi</label>
-            </div>
-
-        </form>
-
-        <div style="margin-top: 20px; text-align: center;">
-            <p>Vous n'avez pas de compte ? <a href="{{ path('app_register') }}" style="color: #0059ff;text-decoration:none;">Créez un compte</a></p>
-        </div>
+    <div class="form-group">
+      <input type="email" name="_username" id="username" value="{{ last_username }}" placeholder="Adresse email" required autofocus autocomplete="email">
     </div>
+
+    <div class="form-group">
+      <input type="password" name="_password" id="password" placeholder="Mot de passe" required autocomplete="current-password">
+      <span class="password-toggle" onclick="togglePassword()"><i class="fas fa-eye"></i></span>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button type="submit" class="login-btn">Se connecter</button>
+
+    <div class="remember">
+      <input type="checkbox" name="_remember_me" id="remember_me">
+      <label for="remember_me">Se souvenir de moi</label>
+    </div>
+  </form>
+
+  <div class="login-footer">
+    <p>Pas encore inscrit ? <a href="{{ path('app_register') }}">Créer un compte</a></p>
+  </div>
 </div>
 
 <script>
-    function togglePassword() {
-        var passwordField = document.getElementById('password');
-        var toggleIcon = document.querySelector('.password-toggle i');
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordField.type = 'password';
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
-        }
+  function togglePassword() {
+    const input = document.getElementById("password");
+    const icon = document.querySelector(".password-toggle i");
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      input.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
     }
-
-    // Afficher l'icône quand l'utilisateur tape dans le champ mot de passe
-    document.getElementById('password').addEventListener('input', function() {
-        var passwordField = document.getElementById('password');
-        var toggleIcon = document.querySelector('.password-toggle');
-        if (passwordField.value.length > 0) {
-            toggleIcon.style.visibility = 'visible';
-        } else {
-            toggleIcon.style.visibility = 'hidden';
-        }
-    });
+  }
 </script>
-
 {% endblock %}

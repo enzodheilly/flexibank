@@ -1,0 +1,154 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8fbff;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.hero {
+    background: #002d72;
+    padding: 50px 0;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    color:white;
+}
+
+.hero p{
+    color:white;
+}
+
+.brand {
+    color: #007bff;
+}
+
+/* SECTION ABOUT */
+.about {
+    background: #eef5fb;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #222;
+}
+
+.about p {
+    max-width: 800px;
+    margin: 10px auto;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 30px;
+    text-align: left;
+    max-width: 900px;
+    margin: auto;
+}
+
+.about-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.about-box i {
+    font-size: 35px;
+    color: #007bff;
+}
+
+/* FEATURES */
+.features {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 0;
+}
+
+.features .container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+}
+
+.icon {
+    font-size: 40px;
+}
+
+/* CTA */
+.cta {
+    background: blue;
+    padding: 40px 0;
+    color: white;
+}
+
+.cta h2 {
+    font-size: 1.8em;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 35px;
+    background-color: white;
+    text-decoration: none;
+    color: blue;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+.cta-button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    background-color:#002d72;
+    padding: 15px;
+    font-size: 14px;
+    color: white;
+}
+
+.back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: #002d72;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    .back-button:hover {
+        background-color: #0056b3;
+    }

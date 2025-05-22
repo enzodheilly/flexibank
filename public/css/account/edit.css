@@ -1,0 +1,240 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+/* Navbar */
+.navbar {
+  padding: 20px 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar a {
+  color: #00d0ff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Split layout */
+.split-left {
+  width: 40%;
+  color: white;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+.split-left h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #00d0ff;
+}
+
+.split-left p {
+  font-size: 1em;
+  color: #d6e0f0;
+  margin-bottom: 20px;
+}
+
+.split-left blockquote {
+  font-style: italic;
+  color: #cde0ff;
+  border-left: 4px solid #00d0ff;
+  padding-left: 15px;
+}
+
+/* Form section */
+.split-right {
+  width: 60%;
+  padding: 100px 40px 40px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+.split-right h1 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #00d0ff;
+  margin-bottom: 30px;
+}
+
+/* Form */
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+label {
+  font-weight: 600;
+  color: #00d0ff;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+label i {
+  margin-right: 8px;
+}
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color:white;
+    color:black;
+  }
+
+input:focus {
+  outline: none;
+  border-color: #00d0ff;
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 0 2px rgba(0, 208, 255, 0.3);
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+/* Submit button */
+.btn-submit {
+  grid-column: span 2;
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #00d0ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  justify-self: center;
+  transition: background 0.3s ease;
+  width: 220px;
+}
+
+.btn-submit:hover {
+  background-color: #007bbf;
+}
+
+/* Loading overlay */
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 32, 39, 0.9);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #00d0ff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+#loading-overlay p {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  body {
+    flex-direction: column;
+    overflow-y: auto;
+    height: auto; /* Important pour éviter les coupures */
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+    .navbar a:first-child {
+    margin-top: -15px; /* Ajuste selon ton besoin (ex : -10px) */
+  }
+
+  .navbar a {
+    display: block;
+    padding: 10px 0;
+    font-size: 1rem;
+  }
+
+  .split-left, .split-right {
+    width: 100%;
+    padding: 20px 15px;
+    text-align: left; /* Pour meilleure lisibilité */
+  }
+
+  .split-left h2 {
+    font-size: 1.5rem;
+  }
+
+  .split-left p {
+    font-size: 0.95rem;
+  }
+
+  .split-right {
+    padding-top: 40px; /* Moins d’espace que 100px */
+  }
+
+  form {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .btn-submit {
+    width: 100%;
+    font-size: 1rem;
+  }
+}

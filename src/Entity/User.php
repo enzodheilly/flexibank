@@ -72,15 +72,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: LoanRequest::class, orphanRemoval: true)]
     private Collection $loanRequests; 
     
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class, cascade: ['remove'], orphanRemoval: true)]
     private $tickets;
 
-    #[ORM\Column(type:"integer")]
-    private $failedAttempts = 0; // Nombre de tentatives échouées
+#[ORM\Column(type: "integer")]
+private ?int $failedAttempts = 0;
 
-   
-    #[ORM\Column(type:"datetime", nullable:true)]
-    private $lockUntil; // Date de verrouillage
+#[ORM\Column(type: "datetime", nullable: true)]
+private ?\DateTimeInterface $lockUntil = null;
+
+#[ORM\Column(type: "integer", options: ["default" => 0])]
+private ?int $lockLevel = 0; // 0 = pas bloqué, 1 = 3min, 2 = 15min, 3 = définitif
+
 
     public function __construct()
     {
@@ -353,29 +356,38 @@ public function getTotalBalance(): float
         return $this;
     }
 
-    public function getFailedAttempts(): ?int
-    {
-        return $this->failedAttempts;
-    }
+public function getFailedAttempts(): int
+{
+    return $this->failedAttempts ?? 0;
+}
 
-    public function setFailedAttempts(int $failedAttempts): self
-    {
-        $this->failedAttempts = $failedAttempts;
+public function setFailedAttempts(int $attempts): self
+{
+    $this->failedAttempts = $attempts;
+    return $this;
+}
 
-        return $this;
-    }
+public function getLockUntil(): ?\DateTimeInterface
+{
+    return $this->lockUntil;
+}
 
-    // Getter et Setter pour lockUntil
-    public function getLockUntil(): ?\DateTimeInterface
-    {
-        return $this->lockUntil;
-    }
+public function setLockUntil(?\DateTimeInterface $lockUntil): self
+{
+    $this->lockUntil = $lockUntil;
+    return $this;
+}
 
-    public function setLockUntil(?\DateTimeInterface $lockUntil): self
-    {
-        $this->lockUntil = $lockUntil;
+public function getLockLevel(): ?int
+{
+    return $this->lockLevel ?? 0;
+}
 
-        return $this;
-    }
+public function setLockLevel(?int $level): self
+{
+    $this->lockLevel = $level;
+    return $this;
+}
+
 
 }

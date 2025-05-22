@@ -1,320 +1,96 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} Commande de carte virtuelle | Flexibank{% endblock %}
+
 {% block stylesheets %}
-<style>
-body {
-    margin: 0;
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f4f7fa;
-    color: #333;
-    overflow: auto; /* Changement de hidden à auto pour éviter de masquer du contenu important */
-}
 
-nav h1 {
-    position: absolute;
-    right: 80px;
-    top: 20%;
-    transform: translateY(-50%);
-    font-size: 28px;
-    font-weight: bold;
-    color: #007BFF;
-}
-
-nav {
-    background-color: #002d72;
-    padding: 40px 30px;
-    color: #333333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    position: relative;
-    justify-content: space-between;
-}
-
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #002d72;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1em;
-    font-weight: bold;
-}
-
-.back-button:hover {
-    background-color: #0056b3;
-}
-
-/* Layout & Spacing */
-.min-h-screen { min-height: 100vh; }
-.max-w-7xl { max-width: 80rem; }
-.mx-auto { margin-left: auto; margin-right: auto; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
-.p-6 { padding: 1.5rem; }
-.p-4 { padding: 1rem; }
-
-/* Flexbox */
-.flex { display: flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-
-/* Margins & Spacing */
-.ml-3 { margin-left: 0.75rem; }
-.mb-6 { margin-bottom: 0.5rem; }
-.mt-1 { margin-top: 0.25rem; }
-.space-x-4 > * + * { margin-left: 1rem; }
-.space-y-4 > * + * { margin-top: 1rem; }
-.space-y-6 > * + * { margin-top: 1.5rem; }
-
-/* Sizing */
-.w-full { width: 100%; }
-.h-8 { height: 2rem; }
-.w-8 { width: 2rem; }
-.h-5 { height: 1.25rem; }
-.w-5 { width: 1.25rem; }
-
-/* Borders & Radius */
-.rounded-lg { border-radius: 0.5rem; }
-.rounded-md { border-radius: 0.375rem; }
-.border { border-width: 1px; }
-.border-transparent { border-color: transparent; }
-.border-gray-300 { border-color: rgb(209, 213, 219); }
-
-/* Typography */
-.text-2xl { font-size: 1.5rem; }
-.text-xl { font-size: 1.25rem; }
-.text-sm { font-size: 0.875rem; }
-.font-bold { font-weight: 700; }
-.font-semibold { font-weight: 600; }
-.font-medium { font-weight: 500; }
-.text-gray-900 { color: rgb(17, 24, 39); }
-.text-gray-700 { color: rgb(55, 65, 81); }
-.text-gray-500 { color: rgb(107, 114, 128); }
-.text-white { color: white; }
-
-/* Background Colors */
-.bg-gray-50 { background-color: rgb(249, 250, 251); }
-.bg-white { background-color: white; }
-.bg-indigo-600 { background-color: rgb(79, 70, 229); }
-
-/* Hover & Focus Effects */
-.hover-bg-indigo-700:hover { background-color: rgb(67, 56, 202); }
-.focus-outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
-.focus-ring-2:focus { box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5); }
-.focus-ring-offset-2:focus { box-shadow: 0 0 0 2px white; }
-
-/* Shadows */
-.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
-.shadow-md {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Status Colors */
-
-.text-blue-600 { color: rgb(37, 99, 235); }
-.text-green-600 { color: rgb(22, 163, 74); }
-.text-red-600 { color: rgb(220, 38, 38); }
-
-/* Form Styles */
-.input-form {
-    width: 95%;
-    padding: 0.75rem;
-    margin-top: 0.5rem;
-    border-radius: 0.375rem;
-    border: 1px solid #ddd;
-    background-color: #fafafa;
-}
-
-.input-form:focus {
-    outline: none;
-    border-color: #007BFF;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-}
-
-button {
-    width: 100%; /* Modification ici pour que le bouton soit entièrement responsive */
-    max-width: 300px; /* Taille maximale du bouton */
-    display: flex;
-    justify-content: center;
-    padding: 12px 16px;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    background-color: #4f46e5;
-    color: white;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    margin: 20px auto; /* Centrage du bouton avec des marges automatiques */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-button:hover {
-    background-color: #4338ca;
-}
-
-button:focus {
-    outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5);
-}
-
-button:active {
-    background-color: #3730a3;
-    transform: scale(0.98);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    button {
-        width: 90%; /* Plus large sur petits écrans */
-    }
-}
-
-/* Responsive Design for larger screens */
-@media (min-width: 640px) {
-    .sm-px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-}
-
-@media (min-width: 1024px) {
-    .lg-px-8 { padding-left: 2rem; padding-right: 2rem; }
-}
-
-@media (max-width: 767px) {
-  nav h1 {
-    font-size: 16.8px; /* Réduit la taille du texte sur les petits écrans */
-    margin-top:25px;
-    margin-right:-55px;
-  }
-}
-</style>
-
+<link rel="stylesheet" href="{{ asset('css/dashboard/dashboard.css') }}" />
 
 {% endblock %}
 
 {% block body %}
 
-<nav>
-    <a href="{{ path('app_home') }}" class="back-button">
-        ← Retour
-    </a>
-
-    <h1 class="flex items-center">
-        Commander ma carte virtuelle
-    </h1>
+<nav class="navbar">
+  <a href="{{ path('app_home') }}">← Retour</a>
 </nav>
 
-<div class="min-h-screen bg-gray-50">
-    {% if not show_order_tracking %}
-        <!-- Formulaire de demande de carte -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold mb-6 text-center">Demande de carte virtuelle</h2>
 
-                {{ form_start(form) }}
-                    <div class="space-y-6">
-                        <div>
-                            {{ form_label(form.fullName, 'Nom complet', { 'attr': {'class': 'font-semibold'} }) }}
-                            {{ form_widget(form.fullName, {'attr': {'class': 'input-form'}}) }}
-                            {{ form_errors(form.fullName) }}
-                        </div>
-
-                        <div>
-                            {{ form_label(form.birthDate, 'Date de naissance', { 'attr': {'class': 'font-semibold'} }) }}
-                            {{ form_widget(form.birthDate, {'attr': {'class': 'input-form'}}) }}
-                            {{ form_errors(form.birthDate) }}
-                        </div>
-
-                        <div>
-                            {{ form_label(form.email, 'Email', { 'attr': {'class': 'font-semibold'} }) }}
-                            {{ form_widget(form.email, {'attr': {'class': 'input-form'}}) }}
-                            {{ form_errors(form.email) }}
-                        </div>
-
-                        <div>
-                            {{ form_label(form.phone, 'Numéro de téléphone', { 'attr': {'class': 'font-semibold'} }) }}
-                            {{ form_widget(form.phone, {'attr': {'class': 'input-form'}}) }}
-                            {{ form_errors(form.phone) }}
-                        </div>
-
-                        <div>
-                            {{ form_label(form.cardType, 'Type de carte', { 'attr': {'class': 'font-semibold'} }) }}
-                            {{ form_widget(form.cardType, {'attr': {'class': 'input-form'}}) }}
-                            {{ form_errors(form.cardType) }}
-                        </div>
-                    </div>
-                    <button type="submit">
-                        Soumettre la demande
-                    </button>
-                {{ form_end(form) }}
-            </div>
-
-
-    {% endif %}
-
-<!-- Section de suivi des commandes -->
-{% if show_order_tracking %}
-    <div style="margin-top: 40px;" class="space-y-6">
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-6">Suivi de votre demande</h2>
-            <div class="space-y-4">
-                {% for order in orders %}
-                    <div class="border rounded-lg p-4 flex items-center justify-between space-x-4">
-                        <div class="flex items-center space-x-4">
-                            <div class=" 
-                                {% if order.status == 'pending' %}text-yellow-600
-                                {% elseif order.status == 'processing' %}text-blue-600
-                                {% elseif order.status == 'approved' %}text-green-600
-                                {% else %}text-red-600{% endif %}">
-                                <!-- Icône d'état ici -->
-                                {% if order.status == 'pending' %}
-                                    <svg class="w-6 h-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5v2h6V5h-6zM5 3v2H3V3h2zM5 19v2H3v-2h2zM19 19v2h-2v-2h2zM19 3v2h-2V3h2zM9 17v2h6v-2H9z"></path></svg>
-                                {% elseif order.status == 'processing' %}
-                                    <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2h4v4m4 14h-4v-4m-6 4h-4v-4H2m2-6h4v4m10-4h4v4h-4m-6 4h4v4m0-8v4h-4v-4z"></path></svg>
-                                {% elseif order.status == 'approved' %}
-                                    <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5v2h6V5h-6zM5 3v2H3V3h2zM5 19v2H3v-2h2zM19 19v2h-2v-2h2zM19 3v2h-2V3h2zM9 17v2h6v-2H9z"></path></svg>
-                                {% else %}
-                                    <svg class="w-6 h-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11l-4 4-4-4"></path></svg>
-                                {% endif %}
-                            </div>
-                            <div>
-                                <p class="font-medium">
-                                    Demande <span class="text-blue-600">#{{ order.id }}</span>
-                                </p>
-                                <p class="text-sm text-gray-500">
-                                    Créée le {{ order.createdAt|date('d/m/Y H:i') }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Affichage du statut avec la pastille -->
-                        <div class="flex items-center justify-center font-medium 
-                            {% if order.status == 'pending' %}bg-yellow-200 text-yellow-600
-                            {% elseif order.status == 'processing' %}bg-blue-200 text-blue-600
-                            {% elseif order.status == 'approved' %}bg-green-200 text-green-600
-                            {% else %}bg-red-200 text-red-600{% endif %}" style="margin-top: -50px; padding: 5px 15px; border-radius: 20px; display: inline-flex; align-items: center;">
-                           {% if order.status == 'En Attente' %}
-    <span class="mr-2">⏳</span> En attente
-{% elseif order.status == 'En Cours' %}
-{% elseif order.status == 'Approuvé' %}
-        <span class="mr-2">✅</span> <span class="text-green-600">Approuvée</span>
-{% else %}
-    <span class="mr-2">❌</span> Rejetée
-{% endif %}
-
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+<div class="main-container">
+  {% if not show_order_tracking %}
+    <div class="card">
+      <h2>Demande de carte virtuelle</h2>
+      {{ form_start(form) }}
+        <div class="form-group">
+          {{ form_label(form.fullName, 'Nom complet') }}
+          {{ form_widget(form.fullName, {'attr': {'class': 'input-form'}}) }}
+          {{ form_errors(form.fullName) }}
         </div>
+
+        <div class="form-group">
+          {{ form_label(form.birthDate, 'Date de naissance') }}
+          {{ form_widget(form.birthDate, {'attr': {'class': 'input-form'}}) }}
+          {{ form_errors(form.birthDate) }}
+        </div>
+
+        <div class="form-group">
+          {{ form_label(form.email, 'Email') }}
+          {{ form_widget(form.email, {'attr': {'class': 'input-form'}}) }}
+          {{ form_errors(form.email) }}
+        </div>
+
+        <div class="form-group">
+          {{ form_label(form.phone, 'Numéro de téléphone') }}
+          {{ form_widget(form.phone, {'attr': {'class': 'input-form'}}) }}
+          {{ form_errors(form.phone) }}
+        </div>
+
+        <div class="form-group">
+          {{ form_label(form.cardType, 'Type de carte') }}
+          {{ form_widget(form.cardType, {'attr': {'class': 'input-form'}}) }}
+          {{ form_errors(form.cardType) }}
+        </div>
+
+        <button type="submit">Soumettre la demande</button>
+      {{ form_end(form) }}
     </div>
+  {% endif %}
+</div>
+
+{% if show_order_tracking %}
+<div class="main-container">
+  <div class="card">
+    <h2>Suivi de votre demande</h2>
+    {% for order in orders %}
+      <div class="order-card">
+        <div class="order-info">
+          <p><strong>Demande #{{ order.id }}</strong></p>
+          <p>Créée le {{ order.createdAt|date('d/m/Y H:i') }}</p>
+        </div>
+<div class="status-badge
+  {% if order.status == 'En Attente' %}status-pending
+  {% elseif order.status == 'En Cours' %}status-processing
+  {% elseif order.status == 'Approuvé' %}status-approved
+  {% else %}status-rejected{% endif %}">
+
+{% if order.status == 'En Attente' %}
+  ⏳ En attente
+{% elseif order.status == 'En Cours' %}
+  🔄 En cours
+{% elseif order.status == 'Approuvé' %}
+  ✅ Approuvée
+{% else %}
+  ❌ Rejetée
 {% endif %}
 
+</div>
+      </div>
+    {% else %}
+      <p style="text-align:center; margin-top: 20px;">Aucune demande enregistrée pour le moment.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endif %}
 
 <script>
 function updateOrderStatus(orderId, newStatus) {
@@ -338,7 +114,5 @@ function updateOrderStatus(orderId, newStatus) {
 }
 
 </script>
+
 {% endblock %}
-
-
-

@@ -14,9 +14,9 @@ class Ticket
     #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(nullable: true)] // Permet de rendre 'user' nullable
-    private ?User $user = null; // Changer 'User' pour '?User' pour accepter null
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]  
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;
 
     #[ORM\Column(type: "string", length: 255)]
     private string $email;

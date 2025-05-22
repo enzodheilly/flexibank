@@ -6,13 +6,16 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use App\Form\TicketType;
+
 
 class StaticPageController extends AbstractController
 {
-    #[Route(path: '/conditionsgénérales', name: 'conditionsgénérales')]
+    #[Route(path: '/conditionsgenerales', name: 'conditionsgenerales')]
     public function conditionsgénérales(): Response
     {
-        return $this->render('pages/conditionsgénérales.html.twig');
+        return $this->render('pages/conditionsgenerales.html.twig');
     }
 
     #[Route(path: '/politique', name: 'politique')]
@@ -55,8 +58,12 @@ class StaticPageController extends AbstractController
     }
 
     #[Route(path: '/contact', name: 'contact')]
-    public function contact(): Response
+    public function contact(Request $request): Response
     {
-        return $this->render('pages/contact.html.twig');
+        $form = $this->createForm(TicketType::class);
+    
+        return $this->render('pages/ticket_create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
