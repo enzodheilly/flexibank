@@ -22,7 +22,7 @@ security:
         login_path: app_login
         check_path: app_login
         enable_csrf: true
-        success_handler: App\Security\CustomAuthenticationSuccessHandler
+        default_target_path: dashboard2 # redirection après connexion
 
       logout:
         path: app_logout
@@ -33,7 +33,7 @@ security:
         path: /
 
   access_control:
-    - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_JURY] }
+    - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/order-card, roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/track-card, roles: IS_AUTHENTICATED_FULLY }

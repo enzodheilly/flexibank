@@ -64,32 +64,42 @@ class AdminController extends AbstractController
     }
     
 
-    // Route pour afficher le tableau de bord de l'administrateur
-    #[Route('/admin', name: 'admin_dashboard')]
-    public function dashboard(UserRepository $userRepository, TransferRepository $transferRepository): Response
-    {
-        // Récupérer les statistiques des utilisateurs et virements depuis la base de données
-        $usersCount = $userRepository->count([]);
-        $activeUsersCount = $userRepository->count(['isActive' => true]);
-        $transfersCount = $transferRepository->count([]);
+#[Route('/admin', name: 'admin_dashboard')]
+public function dashboard(UserRepository $userRepository, TransferRepository $transferRepository): Response
+{
+    // Vérifie que l'utilisateur a bien le rôle admin
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        // Exemple de données pour les graphiques (vous pouvez les adapter)
-        $chartData = [
-            ['date' => "Jan 23", 'transactions' => 167, 'nouveaux_utilisateurs' => 45],
-            ['date' => "Fév 23", 'transactions' => 125, 'nouveaux_utilisateurs' => 56],
-        ];
+    $user = $this->getUser();
 
-        $stats = [
-            ['label' => 'Utilisateurs Actifs', 'value' => $activeUsersCount, 'icon' => 'users'],
-            ['label' => 'Virements', 'value' => $transfersCount, 'icon' => 'receipt'],
-        ];
-
-        return $this->render('admin/dashboard.html.twig', [
-            'chartData' => $chartData,
-            'stats' => $stats,
-        ]);
+    // Sécurité : si le compte est temporairement verrouillé
+    if (method_exists($user, 'getLockUntil') && $user->getLockUntil() instanceof \DateTimeInterface) {
+        if ($user->getLockUntil() > new \DateTime()) {
+            $this->addFlash('danger', 'Votre compte est temporairement verrouillé.');
+            return $this->redirectToRoute('app_login');
+        }
     }
 
+    // Récupération des données
+    $usersCount = $userRepository->count([]);
+    $activeUsersCount = $userRepository->count(['status' => 'Actif']); // Remplace par le bon champ si nécessaire
+    $transfersCount = $transferRepository->count([]);
+
+    $chartData = [
+        ['date' => "Jan 23", 'transactions' => 167, 'nouveaux_utilisateurs' => 45],
+        ['date' => "Fév 23", 'transactions' => 125, 'nouveaux_utilisateurs' => 56],
+    ];
+
+    $stats = [
+        ['label' => 'Utilisateurs Actifs', 'value' => $activeUsersCount, 'icon' => 'users'],
+        ['label' => 'Virements', 'value' => $transfersCount, 'icon' => 'receipt'],
+    ];
+
+    return $this->render('admin/dashboard.html.twig', [
+        'chartData' => $chartData,
+        'stats' => $stats,
+    ]);
+}
     // Route pour afficher les tickets
 
     #[Route('/admin/tickets', name: 'admin_tickets')]

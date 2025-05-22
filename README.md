@@ -1,10 +1,5 @@
 # 💳 FlexiBank
 
-## Accès Jury
-
-- Email : jury@2025.fr
-- Mot de passe : Jury2025!
-
 FlexiBank est une **application web de banque en ligne** développée avec **Symfony**, permettant aux utilisateurs de gérer leurs finances de manière simple et sécurisée.
 
 ## 🚀 Fonctionnalités principales

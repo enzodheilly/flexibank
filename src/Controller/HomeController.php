@@ -17,19 +17,13 @@ class HomeController extends AbstractController
     {
         $user = $this->getUser();
 
-        // Vérifie si l'utilisateur est un client réel ou en mode jury client
-        $session = $request->getSession();
-        $juryMode = $session->get('jury_mode'); // 'client', 'admin' ou null
-
         $isClient = false;
         $isAdmin = false;
 
         if ($user) {
             $roles = $user->getRoles();
-
-            $isClient = in_array('ROLE_CLIENT', $roles) || ($juryMode === 'client' && in_array('ROLE_JURY', $roles));
-            $isAdmin = in_array('ROLE_ADMIN', $roles) || ($juryMode === 'admin' && in_array('ROLE_JURY', $roles));
-            
+            $isClient = in_array('ROLE_CLIENT', $roles);
+            $isAdmin = in_array('ROLE_ADMIN', $roles);
         }
 
         // Formulaire newsletter
@@ -50,9 +44,7 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
             'isClient' => $isClient,
             'isAdmin' => $isAdmin,
-            'juryMode' => $juryMode, // ✅ Ajoute cette ligne
             'newsletterForm' => $form->createView(),
         ]);
-        
     }
 }
