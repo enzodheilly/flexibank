@@ -65,34 +65,29 @@ class AdminController extends AbstractController
     
 
 #[Route('/admin', name: 'admin_dashboard')]
-public function dashboard(UserRepository $userRepository, TransferRepository $transferRepository): Response
-{
+public function dashboard(
+    UserRepository $userRepository,
+    TransferRepository $transferRepository,
+    LoanRequestRepository $loanRequestRepository // Injecte le repository ici
+): Response {
     // Vérifie que l'utilisateur a bien le rôle admin
     $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-    $user = $this->getUser();
-
-    // Sécurité : si le compte est temporairement verrouillé
-    if (method_exists($user, 'getLockUntil') && $user->getLockUntil() instanceof \DateTimeInterface) {
-        if ($user->getLockUntil() > new \DateTime()) {
-            $this->addFlash('danger', 'Votre compte est temporairement verrouillé.');
-            return $this->redirectToRoute('app_login');
-        }
-    }
-
     // Récupération des données
     $usersCount = $userRepository->count([]);
-    $activeUsersCount = $userRepository->count(['status' => 'Actif']); // Remplace par le bon champ si nécessaire
+    $activeUsersCount = $userRepository->count(['status' => 'Actif']);
     $transfersCount = $transferRepository->count([]);
+    $loanRequestsCount = $loanRequestRepository->count([]); // Compte les demandes de prêts
 
     $chartData = [
-        ['date' => "Jan 23", 'transactions' => 167, 'nouveaux_utilisateurs' => 45],
-        ['date' => "Fév 23", 'transactions' => 125, 'nouveaux_utilisateurs' => 56],
+        ['date' => "Jan 23", 'transactions' => 167, 'nouveaux_utilisateurs' => 45, 'demandes_prets' => 20],
+        ['date' => "Fév 23", 'transactions' => 125, 'nouveaux_utilisateurs' => 56, 'demandes_prets' => 35],
     ];
 
     $stats = [
         ['label' => 'Utilisateurs Actifs', 'value' => $activeUsersCount, 'icon' => 'users'],
         ['label' => 'Virements', 'value' => $transfersCount, 'icon' => 'receipt'],
+        ['label' => 'Demandes de Prêts', 'value' => $loanRequestsCount, 'icon' => 'piggy-bank'],
     ];
 
     return $this->render('admin/dashboard.html.twig', [
@@ -100,6 +95,7 @@ public function dashboard(UserRepository $userRepository, TransferRepository $tr
         'stats' => $stats,
     ]);
 }
+
     // Route pour afficher les tickets
 
     #[Route('/admin/tickets', name: 'admin_tickets')]

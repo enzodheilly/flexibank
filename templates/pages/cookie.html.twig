@@ -1,42 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Politique de Cookies | Flexibank{% endblock %}
+{% block title %}
+  Politique de Cookies | Flexibank
+{% endblock %}
 
 {% block stylesheets %}
-
-<link rel="stylesheet" href="{{ asset('css/pages/cookie.css') }}" />
-
+  <link rel="stylesheet" href="{{ asset('css/pages/cookie.css') }}" />
 {% endblock %}
 
 {% block body %}
+  <div class="hero">
+    <a href="{{ path('app_home') }}" class="back-button">← Retour</a>
+    <h1>Politique de Cookies</h1>
+  </div>
 
-    <div class="hero">
-        <a href="{{ path('app_home') }}" class="back-button">
-            ← Retour
-        </a>
-        <h1>Politique de Cookies</h1>
-    </div>
+  <div class="container">
+    <h2>1. Qu'est-ce qu'un cookie ?</h2>
+    <p>Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site web. Il permet au site de se souvenir de vos actions et préférences (comme votre langue, vos paramètres d'affichage, etc.) pendant un certain temps, afin que vous n'ayez pas à les saisir à chaque fois que vous revenez sur le site ou naviguez d'une page à l'autre.</p>
 
-    <div class="container">
-        <h2>1. Qu'est-ce qu'un cookie ?</h2>
-        <p>Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site web. Il permet au site de se souvenir de vos actions et préférences (comme votre langue, vos paramètres d'affichage, etc.) pendant un certain temps, afin que vous n'ayez pas à les saisir à chaque fois que vous revenez sur le site ou naviguez d'une page à l'autre.</p>
+    <h2>2. Pourquoi utilisons-nous des cookies ?</h2>
+    <p>Nous utilisons des cookies pour améliorer l'expérience utilisateur et analyser le trafic de notre site. Ces informations nous aident à améliorer nos services et à personnaliser le contenu que vous voyez.</p>
 
-        <h2>2. Pourquoi utilisons-nous des cookies ?</h2>
-        <p>Nous utilisons des cookies pour améliorer l'expérience utilisateur et analyser le trafic de notre site. Ces informations nous aident à améliorer nos services et à personnaliser le contenu que vous voyez.</p>
+    <h2>3. Quels types de cookies utilisons-nous ?</h2>
+    <p>Les cookies que nous utilisons peuvent être classés dans les catégories suivantes :</p>
+    <ul>
+      <li>
+        <strong>Cookies nécessaires :</strong> Ces cookies sont essentiels pour permettre le fonctionnement du site et ne peuvent pas être désactivés dans nos systèmes.
+      </li>
+      <li>
+        <strong>Cookies de performance :</strong> Ils collectent des informations sur l'utilisation de notre site afin de nous aider à améliorer la navigation.
+      </li>
+      <li>
+        <strong>Cookies de fonctionnalité :</strong> Ces cookies permettent d'améliorer l'expérience en mémorisant vos préférences, comme votre langue ou vos choix de filtre.
+      </li>
+      <li>
+        <strong>Cookies publicitaires :</strong> Ils permettent de vous proposer des publicités adaptées à vos intérêts.
+      </li>
+    </ul>
 
-        <h2>3. Quels types de cookies utilisons-nous ?</h2>
-        <p>Les cookies que nous utilisons peuvent être classés dans les catégories suivantes :</p>
-        <ul>
-            <li><strong>Cookies nécessaires :</strong> Ces cookies sont essentiels pour permettre le fonctionnement du site et ne peuvent pas être désactivés dans nos systèmes.</li>
-            <li><strong>Cookies de performance :</strong> Ils collectent des informations sur l'utilisation de notre site afin de nous aider à améliorer la navigation.</li>
-            <li><strong>Cookies de fonctionnalité :</strong> Ces cookies permettent d'améliorer l'expérience en mémorisant vos préférences, comme votre langue ou vos choix de filtre.</li>
-            <li><strong>Cookies publicitaires :</strong> Ils permettent de vous proposer des publicités adaptées à vos intérêts.</li>
-        </ul>
+    <h2>4. Comment contrôler les cookies ?</h2>
+    <p>Vous pouvez à tout moment gérer vos préférences de cookies via les paramètres de votre navigateur. Vous pouvez refuser les cookies ou supprimer ceux qui ont été enregistrés. Cependant, cela peut affecter certaines fonctionnalités du site.</p>
 
-        <h2>4. Comment contrôler les cookies ?</h2>
-        <p>Vous pouvez à tout moment gérer vos préférences de cookies via les paramètres de votre navigateur. Vous pouvez refuser les cookies ou supprimer ceux qui ont été enregistrés. Cependant, cela peut affecter certaines fonctionnalités du site.</p>
-
-        <h2>5. Consentement</h2>
-        <p>En utilisant notre site, vous acceptez l'utilisation de cookies conformément à cette politique. Vous avez la possibilité de consentir à l'utilisation des cookies en cliquant sur le bouton "Accepter" ci-dessous.</p>
-    </div>
+    <h2>5. Consentement</h2>
+    <p>En utilisant notre site, vous acceptez l'utilisation de cookies conformément à cette politique. Vous avez la possibilité de consentir à l'utilisation des cookies en cliquant sur le bouton "Accepter" ci-dessous.</p>
+  </div>
 {% endblock %}

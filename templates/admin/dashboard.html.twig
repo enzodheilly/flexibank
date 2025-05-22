@@ -1,97 +1,73 @@
+{# templates/admin/dashboard.html.twig #}
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Dashboard - Admin{% endblock %}
+{% block title %}
+  Dashboard - Admin
+{% endblock %}
 
 {% block body %}
-<div class="p-8">
-    <h1 class="text-2xl font-bold mb-8">Tableau de Bord</h1>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {% for stat in stats %}
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div class="flex items-center space-x-4">
-                <div class="p-3 bg-blue-100 rounded-full">
-                    <i class="fas fa-{{ stat.icon }} text-blue-600"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">{{ stat.label }}</p>
-                    <p class="text-2xl font-semibold">{{ stat.value }}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+  <h2 class="text-2xl font-bold mb-6">Statistiques Générales</h2>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold mb-4">Activité Mensuelle</h2>
-            <canvas id="activityChart" class="h-72"></canvas>
+  <!-- Statistiques en cartes -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    {% for stat in stats %}
+      <div class="bg-white p-6 rounded-lg shadow text-center">
+        <div class="text-blue-700 text-4xl mb-2">
+          <i class="fas fa-{{ stat.icon }}"></i>
         </div>
+        <div class="text-2xl font-semibold">{{ stat.value }}</div>
+        <div class="text-gray-600">{{ stat.label }}</div>
+      </div>
+    {% endfor %}
+  </div>
 
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold mb-4">Distribution des Transactions</h2>
-            <canvas id="transactionChart" class="h-72"></canvas>
-        </div>
-    </div>
-
-    <div class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-lg font-semibold mb-4">Demandes de Prêts par Mois</h2>
-        <canvas id="loansChart" class="h-72"></canvas>
-    </div>
-</div>
+  <!-- Graphique -->
+  <div class="bg-white p-6 rounded-lg shadow">
+    <h3 class="text-xl font-semibold mb-4">Activité mensuelle</h3>
+    <canvas id="activityChart" height="120"></canvas>
+  </div>
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Activity Chart
-    new Chart(document.getElementById('activityChart'), {
-        type: 'line',
-        data: {
-            labels: {{ chartData|map(d => d.date)|json_encode|raw }},
-            datasets: [{
-                label: 'Transactions',
-                data: {{ chartData|map(d => d.transactions)|json_encode|raw }},
-                borderColor: 'rgb(59, 130, 246)',
-                tension: 0.1
-            }, {
-                label: 'Nouveaux utilisateurs',
-                data: {{ chartData|map(d => d.nouveaux_utilisateurs)|json_encode|raw }},
-                borderColor: 'rgb(14, 165, 233)',
-                tension: 0.1
-            }]
+  {{ parent() }}
+  <script>
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ chartData|map(d => d.date)|json_encode|raw }},
+        datasets: [
+          {
+            label: 'Transactions',
+            data: {{ chartData|map(d => d.transactions)|json_encode|raw }},
+            backgroundColor: 'rgba(59, 130, 246, 0.5)', // blue
+            borderColor: 'rgba(59, 130, 246, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Nouveaux Utilisateurs',
+            data: {{ chartData|map(d => d.nouveaux_utilisateurs)|json_encode|raw }},
+            backgroundColor: 'rgba(16, 185, 129, 0.5)', // green
+            borderColor: 'rgba(16, 185, 129, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Demandes de Prêts',
+            data: {{ chartData|map(d => d.demandes_prets)|json_encode|raw }},
+            backgroundColor: 'rgba(234, 179, 8, 0.5)', // yellow
+            borderColor: 'rgba(234, 179, 8, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
+      }
     });
-
-    // Transaction Distribution Chart
-    new Chart(document.getElementById('transactionChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Virements', 'Paiements', 'Retraits'],
-            datasets: [{
-                data: [45, 30, 25],
-                backgroundColor: [
-                    'rgb(59, 130, 246)',
-                    'rgb(14, 165, 233)',
-                    'rgb(99, 102, 241)'
-                ]
-            }]
-        }
-    });
-
-    // Loans Chart
-    new Chart(document.getElementById('loansChart'), {
-        type: 'bar',
-        data: {
-            labels: {{ chartData|map(d => d.date)|json_encode|raw }},
-            datasets: [{
-                label: 'Demandes de prêts',
-                data: {{ chartData|map(d => d.nouveaux_utilisateurs)|json_encode|raw }},
-                backgroundColor: 'rgb(59, 130, 246)'
-            }]
-        }
-    });
-});
-</script>
+  </script>
 {% endblock %}
