@@ -1,296 +1,289 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Espace | FlexiBank{% endblock %}
+{% block title %}
+  Mon Espace | FlexiBank
+{% endblock %}
 
 {% block stylesheets %}
-
-<link rel="stylesheet" href="{{ asset('css/dashboard2/index.css') }}" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-
+  <link rel="stylesheet" href="{{ asset('css/dashboard2/index.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
+  {% for message in app.flashes('error') %}
+    <div class="flash-message error-flash">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ message }}</span>
+    </div>
+  {% endfor %}
 
-{% for message in app.flashes('error') %}
-  <div class="flash-message error-flash">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span>{{ message }}</span>
+  <nav class="navbar">
+    <a href="{{ path('app_home') }}">← Retour</a>
+  </nav>
+
+  <div id="loading-message" class="loading-message">
+    <p>Récupération de vos données...</p>
+    <div class="spinner"></div>
   </div>
-{% endfor %}
 
-<nav class="navbar">
-  <a href="{{ path('app_home') }}">← Retour</a>
-</nav>
+  <main class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Bienvenue {{ app.user.prenom|upper }} {{ app.user.nom|capitalize }}</h1>
+      <div class="user-info">
+        <div class="notification-container" id="notification-icon">
+          <i class="fas fa-bell notification-icon"></i>
+          {% set unreadNotificationsCount = unreadNotifications|length %}
+          {% if unreadNotificationsCount > 0 %}
+            <span class="notification-dot"></span>
+          {% endif %}
+        </div>
+        <div class="user-id">Code Client : {{ app.user.codeClient }}</div>
+      </div>
+    </div>
 
-<div id="loading-message" class="loading-message">
-  <p>Récupération de vos données...</p>
-  <div class="spinner"></div>
-</div>
+    <div class="action-grid" data-aos="fade-up">
+      <a href="{{ path('app_transfer_new') }}" class="action-card">
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Virement</h3>
+      </a>
+      <a href="{{ path('virtual_card') }}" class="action-card">
+        <i class="fas fa-credit-card"></i>
+        <h3>Cartes</h3>
+      </a>
+      <a href="{{ path('crypto') }}" class="action-card">
+        <i class="fab fa-bitcoin"></i>
+        <h3>Crypto <span class="badge-new">Nouveau</span></h3>
+      </a>
+      <a href="{{ loanRequestInProgress ? path('loan_request_tracking') : path('loan_request') }}" class="action-card">
+        <i class="fas fa-wallet"></i>
+        <h3>Prêts</h3>
+      </a>
+    </div>
+    <div class="section">
+      <div class="beneficiary-card-modern" data-aos="fade-up">
+        <div class="beneficiary-content">
+          <div class="beneficiary-info-text">
+            <h2>Mes Bénéficiaires</h2>
+            <p>Retrouvez ici l'ensemble des bénéficiaires que vous avez enregistrés pour faciliter vos virements.</p>
+          </div>
+          <div class="beneficiary-cta">
+            <a href="{{ path('beneficiary_list') }}" class="btn-manage-beneficiaries"><i class="fas fa-users"></i> Gérer mes bénéficiaires</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<main class="dashboard-container">
-  <div class="dashboard-header">
-    <h1>Bienvenue {{ app.user.prenom|upper }} {{ app.user.nom|capitalize }}</h1>
-    <div class="user-info">
-      <div class="notification-container" id="notification-icon">
-        <i class="fas fa-bell notification-icon"></i>
-        {% set unreadNotificationsCount = unreadNotifications|length %}
-        {% if unreadNotificationsCount > 0 %}
-          <span class="notification-dot"></span>
+    <div class="section">
+      <h2>Mes Comptes</h2>
+      <div class="account-list" data-aos="fade-up" data-aos-delay="100">
+        {% if currentAccount %}
+          <div class="account-card">
+            <div class="account-info">
+              <i class="fas fa-university"></i>
+              <h4>{{ currentAccount.accountType }}</h4>
+              <div class="account-meta">IBAN : FR****{{ currentAccount.iban|slice(- 4) }}</div>
+              <div class="account-balance-wrapper">
+                <div class="account-balance" data-account-id="current">
+                  <span class="balance-value" data-real-value="{{ currentAccount.balance|format_currency('EUR') }}">{{ currentAccount.balance|format_currency('EUR') }}</span>
+                </div>
+                <button class="toggle-visibility-btn" data-account-id="current" title="Masquer le solde"><i class="fas fa-eye-slash"></i></button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if savingsAccount %}
+          <div class="account-card">
+            <div class="account-info">
+              <i class="fas fa-university"></i>
+              <h4>{{ savingsAccount.accountType }}</h4>
+              <div class="account-meta">IBAN : FR****{{ savingsAccount.iban|slice(- 4) }}</div>
+              <div class="account-balance-wrapper">
+                <div class="account-balance" data-account-id="savings">
+                  <span class="balance-value" data-real-value="{{ savingsAccount.balance|format_currency('EUR') }}">{{ savingsAccount.balance|format_currency('EUR') }}</span>
+                </div>
+                <button class="toggle-visibility-btn" data-account-id="savings" title="Masquer le solde"><i class="fas fa-eye-slash"></i></button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div> {# ← fermeture correcte de account-list ici #}
+    </div> {# ← fermeture de la section comptes #}
+
+    <div class="section">
+      <h2>Transferts Récents</h2>
+      <div class="transfer-list" data-aos="fade-up" data-aos-delay="100">
+        {% for transfer in recentTransfers %}
+          <div class="transfer-card">
+            <h4>{{ transfer.description }}</h4>
+            <div class="transfer-meta">{{ transfer.date|date('d M Y') }}</div>
+            <div class="transfer-amount {{ transfer.amount < 0 ? 'negative' : 'positive' }}">{{ transfer.amount|format_currency('EUR') }}</div>
+          </div>
+        {% else %}
+          <p>Aucun transfert récent.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <div class="notification-modal" id="notification-modal">
+    <div class="notification-content">
+      <span class="close-btn" id="close-notification">&times;</span>
+      <h3>Vos notifications</h3>
+
+      <div id="notification-list">
+        {% if unreadNotifications is not empty %}
+          {% for notification in unreadNotifications %}
+            <div class="notification-item {{ not notification.isRead ? 'unread' : 'read' }}">
+              <p>
+                {{ notification.description }}<br />
+                <small class="notification-date">{{ notification.createdAt|date('d M Y à H:i') }}</small>
+              </p>
+              {% if not notification.isRead %}
+                <a href="{{ path('mark_as_read', { id: notification.id }) }}" class="mark-read-btn">Marquer comme lue</a>
+              {% else %}
+                <span class="read-status">(Lue)</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>Aucune notification pour le moment.</p>
         {% endif %}
       </div>
-      <div class="user-id">Code Client : {{ app.user.codeClient }}</div>
+
+      <hr style="margin: 20px 0; border-color: #444;" />
+
+      <div style="background: #2e2e2e; padding: 15px; border-radius: 8px; color: #f0e68c; font-size: 0.9rem;">
+        <strong>Remarque :</strong><br />
+        Si vous avez reçu une notification de virement mais que l'argent n’apparaît pas encore sur votre compte, ne vous inquiétez pas.<br />
+        La transaction est en cours de vérification pour des raisons de sécurité.
+      </div>
     </div>
   </div>
 
-  <div class="action-grid" data-aos="fade-up">
-    <a href="{{ path('app_transfer_new') }}" class="action-card">
-      <i class="fas fa-exchange-alt"></i>
-      <h3>Virement</h3>
-    </a>
-    <a href="{{ path('virtual_card') }}" class="action-card">
-      <i class="fas fa-credit-card"></i>
-      <h3>Cartes</h3>
-    </a>
-    <a href="{{ path('crypto') }}" class="action-card">
-      <i class="fab fa-bitcoin"></i>
-      <h3>Crypto <span class="badge-new">Nouveau</span></h3>
-    </a>
-    <a href="{{ loanRequestInProgress ? path('loan_request_tracking') : path('loan_request') }}" class="action-card">
-      <i class="fas fa-wallet"></i>
-      <h3>Prêts</h3>
-    </a>
-  </div>
-
-  <div class="section">
-    <h2>Mes Comptes</h2>
-    <div class="account-list" data-aos="fade-up" data-aos-delay="100">
-      {% if currentAccount %}
-      <div class="account-card">
-        <div class="account-info">
-          <i class="fas fa-university"></i>
-          <h4>{{ currentAccount.accountType }}</h4>
-          <div class="account-meta">IBAN : FR****{{ currentAccount.iban|slice(-4) }}</div>
-          <div class="account-balance-wrapper">
-            <div class="account-balance" data-account-id="current">
-              <span class="balance-value" data-real-value="{{ currentAccount.balance|format_currency('EUR') }}">
-                {{ currentAccount.balance|format_currency('EUR') }}
-              </span>
-            </div>
-            <button class="toggle-visibility-btn" data-account-id="current" title="Masquer le solde">
-              <i class="fas fa-eye-slash"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-
-      {% if savingsAccount %}
-      <div class="account-card">
-        <div class="account-info">
-          <i class="fas fa-university"></i>
-          <h4>{{ savingsAccount.accountType }}</h4>
-          <div class="account-meta">IBAN : FR****{{ savingsAccount.iban|slice(-4) }}</div>
-          <div class="account-balance-wrapper">
-            <div class="account-balance" data-account-id="savings">
-              <span class="balance-value" data-real-value="{{ savingsAccount.balance|format_currency('EUR') }}">
-                {{ savingsAccount.balance|format_currency('EUR') }}
-              </span>
-            </div>
-            <button class="toggle-visibility-btn" data-account-id="savings" title="Masquer le solde">
-              <i class="fas fa-eye-slash"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-    </div> {# ← fermeture correcte de account-list ici #}
-  </div> {# ← fermeture de la section comptes #}
-
-  <div class="section">
-    <h2>Transferts Récents</h2>
-    <div class="transfer-list" data-aos="fade-up" data-aos-delay="100">
-      {% for transfer in recentTransfers %}
-        <div class="transfer-card">
-          <h4>{{ transfer.description }}</h4>
-          <div class="transfer-meta">{{ transfer.date|date('d M Y') }}</div>
-          <div class="transfer-amount {{ transfer.amount < 0 ? 'negative' : 'positive' }}">
-            {{ transfer.amount|format_currency('EUR') }}
-          </div>
-        </div>
-      {% else %}
-        <p>Aucun transfert récent.</p>
-      {% endfor %}
-    </div>
-  </div>
-</main>
-
-
-<div class="notification-modal" id="notification-modal">
-  <div class="notification-content">
-    <span class="close-btn" id="close-notification">&times;</span>
-    <h3>Vos notifications</h3>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const notificationIcon = document.getElementById('notification-icon')
+      const notificationModal = document.getElementById('notification-modal')
+      const closeBtn = document.getElementById('close-notification')
+      const dot = document.getElementById('notification-dot')
     
-    <div id="notification-list">
-      {% if unreadNotifications is not empty %}
-        {% for notification in unreadNotifications %}
-          <div class="notification-item {{ not notification.isRead ? 'unread' : 'read' }}">
-            <p>
-              {{ notification.description }}<br>
-              <small class="notification-date">
-                {{ notification.createdAt|date('d M Y à H:i') }}
-              </small>
-            </p>
-            {% if not notification.isRead %}
-              <a href="{{ path('mark_as_read', {'id': notification.id}) }}" class="mark-read-btn">Marquer comme lue</a>
-            {% else %}
-              <span class="read-status">(Lue)</span>
-            {% endif %}
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>Aucune notification pour le moment.</p>
-      {% endif %}
-    </div>
+      notificationIcon.addEventListener('click', () => {
+        notificationModal.style.display = 'flex'
+        if (dot) dot.style.display = 'none'
+      })
+    
+      closeBtn.addEventListener('click', () => {
+        notificationModal.style.display = 'none'
+      })
+    
+      window.addEventListener('click', (e) => {
+        if (e.target === notificationModal) {
+          notificationModal.style.display = 'none'
+        }
+      })
+    })
+  </script>
 
-    <hr style="margin: 20px 0; border-color: #444;" />
-
-    <div style="background: #2e2e2e; padding: 15px; border-radius: 8px; color: #f0e68c; font-size: 0.9rem;">
-      <strong>Remarque :</strong><br>
-      Si vous avez reçu une notification de virement mais que l'argent n’apparaît pas encore sur votre compte, ne vous inquiétez pas.<br>
-      La transaction est en cours de vérification pour des raisons de sécurité.
-    </div>
-  </div>
-</div>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const notificationIcon = document.getElementById("notification-icon");
-    const notificationModal = document.getElementById("notification-modal");
-    const closeBtn = document.getElementById("close-notification");
-    const dot = document.getElementById("notification-dot");
-
-    notificationIcon.addEventListener("click", () => {
-      notificationModal.style.display = "flex";
-      if (dot) dot.style.display = "none";
-    });
-
-    closeBtn.addEventListener("click", () => {
-      notificationModal.style.display = "none";
-    });
-
-    window.addEventListener("click", (e) => {
-      if (e.target === notificationModal) {
-        notificationModal.style.display = "none";
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingMessage = document.getElementById('loading-message')
+      const mainContent = document.querySelector('main')
+      const currentTime = new Date().getTime()
+      const lastVisitTime = localStorage.getItem('lastVisitTime')
+      const fiveMinutes = 5 * 60 * 1000
+    
+      const showLoading = () => {
+        loadingMessage.classList.add('active')
+        document.body.classList.add('no-scroll')
+        if (mainContent) mainContent.style.visibility = 'hidden'
       }
-    });
-  });
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const loadingMessage = document.getElementById("loading-message");
-    const mainContent = document.querySelector("main");
-    const currentTime = new Date().getTime();
-    const lastVisitTime = localStorage.getItem('lastVisitTime');
-    const fiveMinutes = 5 * 60 * 1000;
-
-    const showLoading = () => {
-      loadingMessage.classList.add("active");
-      document.body.classList.add("no-scroll");
-      if (mainContent) mainContent.style.visibility = "hidden";
-    };
-
-    const hideLoading = () => {
-      loadingMessage.classList.remove("active");
-      document.body.classList.remove("no-scroll");
-      if (mainContent) mainContent.style.visibility = "visible";
-    };
-
-    let shouldShow = false;
-
-    if (lastVisitTime) {
-      const diff = currentTime - parseInt(lastVisitTime);
-      if (diff >= fiveMinutes) shouldShow = true;
-    }
-
-    if (shouldShow) {
-      showLoading();
-      setTimeout(() => hideLoading(), 3000);
-    } else {
-      if (mainContent) mainContent.style.visibility = "visible";
-    }
-
-    window.addEventListener("beforeunload", () => {
-      localStorage.setItem("lastVisitTime", new Date().getTime());
-    });
-  });
-</script>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({
-    once: true,
-    duration: 700,
-    easing: 'ease-out-cubic'
-  });
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const flash = document.querySelector('.flash-message');
-    if (flash) {
-      setTimeout(() => {
-        flash.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        flash.style.opacity = "0";
-        flash.style.transform = "translate(-50%, -20px)";
-        setTimeout(() => flash.remove(), 600);
-      }, 3000); // Disparaît après 4 secondes
-    }
-  });
-</script>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-  const toggleButtons = document.querySelectorAll(".toggle-visibility-btn");
-
-  toggleButtons.forEach(button => {
-    const accountId = button.getAttribute("data-account-id");
-    const balanceSpan = document.querySelector(`.account-balance[data-account-id="${accountId}"] .balance-value`);
-    const icon = button.querySelector("i");
-
-    // Appliquer l'état stocké au chargement
-    const storedState = localStorage.getItem(`balance_visibility_${accountId}`);
-    if (storedState === "hidden") {
-      balanceSpan.textContent = "•••• €";
-      balanceSpan.classList.add("hidden-balance");
-      icon.classList.replace("fa-eye-slash", "fa-eye");
-    }
-
-    // Toggle lors du clic
-    button.addEventListener("click", () => {
-      if (balanceSpan.classList.contains("hidden-balance")) {
-        // Afficher le solde
-        balanceSpan.textContent = balanceSpan.dataset.realValue;
-        balanceSpan.classList.remove("hidden-balance");
-        icon.classList.replace("fa-eye", "fa-eye-slash");
-        localStorage.setItem(`balance_visibility_${accountId}`, "visible");
+    
+      const hideLoading = () => {
+        loadingMessage.classList.remove('active')
+        document.body.classList.remove('no-scroll')
+        if (mainContent) mainContent.style.visibility = 'visible'
+      }
+    
+      let shouldShow = false
+    
+      if (lastVisitTime) {
+        const diff = currentTime - parseInt(lastVisitTime)
+        if (diff >= fiveMinutes) shouldShow = true
+      }
+    
+      if (shouldShow) {
+        showLoading()
+        setTimeout(() => hideLoading(), 3000)
       } else {
-        // Masquer le solde
-        balanceSpan.dataset.realValue = balanceSpan.textContent;
-        balanceSpan.textContent = "•••• €";
-        balanceSpan.classList.add("hidden-balance");
-        icon.classList.replace("fa-eye-slash", "fa-eye");
-        localStorage.setItem(`balance_visibility_${accountId}`, "hidden");
+        if (mainContent) mainContent.style.visibility = 'visible'
       }
-    });
-  });
-});
+    
+      window.addEventListener('beforeunload', () => {
+        localStorage.setItem('lastVisitTime', new Date().getTime())
+      })
+    })
+  </script>
 
-</script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true,
+      duration: 700,
+      easing: 'ease-out-cubic'
+    })
+  </script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const flash = document.querySelector('.flash-message')
+      if (flash) {
+        setTimeout(() => {
+          flash.style.transition = 'opacity 0.6s ease, transform 0.6s ease'
+          flash.style.opacity = '0'
+          flash.style.transform = 'translate(-50%, -20px)'
+          setTimeout(() => flash.remove(), 600)
+        }, 3000) // Disparaît après 4 secondes
+      }
+    })
+  </script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleButtons = document.querySelectorAll('.toggle-visibility-btn')
+    
+      toggleButtons.forEach((button) => {
+        const accountId = button.getAttribute('data-account-id')
+        const balanceSpan = document.querySelector(`.account-balance[data-account-id="${accountId}"] .balance-value`)
+        const icon = button.querySelector('i')
+    
+        // Appliquer l'état stocké au chargement
+        const storedState = localStorage.getItem(`balance_visibility_${accountId}`)
+        if (storedState === 'hidden') {
+          balanceSpan.textContent = '•••• €'
+          balanceSpan.classList.add('hidden-balance')
+          icon.classList.replace('fa-eye-slash', 'fa-eye')
+        }
+    
+        // Toggle lors du clic
+        button.addEventListener('click', () => {
+          if (balanceSpan.classList.contains('hidden-balance')) {
+            // Afficher le solde
+            balanceSpan.textContent = balanceSpan.dataset.realValue
+            balanceSpan.classList.remove('hidden-balance')
+            icon.classList.replace('fa-eye', 'fa-eye-slash')
+            localStorage.setItem(`balance_visibility_${accountId}`, 'visible')
+          } else {
+            // Masquer le solde
+            balanceSpan.dataset.realValue = balanceSpan.textContent
+            balanceSpan.textContent = '•••• €'
+            balanceSpan.classList.add('hidden-balance')
+            icon.classList.replace('fa-eye-slash', 'fa-eye')
+            localStorage.setItem(`balance_visibility_${accountId}`, 'hidden')
+          }
+        })
+      })
+    })
+  </script>
 {% endblock %}

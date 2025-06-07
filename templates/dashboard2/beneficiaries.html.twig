@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Mes Bénéficiaires | FlexiBank
+{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/dashboard2/beneficiaire.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+{% endblock %}
+
+{% block body %}
+  <!-- Modale édition -->
+  <div id="edit-modal" class="modal hidden">
+    <div id="edit-modal-content"></div>
+  </div>
+
+  <!-- Modale suppression -->
+  <div id="delete-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Confirmer la suppression</h2>
+      <p>Voulez-vous vraiment supprimer ce bénéficiaire ?</p>
+      <div id="beneficiary-details" class="modal-details"></div>
+
+      <form id="delete-form" method="POST">
+        <input type="hidden" name="_token" id="delete-token-input" />
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <button type="button" class="btn btn-secondary" id="cancel-delete">Annuler</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="beneficiaries-container">
+    {% for message in app.flashes('success') %}
+      <div class="flash-message success-flash" id="flash-success">
+        <i class="fas fa-check-circle"></i>
+        <span>{{ message }}</span>
+      </div>
+    {% endfor %}
+
+    <nav class="navbar">
+      <a href="{{ path('dashboard2') }}"><i class="fas fa-arrow-left"></i> Retour au tableau de bord</a>
+    </nav>
+
+    <h1>Mes Bénéficiaires</h1>
+
+    {% if beneficiaries is not empty %}
+      <div class="beneficiaries-list">
+        {% for beneficiary in beneficiaries %}
+          <div class="beneficiary-card">
+            <div class="beneficiary-info">
+              <strong>{{ beneficiary.name }}</strong><br />
+              <span>{{ beneficiary.iban }}</span>
+            </div>
+            <div class="beneficiary-actions">
+              <button class="edit-btn" data-id="{{ beneficiary.id }}" title="Modifier ce bénéficiaire"><i class="fas fa-edit"></i></button>
+
+              <button class="delete-btn" data-id="{{ beneficiary.id }}" data-name="{{ beneficiary.name }}" data-iban="{{ beneficiary.iban }}" data-token="{{ csrf_token('delete' ~ beneficiary.id) }}"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="no-beneficiary">Vous n'avez aucun bénéficiaire enregistré pour le moment.</p>
+    {% endif %}
+
+    <div class="add-beneficiary-form">
+      <h2>Ajouter un bénéficiaire</h2>
+      {{ form_start(form) }}
+      <div class="form-group">{{ form_row(form.name) }}</div>
+      <div class="form-group">{{ form_row(form.iban) }}</div>
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Supprimer un bénéficiaire
+      const modal = document.getElementById('delete-modal')
+      const deleteForm = document.getElementById('delete-form')
+      const beneficiaryDetails = document.getElementById('beneficiary-details')
+      const cancelBtn = document.getElementById('cancel-delete')
+      const csrfInput = document.getElementById('delete-token-input')
+    
+      document.querySelectorAll('.delete-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.id
+          const name = button.dataset.name
+          const iban = button.dataset.iban
+          const token = button.dataset.token
+    
+          beneficiaryDetails.innerHTML = `<strong>${name}</strong><br>${iban}`
+          deleteForm.action = "{{ path('beneficiary_delete', { id: 'REPLACE_ID' }) }}".replace('REPLACE_ID', id)
+          csrfInput.value = token
+    
+          modal.classList.remove('hidden')
+        })
+      })
+    
+      cancelBtn.addEventListener('click', () => {
+        modal.classList.add('hidden')
+      })
+    
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden')
+        }
+      })
+    })
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Message flash qui disparaît
+      const flash = document.getElementById('flash-success')
+      if (flash) {
+        setTimeout(() => {
+          flash.style.transition = 'opacity 0.6s ease, transform 0.6s ease'
+          flash.style.opacity = '0'
+          flash.style.transform = 'translateY(-10px)'
+          setTimeout(() => flash.remove(), 600)
+        }, 3000)
+      }
+    })
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Editer un bénéficiaire dynamiquement
+      const editModal = document.getElementById('edit-modal')
+      const editContent = document.getElementById('edit-modal-content')
+    
+      document.querySelectorAll('.edit-btn').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const id = button.dataset.id
+          const url = "{{ path('beneficiary_edit_modal', { id: 'REPLACE_ID' }) }}".replace('REPLACE_ID', id)
+          const response = await fetch(url)
+    
+          const html = await response.text()
+          editContent.innerHTML = html
+          editModal.classList.remove('hidden')
+    
+          // Fermer la modale
+          const cancel = document.getElementById('cancel-edit')
+          if (cancel) {
+            cancel.addEventListener('click', () => {
+              editModal.classList.add('hidden')
+            })
+          }
+    
+          // Soumission via AJAX
+          const form = document.getElementById('edit-beneficiary-form')
+          if (form) {
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault()
+              const formData = new FormData(form)
+              const res = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+              })
+    
+              if (res.ok) {
+                window.location.reload()
+              }
+            })
+          }
+        })
+      })
+    
+      window.addEventListener('click', (e) => {
+        if (e.target === editModal) {
+          editModal.classList.add('hidden')
+        }
+      })
+    })
+  </script>
+{% endblock %}

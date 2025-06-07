@@ -465,3 +465,103 @@ body.no-scroll {
     transform: translate(-50%, 0);
   }
 }
+
+.beneficiary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.beneficiary-card {
+  background: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.beneficiary-card strong {
+  color: #2c3e50;
+}
+
+.beneficiary-label {
+  color: #777;
+  font-size: 0.9rem;
+  margin-left: 4px;
+}
+
+.beneficiary-form .form-group {
+  margin-bottom: 12px;
+}
+
+.delete-btn {
+  color: #e74c3c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.beneficiary-card-modern {
+  background: #1c1f26;
+  border: 1px solid #2a2e39;
+  border-radius: 14px;
+  padding: 30px;
+  margin-top: 40px; /* ← ceci descend le container */
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.3s ease;
+}
+
+.beneficiary-card-modern:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.beneficiary-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.beneficiary-info-text {
+  flex: 1 1 60%;
+}
+
+.beneficiary-info-text h2 {
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.beneficiary-info-text p {
+  color: #cfcfcf;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.beneficiary-cta {
+  flex: 1 1 35%;
+  text-align: right;
+}
+
+.btn-manage-beneficiaries {
+  display: inline-block;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-manage-beneficiaries i {
+  margin-right: 8px;
+}
+
+.btn-manage-beneficiaries:hover {
+  background: linear-gradient(135deg, #3399ff, #004080);
+  transform: translateY(-2px);
+}
+

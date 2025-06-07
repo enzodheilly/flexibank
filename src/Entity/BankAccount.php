@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -141,5 +143,65 @@ class BankAccount
         if ($this->accountType === self::ACCOUNT_TYPE_EPARGNE) {
             $this->balance += $this->balance * ($rate / 100);
         }
+    }
+
+    /**
+     * @return Collection<int, Transfer>
+     */
+    public function getIncomingTransfers(): Collection
+    {
+        return $this->incomingTransfers;
+    }
+
+    public function addIncomingTransfer(Transfer $incomingTransfer): static
+    {
+        if (!$this->incomingTransfers->contains($incomingTransfer)) {
+            $this->incomingTransfers->add($incomingTransfer);
+            $incomingTransfer->setToAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncomingTransfer(Transfer $incomingTransfer): static
+    {
+        if ($this->incomingTransfers->removeElement($incomingTransfer)) {
+            // set the owning side to null (unless already changed)
+            if ($incomingTransfer->getToAccount() === $this) {
+                $incomingTransfer->setToAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transfer>
+     */
+    public function getOutgoingTransfers(): Collection
+    {
+        return $this->outgoingTransfers;
+    }
+
+    public function addOutgoingTransfer(Transfer $outgoingTransfer): static
+    {
+        if (!$this->outgoingTransfers->contains($outgoingTransfer)) {
+            $this->outgoingTransfers->add($outgoingTransfer);
+            $outgoingTransfer->setFromAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOutgoingTransfer(Transfer $outgoingTransfer): static
+    {
+        if ($this->outgoingTransfers->removeElement($outgoingTransfer)) {
+            // set the owning side to null (unless already changed)
+            if ($outgoingTransfer->getFromAccount() === $this) {
+                $outgoingTransfer->setFromAccount(null);
+            }
+        }
+
+        return $this;
     }
 }

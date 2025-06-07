@@ -1,10 +1,9 @@
 <?php
 
-// src/Form/TransferType.php
-
 namespace App\Form;
 
 use App\Entity\BankAccount;
+use App\Entity\Beneficiary;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,11 +36,30 @@ class TransferType extends AbstractType
                     'class' => 'form-control custom-select',
                 ],
             ])
+
+            ->add('beneficiary', EntityType::class, [
+                'class' => Beneficiary::class,
+                'choices' => $user->getBeneficiaries(),
+                'choice_label' => function (Beneficiary $b) {
+                    return $b->getName() . ' (****' . substr($b->getIban(), -4) . ')';
+                },
+                'label' => 'Bénéficiaire enregistré',
+                'placeholder' => 'Choisir un bénéficiaire',
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'beneficiary-select',
+                ],
+            ])
+
             ->add('toAccount', TextType::class, [
                 'label' => 'IBAN du compte destinataire',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex: FR203000300459833583',
+                    'id' => 'iban-field',
                 ],
                 'constraints' => [
                     new Assert\Regex([
@@ -50,15 +68,16 @@ class TransferType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('amount', MoneyType::class, [
-                'currency' => false,  // Désactive l'affichage du symbole €
+                'currency' => false,
                 'label' => 'Montant',
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Entrez le montant du virement',
                 ],
             ])
-            
+
             ->add('description', TextType::class, [
                 'label' => 'Description du virement',
                 'required' => true,
@@ -81,4 +100,3 @@ class TransferType extends AbstractType
         ]);
     }
 }
-

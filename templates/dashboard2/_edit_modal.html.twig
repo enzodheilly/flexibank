@@ -1,0 +1,15 @@
+<div class="modal-content">
+  <h2>Modifier le bénéficiaire</h2>
+
+  {{ form_start(form, { attr: { id: 'edit-beneficiary-form' }, action: path('beneficiary_edit', { id: beneficiary.id }) }) }}
+
+  <div class="form-group">{{ form_row(form.name) }}</div>
+  <div class="form-group">{{ form_row(form.iban) }}</div>
+
+  <div class="modal-actions">
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <button type="button" class="btn btn-secondary" id="cancel-edit">Annuler</button>
+  </div>
+
+  {{ form_end(form) }}
+</div>

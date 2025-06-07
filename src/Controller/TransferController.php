@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BankAccount;
 use App\Entity\Transfer;
 use App\Entity\Notification;
+use App\Entity\Beneficiary;
 use App\Form\TransferType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,15 +30,14 @@ class TransferController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $fromAccount = $entityManager->getRepository(BankAccount::class)->find($data['fromAccount']);
-            $toAccountIban = strtoupper(trim($data['toAccount']));
+
+            $fromAccount = $data['fromAccount'];
             $amount = $data['amount'];
             $description = $data['description'];
 
-            if (!$fromAccount) {
-                $this->addFlash('error', 'Le compte source est introuvable.');
-                return $this->redirectToRoute('transfer_new');
-            }
+            // ✅ Si un bénéficiaire est sélectionné, on utilise son IBAN
+            $beneficiary = $form->get('beneficiary')->getData();
+            $toAccountIban = $beneficiary ? $beneficiary->getIban() : strtoupper(trim($data['toAccount']));
 
             $toAccount = $entityManager->getRepository(BankAccount::class)->findOneBy(['iban' => $toAccountIban]);
 
@@ -56,16 +56,13 @@ class TransferController extends AbstractController
                 return $this->redirectToRoute('transfer_new');
             }
 
-            // ✅ Transaction sécurisée
             $connection = $entityManager->getConnection();
             $connection->beginTransaction();
 
             try {
-                // Mise à jour du solde source
                 $fromAccount->setBalance($fromAccount->getBalance() - $amount);
                 $entityManager->persist($fromAccount);
 
-                // Création du virement
                 $transfer = new Transfer();
                 $transfer->setFromAccount($fromAccount);
                 $transfer->setToAccount($toAccount);
@@ -74,20 +71,17 @@ class TransferController extends AbstractController
                 $transfer->setStatus('En Attente');
                 $entityManager->persist($transfer);
 
-                // Création d'une notification
                 $notification = new Notification();
                 $notification->setUser($toAccount->getUser());
-                $notification->setDescription(
-                    sprintf('Vous avez reçu un virement de %s de %.2f€. Description : %s',
-                        $fromAccount->getUser()->getEmail(),
-                        $amount,
-                        $description
-                    )
-                );
+                $notification->setDescription(sprintf(
+                    'Vous avez reçu un virement de %s de %.2f€. Description : %s',
+                    $fromAccount->getUser()->getEmail(),
+                    $amount,
+                    $description
+                ));
                 $notification->setIsRead(false);
                 $entityManager->persist($notification);
 
-                // Flush et commit
                 $entityManager->flush();
                 $connection->commit();
 

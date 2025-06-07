@@ -3,86 +3,99 @@
 {% block title %} Effectuer un nouveau virement | Flexibank {% endblock %}
 
 {% block stylesheets %}
-
 <link rel="stylesheet" href="{{ asset('css/transfer/index.css') }}" />
-
 {% endblock %}
 
 {% block body %}
-
 <nav class="navbar">
   <a href="{{ path('dashboard2') }}">← Retour</a>
 </nav>
 
-            <div class="hero">
+<div class="hero">
+  <div class="form-container">
+    <div class="transfer-form">
+      {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+      {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-container">
-        <div class="transfer-form">
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            
-            {% for message in app.flashes('error') %}
-                <div class="alert alert-danger">
-                    {{ message }}
-                </div>
-            {% endfor %}
+      {{ form_start(transferForm) }}
 
-            {{ form_start(transferForm) }}
-                <div class="form-grid">
-                    <div class="form-group">
-                        {{ form_label(transferForm.fromAccount, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(transferForm.fromAccount) }}
-                        {{ form_errors(transferForm.fromAccount) }}
-                    </div>
+        <div class="form-grid">
+          <div class="form-group">
+            {{ form_label(transferForm.fromAccount, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(transferForm.fromAccount) }}
+            {{ form_errors(transferForm.fromAccount) }}
+          </div>
 
-                    <div class="form-group">
-                        {{ form_label(transferForm.toAccount, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(transferForm.toAccount) }}
-                        {{ form_errors(transferForm.toAccount) }}
-                    </div>
-                </div>
+          <div class="form-group">
+            {{ form_label(transferForm.beneficiary, 'Choisir un bénéficiaire enregistré', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(transferForm.beneficiary) }}
+            {{ form_errors(transferForm.beneficiary) }}
+          </div>
 
-                <div class="form-group">
-                    <label class="form-label">Montant (€)</label>
-                    <div class="amount-group">
-                        {{ form_widget(transferForm.amount) }}
-                    </div>
-                    {{ form_errors(transferForm.amount) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(transferForm.description, null, {'label_attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(transferForm.description) }}
-                    {{ form_errors(transferForm.description) }}
-                </div>
-
-                <div class="info-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="16" x2="12" y2="12"/>
-                        <line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                    <p>Les iban doivent être au format FR **** **** **** ****</p>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    Valider le virement
-                </button>
-            {{ form_end(transferForm) }}
+          <div class="form-group">
+            {{ form_label(transferForm.toAccount, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(transferForm.toAccount) }}
+            {{ form_errors(transferForm.toAccount) }}
+          </div>
         </div>
+
+        <div class="form-group">
+          <label class="form-label">Montant (€)</label>
+          <div class="amount-group">
+            {{ form_widget(transferForm.amount) }}
+          </div>
+          {{ form_errors(transferForm.amount) }}
+        </div>
+
+        <div class="form-group">
+          {{ form_label(transferForm.description, null, {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(transferForm.description) }}
+          {{ form_errors(transferForm.description) }}
+        </div>
+
+        <div class="info-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <p>Les IBAN doivent être au format FR***************</p>
+        </div>
+
+        <button type="submit" class="btn-submit">Valider le virement</button>
+
+      {{ form_end(transferForm) }}
     </div>
+  </div>
 
-    {# Vérification et affichage de la modal si le message flash est défini #}
-    {% if app.flashes('showTransferModal') is not empty %}
-        <div class="modal">
-            <!-- Contenu de la modal -->
-            <p>Virement effectué avec succès !</p>
-        </div>
-    {% endif %}
+  {% if app.flashes('showTransferModal') is not empty %}
+    <div class="modal">
+      <p>Virement effectué avec succès !</p>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const beneficiarySelect = document.getElementById('beneficiary-select');
+    const ibanField = document.getElementById('iban-field');
+
+    if (beneficiarySelect && ibanField) {
+      beneficiarySelect.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const iban = selectedOption.dataset.iban;
+        if (iban) {
+          ibanField.value = iban;
+        } else {
+          ibanField.value = '';
+        }
+      });
+    }
+  });
+</script>
 
 {% endblock %}
-
-

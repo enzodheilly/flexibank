@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -74,6 +75,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class, cascade: ['remove'], orphanRemoval: true)]
     private $tickets;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Beneficiary::class, orphanRemoval: true)]
+    private Collection $beneficiaries;
+
 
 #[ORM\Column(type: "integer")]
 private ?int $failedAttempts = 0;
@@ -386,6 +391,103 @@ public function getLockLevel(): ?int
 public function setLockLevel(?int $level): self
 {
     $this->lockLevel = $level;
+    return $this;
+}
+
+public function isActive(): ?bool
+{
+    return $this->isActive;
+}
+
+public function addAccount(BankAccount $account): static
+{
+    if (!$this->accounts->contains($account)) {
+        $this->accounts->add($account);
+        $account->setUser($this);
+    }
+
+    return $this;
+}
+
+public function removeAccount(BankAccount $account): static
+{
+    if ($this->accounts->removeElement($account)) {
+        // set the owning side to null (unless already changed)
+        if ($account->getUser() === $this) {
+            $account->setUser(null);
+        }
+    }
+
+    return $this;
+}
+
+public function addNewsletter(Newsletter $newsletter): static
+{
+    if (!$this->newsletters->contains($newsletter)) {
+        $this->newsletters->add($newsletter);
+        $newsletter->setUser($this);
+    }
+
+    return $this;
+}
+
+public function removeNewsletter(Newsletter $newsletter): static
+{
+    if ($this->newsletters->removeElement($newsletter)) {
+        // set the owning side to null (unless already changed)
+        if ($newsletter->getUser() === $this) {
+            $newsletter->setUser(null);
+        }
+    }
+
+    return $this;
+}
+
+public function addTicket(Ticket $ticket): static
+{
+    if (!$this->tickets->contains($ticket)) {
+        $this->tickets->add($ticket);
+        $ticket->setUser($this);
+    }
+
+    return $this;
+}
+
+public function removeTicket(Ticket $ticket): static
+{
+    if ($this->tickets->removeElement($ticket)) {
+        // set the owning side to null (unless already changed)
+        if ($ticket->getUser() === $this) {
+            $ticket->setUser(null);
+        }
+    }
+
+    return $this;
+}
+
+public function getBeneficiaries(): Collection
+{
+    return $this->beneficiaries;
+}
+
+public function addBeneficiary(Beneficiary $beneficiary): static
+{
+    if (!$this->beneficiaries->contains($beneficiary)) {
+        $this->beneficiaries->add($beneficiary);
+        $beneficiary->setOwner($this);
+    }
+
+    return $this;
+}
+
+public function removeBeneficiary(Beneficiary $beneficiary): static
+{
+    if ($this->beneficiaries->removeElement($beneficiary)) {
+        if ($beneficiary->getOwner() === $this) {
+            $beneficiary->setOwner(null);
+        }
+    }
+
     return $this;
 }
 

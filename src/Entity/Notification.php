@@ -4,6 +4,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 
@@ -95,5 +96,22 @@ class Notification
     {
         $this->user = $user;
         return $this;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function isRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function isNotRead(): ?bool
+    {
+        return $this->isNotRead;
     }
 }
